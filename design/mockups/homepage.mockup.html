@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Before You Bet — Homepage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montagu+Slab:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAFAF8;
+      --surface: #FFFFFF;
+      --surface-alt: #F2F1EE;
+      --text-primary: #1A1A1A;
+      --text-secondary: #5C5C5C;
+      --text-tertiary: #8E8E8E;
+      --accent: #2A5BD7;
+      --accent-hover: #1E47A8;
+      --accent-light: #EBF0FA;
+      --border: #E5E4E1;
+      --border-subtle: #EDEDEB;
+      --max-width: 680px;
+      --gutter: 20px;
+      --card-radius: 12px;
+      --card-padding: 24px;
+      --font-display: 'Montagu Slab', serif;
+      --font-body: 'Figtree', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* Header */
+    .header {
+      padding: 32px 0 16px;
+    }
+
+    .header h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.2;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .header .week-context {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    /* Tab Bar */
+    .tab-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      display: flex;
+      gap: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-top: 4px;
+    }
+
+    .tab {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      padding: 12px 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 200ms ease;
+    }
+
+    .tab:hover {
+      color: var(--text-primary);
+    }
+
+    .tab.active {
+      color: var(--accent);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+
+    /* Game Cards */
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px 0;
+    }
+
+    .game-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: var(--card-padding);
+      cursor: pointer;
+      transition: box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    .game-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .game-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .matchup {
+      flex: 1;
+    }
+
+    .matchup-teams {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .matchup-teams .at {
+      color: var(--text-tertiary);
+      font-weight: 400;
+      margin: 0 2px;
+    }
+
+    .matchup-meta {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+      letter-spacing: 0.01em;
+    }
+
+    .spread-badge {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .game-card-insight {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 24px 0 40px;
+      text-align: center;
+    }
+
+    .footer p {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    .footer p + p {
+      margin-top: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 375px) {
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .game-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <h1>Before You Bet</h1>
+      <p class="week-context">Week 12 · Nov 19–25, 2024</p>
+    </header>
+
+    <!-- Tab Bar -->
+    <nav class="tab-bar">
+      <button class="tab active">Matchups</button>
+      <button class="tab">Players</button>
+    </nav>
+
+    <!-- Game Cards -->
+    <section class="game-list">
+
+      <!-- Game 1: Chiefs @ Bills -->
+      <article class="game-card">
+        <div class="game-card-top">
+          <div class="matchup">
+            <div class="matchup-teams">
+              KC Chiefs <span class="at">@</span> BUF Bills
+            </div>
+            <div class="matchup-meta">Sun, Nov 24 · 4:25 PM ET</div>
+          </div>
+          <span class="spread-badge">BUF -2.5</span>
+        </div>
+        <p class="game-card-insight">
+          "Two AFC heavyweights collide — this is the game that could decide home field in January."
+        </p>
+      </article>
+
+      <!-- Game 2: Cowboys @ Commanders -->
+      <article class="game-card">
+        <div class="game-card-top">
+          <div class="matchup">
+            <div class="matchup-teams">
+              DAL Cowboys <span class="at">@</span> WAS Commanders
+            </div>
+            <div class="matchup-meta">Sun, Nov 24 · 1:00 PM ET</div>
+          </div>
+          <span class="spread-badge">WAS -10.5</span>
+        </div>
+        <p class="game-card-insight">
+          "Dallas is in freefall and Washington is surging — this spread is massive for a rivalry game."
+        </p>
+      </article>
+
+      <!-- Game 3: Eagles @ Rams -->
+      <article class="game-card">
+        <div class="game-card-top">
+          <div class="matchup">
+            <div class="matchup-teams">
+              PHI Eagles <span class="at">@</span> LA Rams
+            </div>
+            <div class="matchup-meta">Sun, Nov 24 · 8:20 PM ET · SNF</div>
+          </div>
+          <span class="spread-badge">PHI -3</span>
+        </div>
+        <p class="game-card-insight">
+          "Philly's run game has been unstoppable — can the Rams' thin defense slow them down?"
+        </p>
+      </article>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Last updated: Sat, Nov 23 · 6:15 PM ET</p>
+      <p>Before You Bet is not a sportsbook. Content is for informational purposes only.</p>
+    </footer>
+
+  </div>
+</body>
+</html>
