@@ -20,8 +20,8 @@ export default function RootLayout({
             __html: `
               (function() {
                 var t = localStorage.getItem('byb-theme');
-                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.setAttribute('data-theme', 'dark');
+                if (t === 'light') {
+                  document.documentElement.setAttribute('data-theme', 'light');
                 }
               })();
             `,
