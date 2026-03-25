@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Before You Bet",
   description:
-    "Understand your bets in minutes. Plain-English game breakdowns, odds explained simply, and player insights — no jargon, no fluff.",
+    "Understand your bets in minutes. Plain-English game breakdowns, odds explained simply, and player insights.",
 };
 
 export default function RootLayout({
@@ -17,14 +17,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var t = localStorage.getItem('byb-theme');
-                if (t === 'light') {
-                  document.documentElement.setAttribute('data-theme', 'light');
-                }
-              })();
-            `,
+            __html: `(function(){var t=localStorage.getItem('byb-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light')})()`,
           }}
         />
       </head>
