@@ -96,54 +96,37 @@
 .themeToggle {
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
+  gap: 0;
   cursor: pointer;
-  padding: var(--sp-1) var(--sp-3);
-  border-radius: 100px;
+  padding: var(--sp-1);
+  border-radius: var(--r-md);
   background: var(--surface-dim);
   border: 1px solid var(--rule);
   transition: background var(--duration-fast) var(--ease-out);
   user-select: none;
   margin-top: var(--sp-1);
   min-height: 44px;
+  min-width: 44px;
   touch-action: manipulation;
 }
 
 .themeToggle:hover {
   background: var(--surface);
+  border-color: var(--rule-strong);
 }
 
-.toggleLabel {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-tertiary);
+.themeIcon {
+  padding: var(--sp-2);
+  border-radius: var(--r-sm);
+  color: var(--ink-ghost);
+  transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+  width: 34px;
+  height: 34px;
 }
 
-.toggleTrack {
-  width: 32px;
-  height: 18px;
-  border-radius: 9px;
-  background: var(--toggle-bg);
-  position: relative;
-  transition: background var(--duration-fast) var(--ease-out);
-}
-
-.toggleKnob {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--toggle-knob);
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: transform var(--duration-fast) var(--ease-out);
-}
-
-.toggleKnobLight {
-  transform: translateX(14px);
+.themeIconActive {
+  color: var(--ink);
+  background: var(--surface);
 }
 
 /* ─── Slate Sections ─── */
