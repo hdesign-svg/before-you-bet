@@ -17,58 +17,61 @@
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: var(--sp-12);
-  padding-bottom: var(--sp-6);
+  padding-bottom: var(--sp-8);
   border-bottom: 2px solid var(--ink);
 }
 
 .headerLeft {
-  max-width: 520px;
+  max-width: 580px;
 }
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: clamp(36px, 5vw, 52px);
+  font-size: clamp(40px, 6vw, 64px);
   font-weight: 400;
   font-style: italic;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
   color: var(--ink);
 }
 
 .subtitle {
   font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--ink-secondary);
-  margin-top: var(--sp-2);
+  font-size: 14px;
+  color: var(--ink-tertiary);
+  margin-top: var(--sp-3);
   line-height: 1.5;
+  letter-spacing: 0.01em;
 }
 
 .headerRight {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--sp-1);
+  gap: 2px;
   flex-shrink: 0;
 }
 
 .weekBadge {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 400;
   color: var(--ink);
   letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .weekDate {
   font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--ink-tertiary);
+  font-size: 12px;
+  color: var(--ink-ghost);
+  letter-spacing: 0.02em;
 }
 
 /* ─── Time Slots ─── */
 
 .slot {
-  margin-bottom: var(--sp-10);
+  margin-bottom: var(--sp-12);
 }
 
 .slotLabel {
@@ -76,10 +79,11 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--ink-tertiary);
   margin-bottom: var(--sp-4);
-  padding-left: var(--sp-1);
+  padding-left: var(--sp-2);
+  border-left: 2px solid var(--rule-strong);
 }
 
 /* ─── Card Grid ─── */
@@ -110,35 +114,43 @@
 }
 
 .gameCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
-  border-color: var(--rule-strong);
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.10),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  border-color: transparent;
 }
 
 .gameCard:active {
-  transform: translateY(-1px);
+  transform: translateY(0) scale(0.985);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition-duration: 80ms;
+}
+
+.gameCard:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 @keyframes cardEnter {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 .cardGradientStrip {
-  height: 4px;
+  height: 3px;
   width: 100%;
   flex-shrink: 0;
 }
 
 .cardBody {
-  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+  padding: var(--sp-5);
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
@@ -149,7 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
 }
 
 .cardTeam {
@@ -166,10 +178,10 @@
 
 .cardAbbr {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .cardVs {
@@ -184,6 +196,7 @@
   font-size: 12px;
   color: var(--ink-tertiary);
   text-align: center;
+  letter-spacing: 0.02em;
 }
 
 .cardPreview {
@@ -203,13 +216,14 @@
   text-align: center;
   padding-top: var(--sp-10);
   border-top: 1px solid var(--rule);
-  margin-top: var(--sp-6);
+  margin-top: var(--sp-4);
 }
 
 .gridFooter p {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   color: var(--ink-ghost);
+  letter-spacing: 0.02em;
 }
 
 /* ═══════════════════════════════════════
@@ -226,9 +240,11 @@
 @keyframes detailEnter {
   from {
     opacity: 0;
+    transform: scale(1.01);
   }
   to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -236,7 +252,7 @@
 
 .detailNav {
   max-width: var(--max-w-content);
-  margin: 0 auto var(--sp-10);
+  margin: 0 auto var(--sp-8);
 }
 
 .backBtn {
@@ -244,18 +260,25 @@
   align-items: center;
   gap: var(--sp-2);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
-  transition: color var(--duration-fast) var(--ease-out),
+  transition:
+    color var(--duration-fast) var(--ease-out),
     background var(--duration-fast) var(--ease-out);
+  letter-spacing: 0.02em;
 }
 
 .backBtn:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.backBtn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
 }
 
 /* ─── Hero Matchup ─── */
@@ -264,41 +287,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(24px, 5vw, 56px);
+  gap: clamp(28px, 6vw, 72px);
   max-width: var(--max-w-content);
   margin: 0 auto;
-  padding-bottom: var(--sp-12);
+  padding: var(--sp-6) 0 var(--sp-12);
 }
 
 .heroTeam {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
 }
 
 .heroLogo {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.35));
+  margin-bottom: var(--sp-2);
 }
 
 .heroCity {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
 }
 
 .heroName {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 400;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
   letter-spacing: -0.02em;
 }
 
@@ -306,22 +330,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-1);
+  gap: var(--sp-2);
 }
 
 .heroAt {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .heroTime {
   font-family: var(--font-body);
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
 }
 
 /* ─── Content Cards ─── */
@@ -331,47 +355,48 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
+  gap: var(--sp-5);
 }
 
 .card {
   background: #fff;
   border-radius: var(--r-lg);
-  padding: var(--sp-8) var(--sp-8);
+  padding: var(--sp-8);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.12),
-    0 2px 8px rgba(0, 0, 0, 0.06);
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.10),
+    0 24px 48px rgba(0, 0, 0, 0.08);
   animation: cardSlideUp var(--duration-slow) var(--ease-out) backwards;
 }
 
 .card:nth-child(1) {
-  animation-delay: 150ms;
+  animation-delay: 100ms;
 }
 
 .card:nth-child(2) {
-  animation-delay: 300ms;
+  animation-delay: 250ms;
 }
 
 @keyframes cardSlideUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(32px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 .cardHeadline {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 400;
   font-style: italic;
-  line-height: 1.3;
+  line-height: 1.25;
   color: var(--ink);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--sp-5);
+  letter-spacing: -0.025em;
+  margin-bottom: var(--sp-6);
 }
 
 .bullets {
@@ -387,17 +412,19 @@
   line-height: 1.7;
   color: var(--ink-secondary);
   padding: var(--sp-3) var(--sp-4);
+  padding-left: var(--sp-5);
   background: var(--surface-dim);
   border-radius: var(--r-sm);
+  border-left: 2px solid var(--rule-strong);
 }
 
 .cardTitle {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 400;
   color: var(--ink);
   letter-spacing: -0.02em;
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-6);
 }
 
 /* ─── Players Grid ─── */
@@ -405,7 +432,7 @@
 .playerGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sp-6);
+  gap: var(--sp-8);
 }
 
 .teamCol {
@@ -419,9 +446,10 @@
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--ink-tertiary);
-  margin-bottom: var(--sp-1);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--rule);
 }
 
 /* ─── Player Card ─── */
@@ -430,6 +458,11 @@
   background: var(--surface-dim);
   border-radius: var(--r-md);
   padding: var(--sp-4);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.playerCard:hover {
+  background: var(--bg-warm);
 }
 
 .playerHead {
@@ -440,9 +473,10 @@
 }
 
 .headshot {
-  width: 44px;
-  height: 32px;
+  width: 48px;
+  height: 36px;
   object-fit: cover;
+  object-position: top;
   border-radius: var(--r-sm);
   background: var(--surface);
   flex-shrink: 0;
@@ -450,10 +484,11 @@
 
 .playerName {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--ink);
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .posBadge {
@@ -463,16 +498,16 @@
   font-weight: 600;
   color: var(--ink-tertiary);
   background: var(--surface);
-  padding: 2px 6px;
-  border-radius: 4px;
-  letter-spacing: 0.04em;
-  margin-top: 2px;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--r-sm);
+  letter-spacing: 0.06em;
+  margin-top: var(--sp-1);
 }
 
 .verdict {
   font-family: var(--font-body);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--ink-secondary);
   margin-bottom: var(--sp-3);
 }
@@ -491,14 +526,15 @@
 
 .detailFooter {
   max-width: var(--max-w-content);
-  margin: var(--sp-10) auto 0;
+  margin: var(--sp-12) auto 0;
   text-align: center;
 }
 
 .detailFooter span {
   font-family: var(--font-body);
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.02em;
 }
 
 /* ═══════════════════════════════════════
@@ -509,31 +545,46 @@
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .hero {
+    gap: var(--sp-8);
+  }
+
+  .heroLogo {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 @media (max-width: 640px) {
   .gridView {
-    padding: var(--sp-6) var(--sp-4) var(--sp-10);
+    padding: var(--sp-8) var(--sp-4) var(--sp-10);
   }
 
   .header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sp-4);
+    padding-bottom: var(--sp-6);
   }
 
   .headerRight {
     align-items: flex-start;
     flex-direction: row;
     gap: var(--sp-3);
+    align-items: baseline;
   }
 
   .wordmark {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .cardMatchup {
+    justify-content: flex-start;
   }
 
   /* Detail */
@@ -543,7 +594,7 @@
 
   .hero {
     gap: var(--sp-5);
-    padding-bottom: var(--sp-8);
+    padding: var(--sp-4) 0 var(--sp-8);
   }
 
   .heroLogo {
@@ -552,7 +603,11 @@
   }
 
   .heroName {
-    font-size: 18px;
+    font-size: 20px;
+  }
+
+  .heroCity {
+    font-size: 10px;
   }
 
   .card {
@@ -562,9 +617,11 @@
 
   .cardHeadline {
     font-size: 22px;
+    margin-bottom: var(--sp-4);
   }
 
   .playerGrid {
     grid-template-columns: 1fr;
+    gap: var(--sp-6);
   }
 }
