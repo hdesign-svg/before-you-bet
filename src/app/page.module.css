@@ -16,6 +16,26 @@
   border: 0;
 }
 
+.srOnly:focus {
+  position: fixed;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  width: auto;
+  height: auto;
+  padding: var(--sp-2) var(--sp-4);
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  background: var(--ink);
+  color: var(--ink-inverse);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--r-sm);
+  z-index: 1000;
+  text-decoration: none;
+}
+
 /* ─── GRID VIEW (Landing) ─── */
 
 .gridView {
@@ -119,6 +139,7 @@
   cursor: pointer;
   text-align: left;
   border: 1px solid var(--rule);
+  touch-action: manipulation;
   transition:
     transform var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
@@ -271,7 +292,9 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.6);
   padding: var(--sp-2) var(--sp-3);
+  min-height: 44px;
   border-radius: var(--r-sm);
+  touch-action: manipulation;
   transition: color var(--duration-fast) var(--ease-out);
 }
 

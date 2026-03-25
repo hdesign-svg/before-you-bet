@@ -68,7 +68,10 @@ export default function Page() {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const slots = useMemo(() => groupByDay(games), []);
 
+  const scrollRef = useRef(0);
+
   const open = useCallback((g: Game, trigger: HTMLButtonElement) => {
+    scrollRef.current = window.scrollY;
     triggerRef.current = trigger;
     setActive(g);
     window.scrollTo({ top: 0 });
@@ -76,9 +79,13 @@ export default function Page() {
 
   const close = useCallback(() => {
     const trigger = triggerRef.current;
+    const scrollY = scrollRef.current;
     setActive(null);
-    // Restore focus to the card that opened detail
-    requestAnimationFrame(() => trigger?.focus());
+    // Restore scroll position and focus to the card that opened detail
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: scrollY });
+      trigger?.focus();
+    });
   }, []);
 
   // Keyboard: Escape to close detail
@@ -180,6 +187,7 @@ export default function Page() {
   /* ─────────── GRID VIEW ─────────── */
   return (
     <main className={s.gridView}>
+      <a href="#games" className={s.srOnly}>Skip to games</a>
       {/* Header */}
       <header className={s.header}>
         <div className={s.headerLeft}>
@@ -195,8 +203,8 @@ export default function Page() {
       </header>
 
       {/* Game slots */}
-      {slots.map((slot) => (
-        <section key={slot.label} className={s.slot}>
+      {slots.map((slot, slotIdx) => (
+        <section key={slot.label} className={s.slot} id={slotIdx === 0 ? "games" : undefined}>
           <h2 className={s.slotLabel}>{slot.label}</h2>
           <div className={s.grid}>
             {slot.games.map((game, idx) => {
