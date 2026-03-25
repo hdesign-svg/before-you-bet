@@ -240,11 +240,11 @@
 
 .ambientLogo {
   position: absolute;
-  width: 280px;
-  height: 280px;
-  filter: blur(80px) saturate(1.8);
-  opacity: 0.4;
-  animation: ambientFadeIn 800ms ease-out;
+  width: 320px;
+  height: 320px;
+  filter: blur(40px) saturate(1.4);
+  opacity: 0.5;
+  animation: ambientFadeIn 600ms ease-out;
 }
 
 .ambientLogo img {
@@ -254,8 +254,8 @@
 }
 
 @keyframes ambientFadeIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 0.4; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 0.5; transform: scale(1); }
 }
 
 .ambientFade {
@@ -264,9 +264,9 @@
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(240, 239, 233, 0.4) 40%,
-    rgba(240, 239, 233, 0.85) 70%,
-    #F0EFE9 100%
+    rgba(240, 239, 233, 0.15) 30%,
+    rgba(240, 239, 233, 0.6) 55%,
+    #F0EFE9 80%
   );
 }
 

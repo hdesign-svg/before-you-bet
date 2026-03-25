@@ -127,11 +127,11 @@ export default function HomePage() {
           <article className={styles.breakdown} key={sel.slug}>
             {/* ── Ambient background: team logos blown up and blurred ── */}
             <div className={styles.ambientWrap}>
-              <div className={styles.ambientLogo} style={{ left: '15%', top: '8%' }}>
-                <Image src={away?.logo || ""} alt="" width={280} height={280} unoptimized />
+              <div className={styles.ambientLogo} style={{ left: '5%', top: '2%' }}>
+                <Image src={away?.logo || ""} alt="" width={320} height={320} unoptimized />
               </div>
-              <div className={styles.ambientLogo} style={{ right: '15%', top: '8%' }}>
-                <Image src={home?.logo || ""} alt="" width={280} height={280} unoptimized />
+              <div className={styles.ambientLogo} style={{ right: '5%', top: '2%' }}>
+                <Image src={home?.logo || ""} alt="" width={320} height={320} unoptimized />
               </div>
               <div className={styles.ambientFade} />
             </div>
