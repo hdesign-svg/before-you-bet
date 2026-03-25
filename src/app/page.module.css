@@ -201,10 +201,6 @@
   flex-shrink: 0;
 }
 
-:global([data-theme="light"]) .stripGradient {
-  filter: saturate(1.6) brightness(1.15);
-}
-
 .stripContent {
   flex: 1;
   display: flex;
