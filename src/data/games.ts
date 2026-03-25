@@ -2,30 +2,27 @@ export type PlayerSpotlight = {
   name: string;
   position: "QB" | "RB" | "WR" | "TE";
   team: string;
-  whatsGoingOn: string;
-  whatItMeans: string;
-  expectation: string;
-  whyItMatters: string;
+  verdict: string; // One punchy line — the "so what?"
+  detail: string; // 1-2 sentences of context
+  expectation: string; // Projected stat line
 };
 
 export type Game = {
   slug: string;
-  awayTeam: string;
   awayAbbr: string;
-  homeTeam: string;
   homeAbbr: string;
   date: string;
   time: string;
   network?: string;
   spread: string;
   overUnder: string;
-  moneyline: string;
-  insight: string;
+  insight: string; // One-line card insight
+  takeaway: string; // The verdict — shown FIRST in detail view
+  confidence: "lean" | "like" | "love"; // How confident the take is
   story: string;
   oddsExplained: string[];
   awayPlayers: PlayerSpotlight[];
   homePlayers: PlayerSpotlight[];
-  takeaway: string;
   lastUpdated: string;
 };
 
@@ -36,321 +33,435 @@ export const WEEK = {
 };
 
 export const games: Game[] = [
+  // ── THURSDAY ──
   {
-    slug: "chiefs-at-bills",
-    awayTeam: "Kansas City Chiefs",
-    awayAbbr: "KC",
-    homeTeam: "Buffalo Bills",
-    homeAbbr: "BUF",
-    date: "Sun, Nov 24",
-    time: "4:25 PM ET",
-    spread: "BUF -2.5",
-    overUnder: "46.5",
-    moneyline: "Bills -140 / Chiefs +120",
-    insight:
-      "Two AFC heavyweights collide — this is the game that could decide home field in January.",
-    story:
-      "The Chiefs come to Buffalo riding a 9-1 record, but they haven't been blowing anyone away — they keep finding ways to win close games. The Bills are 9-2 and dominant at home, where they've been nearly unbeatable this season. These two teams have met in the playoffs three of the last four years, and this regular-season matchup feels like a preview of what's coming in January. The winner gets a major edge in the race for the #1 seed.",
+    slug: "steelers-at-browns",
+    awayAbbr: "PIT",
+    homeAbbr: "CLE",
+    date: "Thu, Nov 21",
+    time: "8:15 PM ET",
+    network: "Prime",
+    spread: "PIT -3.5",
+    overUnder: "36.5",
+    insight: "Thursday night AFC North grudge match — expect ugly, physical football.",
+    takeaway: "Pittsburgh's defense travels. This will be low-scoring and sloppy. Lean Steelers, take the under.",
+    confidence: "like",
+    story: "Two proud AFC North defenses meet on a short week. The Steelers are 8-2 and grinding out wins with defense and Russell Wilson's deep ball. The Browns are 2-8 and going nowhere, but their defensive front still shows up for divisional games. Thursday night division games are historically brutal and low-scoring.",
     oddsExplained: [
-      "Bills -2.5 → Vegas thinks Buffalo wins, but barely. A field goal is the difference. This game could go either way, and the oddsmakers know it.",
-      "Over/Under 46.5 → They expect a moderately high-scoring game. Both offenses can put up points, but both defenses are elite too — don't expect a shootout.",
-      "Moneyline: Bills -140 / Chiefs +120 → If you just want to pick a winner, Buffalo is the slight favorite. A $10 bet on the Chiefs pays $22 if they win.",
+      "Steelers -3.5 → Pittsburgh wins by a field goal or more. Close but not dominant.",
+      "Over/Under 36.5 → One of the lowest totals of the week. Vegas expects a defensive struggle.",
+      "This is a classic Thursday night ugly game. Don't expect fireworks.",
     ],
     awayPlayers: [
-      {
-        name: "Patrick Mahomes",
-        position: "QB",
-        team: "KC Chiefs",
-        whatsGoingOn:
-          "Mahomes has been efficient but not spectacular this year — 2,200+ yards, 16 TDs, 9 INTs. More picks than usual, but he still finds ways to win close games.",
-        whatItMeans:
-          "Against this Bills defense, turnovers are the biggest risk. He doesn't need to be flashy, but he can't give the ball away.",
-        expectation:
-          "250-280 passing yards, 1-2 TDs. The question is whether he throws a costly pick.",
-        whyItMatters:
-          "Clean Mahomes = Chiefs can win anywhere. Sloppy Mahomes = Buffalo makes him pay.",
-      },
-      {
-        name: "Kareem Hunt",
-        position: "RB",
-        team: "KC Chiefs",
-        whatsGoingOn:
-          "Hunt has taken over as the lead back and has been steady — averaging 60-70 rushing yards per game with consistent red-zone opportunities.",
-        whatItMeans:
-          "The Chiefs need the run game to keep Buffalo's pass rush honest. If Hunt can grind out 3-4 yards per carry, it opens up play-action for Mahomes.",
-        expectation:
-          "15-18 carries, 55-75 yards, and a chance at a goal-line TD.",
-        whyItMatters:
-          "Hunt isn't a star, but if he disappears, it means the Chiefs are one-dimensional — and that's a losing formula against this defense.",
-      },
-      {
-        name: "Travis Kelce",
-        position: "TE",
-        team: "KC Chiefs",
-        whatsGoingOn:
-          "Kelce has been quieter than usual — on pace for his lowest yardage in years. But he's still Mahomes' most trusted target when the game is on the line.",
-        whatItMeans:
-          "He may not light up the stat sheet, but in the fourth quarter of a tight game, Mahomes is looking for Kelce.",
-        expectation:
-          "5-7 catches, 50-70 yards. Not the primary weapon, but the safety valve.",
-        whyItMatters:
-          "Don't expect a blowup game. But if this comes down to the wire, Kelce is the guy who shows up. Temper prop expectations but know his ceiling is always there.",
-      },
+      { name: "Russell Wilson", position: "QB", team: "PIT", verdict: "Efficient but capped. The run game does the heavy lifting.", detail: "Wilson has revitalized Pittsburgh's passing game with his deep ball, but on a short week, expect a conservative game plan. 15-20 attempts.", expectation: "180-220 yards, 1 TD" },
+      { name: "Najee Harris", position: "RB", team: "PIT", verdict: "Workhorse role in a game they want to grind out.", detail: "Harris gets 20+ carries when Pittsburgh is protecting a lead. Cleveland's run defense has been soft.", expectation: "22 carries, 85-100 yards, 1 TD" },
     ],
     homePlayers: [
-      {
-        name: "Josh Allen",
-        position: "QB",
-        team: "BUF Bills",
-        whatsGoingOn:
-          "Allen is having an MVP-caliber season — 2,500+ yards, 19 TDs, just 3 INTs. He's also a weapon on the ground with 300+ rushing yards.",
-        whatItMeans:
-          "He's the best player on the field in this game. At home, he's been nearly unstoppable. The Chiefs need to contain both his arm and his legs.",
-        expectation:
-          "270-300 passing yards, 2-3 TDs, 30+ rushing yards. He shows up biggest in big games.",
-        whyItMatters:
-          "Allen is the main reason the Bills are favored. Betting Buffalo means betting Allen outplays Mahomes at home. That's been a good bet this season.",
-      },
-      {
-        name: "James Cook",
-        position: "RB",
-        team: "BUF Bills",
-        whatsGoingOn:
-          "Cook has been one of the more efficient backs in the league — averaging 5+ yards per carry and catching passes out of the backfield. He's a dual-threat the Chiefs have to account for.",
-        whatItMeans:
-          "Buffalo's offense is dangerous because they can run it and throw it. Cook keeps the defense honest and takes pressure off Allen.",
-        expectation:
-          "14-18 carries, 65-85 yards, and 3-4 catches. He could be a sneaky factor in this game.",
-        whyItMatters:
-          "If Cook gets going early, it means Buffalo is controlling the tempo and keeping Mahomes off the field. That's a bad sign for Kansas City.",
-      },
-      {
-        name: "Khalil Shakir",
-        position: "WR",
-        team: "BUF Bills",
-        whatsGoingOn:
-          "Shakir has emerged as Allen's most reliable target — running crisp routes from the slot and making tough catches in traffic. He's been the steadiest pass-catcher on the team.",
-        whatItMeans:
-          "With Stefon Diggs gone, Shakir has filled the void as the go-to receiver. He won't burn you deep, but he'll move the chains all game.",
-        expectation:
-          "5-8 catches, 60-80 yards. Expect a lot of short-to-intermediate work.",
-        whyItMatters:
-          "Shakir is the kind of player who quietly has a great game. If you're looking at receiving props for the Bills, he's the most consistent option.",
-      },
+      { name: "Jameis Winston", position: "QB", team: "CLE", verdict: "Boom-or-bust. He'll make one great throw and one terrible one.", detail: "Winston replaced Deshaun Watson and has been entertaining but chaotic. Pittsburgh's defense forces turnovers.", expectation: "210-250 yards, 1 TD, 2 INT" },
+      { name: "Jerry Jeudy", position: "WR", team: "CLE", verdict: "The only receiving threat worth watching.", detail: "Jeudy has been Cleveland's most consistent weapon, but Pittsburgh's secondary is elite.", expectation: "5-7 catches, 55-70 yards" },
     ],
-    takeaway:
-      "Coin-flip game. Allen is playing better, but you never bet against Mahomes when it matters. If you have to pick, lean Bills at home — but keep the bet small.",
-    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+    lastUpdated: "Wednesday, Nov 20 · 4:00 PM ET",
   },
+
+  // ── SUNDAY EARLY ──
   {
     slug: "cowboys-at-commanders",
-    awayTeam: "Dallas Cowboys",
     awayAbbr: "DAL",
-    homeTeam: "Washington Commanders",
     homeAbbr: "WAS",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    network: "FOX",
     spread: "WAS -10.5",
     overUnder: "44.5",
-    moneyline: "Commanders -550 / Cowboys +400",
-    insight:
-      "Dallas is in freefall and Washington is surging — this spread is massive for a rivalry game.",
-    story:
-      "This is a rivalry game that doesn't feel like one. The Cowboys have lost 5 straight and look like a team that's quit on the season — their defense can't stop anyone, and Dak Prescott is out with a hamstring injury. Meanwhile, the Commanders are the NFL's biggest surprise. Rookie QB Jayden Daniels has Washington at 7-4 and in the playoff hunt for the first time in years. A double-digit spread in a division game tells you everything about where these two franchises are right now.",
+    insight: "Dallas is in freefall and Washington is surging — this spread is massive for a rivalry game.",
+    takeaway: "Washington should roll. The only real question is whether 10.5 is too many points in a rivalry game. Bet the Commanders if you're confident, but if you're nervous about the spread, just take the moneyline.",
+    confidence: "love",
+    story: "This is a rivalry game that doesn't feel like one. The Cowboys have lost 5 straight and look like a team that's quit on the season. Meanwhile, rookie QB Jayden Daniels has Washington at 7-4 and in the playoff hunt. A double-digit spread in a division game tells you everything.",
     oddsExplained: [
-      "Commanders -10.5 → Vegas expects Washington to win by nearly two touchdowns. That's huge for a division rivalry — it means the oddsmakers see a mismatch, not a competitive game.",
-      "Over/Under 44.5 → A moderate total. Washington's offense should score, but this might turn into a snooze once the Commanders pull ahead in the second half.",
-      "Moneyline: Commanders -550 / Cowboys +400 → Washington is a heavy favorite. A $10 bet on Dallas pays $50, but the books clearly don't think that's happening.",
+      "Commanders -10.5 → Vegas expects Washington to win by nearly two touchdowns. Huge for a rivalry.",
+      "Over/Under 44.5 → Moderate. Washington scores, then it gets boring in the second half.",
+      "Moneyline: Commanders -550 / Cowboys +400 → Washington is a heavy favorite.",
     ],
     awayPlayers: [
-      {
-        name: "Cooper Rush",
-        position: "QB",
-        team: "DAL Cowboys",
-        whatsGoingOn:
-          "Rush is filling in for the injured Dak Prescott. He's a career backup asked to carry an offense that was already struggling. The results have been rough.",
-        whatItMeans:
-          "The Cowboys' ceiling is limited. Rush can manage a game if the defense holds up, but this defense isn't holding up for anyone.",
-        expectation:
-          "180-210 passing yards, 1 TD, 1-2 turnovers. Conservative play with mistakes under pressure.",
-        whyItMatters:
-          "This is why the spread is so large. The gap between Daniels and Rush is enormous. If you're thinking about Dallas, ask yourself: do you trust Cooper Rush in a hostile environment?",
-      },
-      {
-        name: "CeeDee Lamb",
-        position: "WR",
-        team: "DAL Cowboys",
-        whatsGoingOn:
-          "Lamb has been one of the best receivers in the NFL, but his production has dipped with Rush at QB. He's not getting the same quality of throws, and defenses are keying on him since there's no other threat.",
-        whatItMeans:
-          "Even great receivers need a quarterback who can get them the ball. Rush's limitations cap Lamb's upside in a way Dak's never did.",
-        expectation:
-          "5-7 catches, 55-75 yards. He'll be competitive but won't hit his usual ceiling.",
-        whyItMatters:
-          "Be careful with Lamb props this week. The talent is there but the quarterback situation holds him back. Under on receiving yards might be the smarter play.",
-      },
-      {
-        name: "Rico Dowdle",
-        position: "RB",
-        team: "DAL Cowboys",
-        whatsGoingOn:
-          "Dowdle has become the lead back almost by default — Ezekiel Elliott is washed and Tony Pollard left in free agency. Dowdle is serviceable but not a game-changer.",
-        whatItMeans:
-          "Dallas will try to run the ball to keep this from getting out of hand, but Washington's front seven is physical enough to shut it down.",
-        expectation: "12-16 carries, 40-60 yards. Not a lot to work with.",
-        whyItMatters:
-          "If the run game stalls early, Dallas is forced into Rush throwing the ball more — and that's when things get ugly.",
-      },
+      { name: "Cooper Rush", position: "QB", team: "DAL", verdict: "Career backup in a hostile environment. This is why the spread is so big.", detail: "Rush is filling in for injured Dak Prescott. Conservative play with mistakes under pressure.", expectation: "180-210 yards, 1 TD, 1-2 turnovers" },
+      { name: "CeeDee Lamb", position: "WR", team: "DAL", verdict: "Elite talent capped by a backup QB. Be careful with his props.", detail: "Lamb's production has dipped with Rush. Defenses key on him since there's no other threat.", expectation: "5-7 catches, 55-75 yards" },
+      { name: "Rico Dowdle", position: "RB", team: "DAL", verdict: "Serviceable but not a game-changer. If the run stalls, Dallas is in trouble.", detail: "Lead back by default. Washington's front seven is physical enough to shut it down.", expectation: "12-16 carries, 40-60 yards" },
     ],
     homePlayers: [
-      {
-        name: "Jayden Daniels",
-        position: "QB",
-        team: "WAS Commanders",
-        whatsGoingOn:
-          "The rookie from LSU has been the best first-year QB in the league — 2,100+ yards, 9 TDs passing, plus 450+ rushing yards. He makes plays with his legs when the pocket breaks down.",
-        whatItMeans:
-          "Against a Cowboys defense getting torched by everyone, Daniels should have plenty of room. This is a get-right game for Washington's offense.",
-        expectation:
-          "230-260 passing yards, 1-2 passing TDs, 40+ rushing yards. He won't need to be heroic — just efficient.",
-        whyItMatters:
-          "Daniels' dual-threat ability against this defense is the main reason to feel good about Washington covering. Dallas hasn't been able to contain mobile QBs all season.",
-      },
-      {
-        name: "Brian Robinson Jr.",
-        position: "RB",
-        team: "WAS Commanders",
-        whatsGoingOn:
-          "Robinson has been a solid, physical runner — not flashy, but consistent. He's averaging 4+ yards per carry and getting the bulk of the early-down work.",
-        whatItMeans:
-          "If Washington gets an early lead (which is likely), Robinson is going to eat up clock in the second half. That's bad news for Dallas trying to come back.",
-        expectation: "18-22 carries, 75-95 yards, 1 TD. A workload game.",
-        whyItMatters:
-          "Robinson props could have value here. When Washington is ahead, they lean on the run game, and this is a defense that can't stop it.",
-      },
-      {
-        name: "Terry McLaurin",
-        position: "WR",
-        team: "WAS Commanders",
-        whatsGoingOn:
-          "McLaurin is having a career year alongside Daniels — on pace for 1,100+ yards and has become the go-to red-zone target. He consistently gets open on intermediate and deep routes.",
-        whatItMeans:
-          "The Cowboys' secondary has been one of the worst in the league at stopping big plays. McLaurin is going to get opportunities downfield.",
-        expectation:
-          "6-8 catches, 80-100 yards, 1 TD. This is a matchup he should dominate.",
-        whyItMatters:
-          "If you're looking at player props, McLaurin over his receiving yards number is one of the more confident options this week. The matchup is that good.",
-      },
+      { name: "Jayden Daniels", position: "QB", team: "WAS", verdict: "Dual-threat rookie against a defense that can't stop mobile QBs. Mismatch.", detail: "Best first-year QB in the league — 2,100+ yards passing, 450+ rushing. This is a get-right game.", expectation: "230-260 yards, 1-2 TDs, 40+ rushing yards" },
+      { name: "Brian Robinson Jr.", position: "RB", team: "WAS", verdict: "Clock-killer. If Washington leads early, Robinson eats the second half.", detail: "Solid and physical, averaging 4+ yards per carry. Workload game.", expectation: "18-22 carries, 75-95 yards, 1 TD" },
+      { name: "Terry McLaurin", position: "WR", team: "WAS", verdict: "Career year matchup against the league's worst secondary. Over on yards.", detail: "On pace for 1,100+ yards. Cowboys can't stop big plays downfield.", expectation: "6-8 catches, 80-100 yards, 1 TD" },
     ],
-    takeaway:
-      "Washington should roll. The only real question is whether 10.5 is too many points in a rivalry game. Bet the Commanders if you're confident, but if you're nervous about the spread, just take the moneyline.",
     lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
   },
   {
+    slug: "vikings-at-bears",
+    awayAbbr: "MIN",
+    homeAbbr: "CHI",
+    date: "Sun, Nov 24",
+    time: "1:00 PM ET",
+    network: "FOX",
+    spread: "MIN -3.5",
+    overUnder: "40.5",
+    insight: "Minnesota's defense is elite. Caleb Williams is still learning. This could get uncomfortable for Chicago.",
+    takeaway: "Vikings defense dominates rookies. Minnesota covers unless Williams has the game of his life. Like the Vikings.",
+    confidence: "like",
+    story: "The Vikings' defense is one of the best in football, and they're about to face a rookie QB still figuring things out. Caleb Williams has shown flashes but also looks lost under pressure. Minnesota's pass rush will test him.",
+    oddsExplained: [
+      "Vikings -3.5 → Minnesota wins by a field goal+. Close-ish, but Vikings are clearly better.",
+      "Over/Under 40.5 → Low scoring expected. Both defenses are physical.",
+      "Minnesota's defense has been a nightmare for young QBs this year.",
+    ],
+    awayPlayers: [
+      { name: "Sam Darnold", position: "QB", team: "MIN", verdict: "Career renaissance. Efficient with weapons around him.", detail: "Darnold is playing the best football of his career in Kevin O'Connell's system.", expectation: "230-260 yards, 2 TDs" },
+      { name: "Justin Jefferson", position: "WR", team: "MIN", verdict: "Best receiver in football. Chicago will double him and he'll still produce.", detail: "On pace for 1,400+ yards. He's matchup-proof.", expectation: "6-9 catches, 90-120 yards" },
+    ],
+    homePlayers: [
+      { name: "Caleb Williams", position: "QB", team: "CHI", verdict: "Talented but raw. Minnesota's pass rush will speed up his clock.", detail: "Flashes of brilliance mixed with rookie mistakes. This is a tough draw.", expectation: "190-230 yards, 1 TD, 1-2 INT" },
+      { name: "DJ Moore", position: "WR", team: "CHI", verdict: "Williams' best weapon. Volume will be there out of necessity.", detail: "Moore is the safety valve when pressure comes. Consistent target share.", expectation: "6-8 catches, 65-85 yards" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "titans-at-texans",
+    awayAbbr: "TEN",
+    homeAbbr: "HOU",
+    date: "Sun, Nov 24",
+    time: "1:00 PM ET",
+    network: "CBS",
+    spread: "HOU -8.5",
+    overUnder: "43.5",
+    insight: "Houston is a legit contender. Tennessee is figuring out life with a new QB.",
+    takeaway: "Texans at home against a rebuilding team. Houston should handle this. Love the Texans.",
+    confidence: "love",
+    story: "Houston is 7-4 and establishing themselves as the AFC South's best team. The Titans are 2-8 and playing out the string with Will Levis still developing. This should be a comfortable home win.",
+    oddsExplained: [
+      "Texans -8.5 → Houston by more than a touchdown. Vegas sees a mismatch.",
+      "Over/Under 43.5 → Moderate. Houston's offense can score but may coast.",
+      "Tennessee hasn't shown they can keep up with playoff-caliber teams.",
+    ],
+    awayPlayers: [
+      { name: "Will Levis", position: "QB", team: "TEN", verdict: "Inconsistent. Great arm, but turnover-prone under pressure.", detail: "Levis has upside but Houston's defense is the wrong matchup for a QB who forces throws.", expectation: "200-240 yards, 1 TD, 1-2 INT" },
+      { name: "Tony Pollard", position: "RB", team: "TEN", verdict: "Tennessee's best offensive weapon. Volume keeps them in it.", detail: "Pollard is averaging 4.5 yards per carry and catches passes. He's the offense.", expectation: "16-20 carries, 70-85 yards, 3 catches" },
+    ],
+    homePlayers: [
+      { name: "C.J. Stroud", position: "QB", team: "HOU", verdict: "Sophomore star at home against a bad defense. Should carve them up.", detail: "Stroud has been excellent in Year 2. Accurate, poised, and has weapons everywhere.", expectation: "260-290 yards, 2-3 TDs" },
+      { name: "Nico Collins", position: "WR", team: "HOU", verdict: "Breakout season. If healthy, he's a matchup nightmare.", detail: "Collins has become Stroud's #1 target with elite size-speed combo.", expectation: "5-8 catches, 80-110 yards, 1 TD" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "patriots-at-dolphins",
+    awayAbbr: "NE",
+    homeAbbr: "MIA",
+    date: "Sun, Nov 24",
+    time: "1:00 PM ET",
+    network: "CBS",
+    spread: "MIA -7",
+    overUnder: "46.5",
+    insight: "Tua is back and Miami's offense looks dangerous again. New England is rebuilding.",
+    takeaway: "Miami at home with Tua healthy. Patriots don't have the firepower. Take the Dolphins.",
+    confidence: "like",
+    story: "Tua Tagovailoa is back from injury and the Dolphins' offense is clicking again. The Patriots are in full rebuild mode with Drake Maye learning on the job. Miami's speed advantage is massive.",
+    oddsExplained: [
+      "Dolphins -7 → Miami by a touchdown. Comfortable favorite at home.",
+      "Over/Under 46.5 → Higher total, expecting Miami's offense to produce.",
+      "New England is playing for draft position at this point.",
+    ],
+    awayPlayers: [
+      { name: "Drake Maye", position: "QB", team: "NE", verdict: "Rookie with potential but limited weapons. Hard to trust on the road.", detail: "Maye has shown arm talent but the supporting cast is thin.", expectation: "200-230 yards, 1 TD, 1 INT" },
+    ],
+    homePlayers: [
+      { name: "Tua Tagovailoa", position: "QB", team: "MIA", verdict: "Back and dealing. When healthy, this offense is explosive.", detail: "Tua's accuracy and Hill/Waddle make Miami's passing game the league's most dangerous.", expectation: "270-300 yards, 2-3 TDs" },
+      { name: "Tyreek Hill", position: "WR", team: "MIA", verdict: "The fastest player in football against a young secondary. Trouble.", detail: "Hill can take the top off any defense. New England's corners are overmatched.", expectation: "5-8 catches, 90-130 yards, 1 TD" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "buccaneers-at-giants",
+    awayAbbr: "TB",
+    homeAbbr: "NYG",
+    date: "Sun, Nov 24",
+    time: "1:00 PM ET",
+    network: "FOX",
+    spread: "TB -5.5",
+    overUnder: "41.5",
+    insight: "Baker Mayfield keeps proving doubters wrong. The Giants keep proving theirs right.",
+    takeaway: "Tampa's offense is too much for this Giants team. Buccaneers cover comfortably.",
+    confidence: "like",
+    story: "Baker Mayfield is having a career year and the Bucs are in the NFC South race. The Giants are one of the worst teams in the league, struggling on both sides of the ball.",
+    oddsExplained: [
+      "Bucs -5.5 → Tampa wins by nearly a touchdown.",
+      "Over/Under 41.5 → Moderate. Tampa scores, Giants try to keep up.",
+      "The Giants haven't been competitive against good teams this year.",
+    ],
+    awayPlayers: [
+      { name: "Baker Mayfield", position: "QB", team: "TB", verdict: "Playing with confidence. Career year in this offense.", detail: "Mayfield is making all the throws and has great chemistry with Evans and Godwin.", expectation: "260-290 yards, 2 TDs" },
+      { name: "Mike Evans", position: "WR", team: "TB", verdict: "Reliable as ever. Should feast against a porous secondary.", detail: "Evans is a red-zone machine and the Giants can't match up with his size.", expectation: "5-7 catches, 75-100 yards, 1 TD" },
+    ],
+    homePlayers: [
+      { name: "Tommy DeVito", position: "QB", team: "NYG", verdict: "Fan favorite but limited. Hard to see the Giants keeping pace.", detail: "DeVito plays hard but the talent gap is real.", expectation: "180-220 yards, 1 TD, 1 INT" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "panthers-at-chiefs",
+    awayAbbr: "CAR",
+    homeAbbr: "KC",
+    date: "Sun, Nov 24",
+    time: "1:00 PM ET",
+    network: "CBS",
+    spread: "KC -11",
+    overUnder: "43.5",
+    insight: "Mahomes at home against the league's worst team. This should be quick.",
+    takeaway: "Chiefs handle business. Carolina doesn't belong on this field. Take KC and move on.",
+    confidence: "love",
+    story: "The 9-1 Chiefs host the 2-8 Panthers in a massive mismatch. Kansas City is resting for the playoffs, but even on autopilot they should cruise here. Bryce Young is still trying to find his footing.",
+    oddsExplained: [
+      "Chiefs -11 → KC by nearly two touchdowns. Major mismatch.",
+      "Over/Under 43.5 → Moderate. Chiefs score early, coast late.",
+      "Carolina has been the NFL's worst team for most of this season.",
+    ],
+    awayPlayers: [
+      { name: "Bryce Young", position: "QB", team: "CAR", verdict: "Struggling. The worst matchup for a QB who needs clean pockets.", detail: "Young has been sacked more than any QB this season. KC's defense will feast.", expectation: "170-200 yards, 0-1 TD, 1-2 INT" },
+    ],
+    homePlayers: [
+      { name: "Patrick Mahomes", position: "QB", team: "KC", verdict: "Won't need to be great. Efficient day against an overmatched defense.", detail: "Mahomes in cruise control is still better than most QBs at full throttle.", expectation: "240-270 yards, 2 TDs" },
+      { name: "Travis Kelce", position: "TE", team: "KC", verdict: "Could have a vintage game against Carolina's weak linebacker coverage.", detail: "Kelce has been quiet this year but this is the matchup to break out.", expectation: "6-8 catches, 70-90 yards, 1 TD" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+
+  // ── SUNDAY AFTERNOON ──
+  {
+    slug: "chiefs-at-bills",
+    awayAbbr: "KC",
+    homeAbbr: "BUF",
+    date: "Sun, Nov 24",
+    time: "4:25 PM ET",
+    network: "CBS",
+    spread: "BUF -2.5",
+    overUnder: "46.5",
+    insight: "Two AFC heavyweights collide — this is the game that could decide home field in January.",
+    takeaway: "Coin-flip game. Allen is playing better, but you never bet against Mahomes when it matters. Lean Bills at home — but keep the bet small.",
+    confidence: "lean",
+    story: "The Chiefs come to Buffalo riding a 9-1 record, but they haven't been blowing anyone away — they keep finding ways to win close games. The Bills are 9-2 and dominant at home. These two teams have met in the playoffs three of the last four years.",
+    oddsExplained: [
+      "Bills -2.5 → Vegas thinks Buffalo wins, but barely. A field goal is the difference.",
+      "Over/Under 46.5 → Moderately high-scoring. Both offenses can produce, both defenses are elite.",
+      "Moneyline: Bills -140 / Chiefs +120 → Buffalo is the slight favorite.",
+    ],
+    awayPlayers: [
+      { name: "Patrick Mahomes", position: "QB", team: "KC", verdict: "Clean Mahomes wins anywhere. Sloppy Mahomes loses here.", detail: "Efficient but not spectacular — 16 TDs, 9 INTs. Against this defense, turnovers are the biggest risk.", expectation: "250-280 yards, 1-2 TDs" },
+      { name: "Kareem Hunt", position: "RB", team: "KC", verdict: "Keeps the offense balanced. If he disappears, KC becomes one-dimensional.", detail: "Steady lead back averaging 60-70 rushing yards per game.", expectation: "15-18 carries, 55-75 yards" },
+      { name: "Travis Kelce", position: "TE", team: "KC", verdict: "Quiet stat lines, but when it's the 4th quarter of a tight game — Mahomes finds Kelce.", detail: "On pace for his lowest yardage in years, but still the safety valve.", expectation: "5-7 catches, 50-70 yards" },
+    ],
+    homePlayers: [
+      { name: "Josh Allen", position: "QB", team: "BUF", verdict: "MVP-caliber season. Best player on the field. At home, nearly unstoppable.", detail: "2,500+ yards, 19 TDs, 3 INTs. Also a weapon on the ground with 300+ rushing yards.", expectation: "270-300 yards, 2-3 TDs, 30+ rush yards" },
+      { name: "James Cook", position: "RB", team: "BUF", verdict: "If Cook gets going early, Buffalo controls the tempo and keeps Mahomes off the field.", detail: "One of the more efficient backs in the league — 5+ yards per carry, catches passes.", expectation: "14-18 carries, 65-85 yards, 3-4 catches" },
+      { name: "Khalil Shakir", position: "WR", team: "BUF", verdict: "Allen's most reliable target. Quietly has great games. Consistent prop option.", detail: "Emerged as the go-to receiver — crisp routes from the slot.", expectation: "5-8 catches, 60-80 yards" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "packers-at-49ers",
+    awayAbbr: "GB",
+    homeAbbr: "SF",
+    date: "Sun, Nov 24",
+    time: "4:25 PM ET",
+    network: "FOX",
+    spread: "SF -1.5",
+    overUnder: "48.5",
+    insight: "Playoff rematch with playoff implications. Both teams need this one badly.",
+    takeaway: "Pick'em game. San Francisco at home is the tiebreaker, but Green Bay is dangerous. Lean 49ers, but this could go either way.",
+    confidence: "lean",
+    story: "A rematch of last year's divisional round. The 49ers are dealing with injuries but still have the talent to beat anyone. The Packers are young, fast, and improving every week under Jordan Love.",
+    oddsExplained: [
+      "49ers -1.5 → Basically a pick'em. Home field is the edge.",
+      "Over/Under 48.5 → High total. Both offenses are explosive.",
+      "This is one of the best games on the slate. Could go either way.",
+    ],
+    awayPlayers: [
+      { name: "Jordan Love", position: "QB", team: "GB", verdict: "Growing into a star. Has the arm and the playmakers to keep up.", detail: "Love has been sharp since returning from early-season injury. Chemistry with his young receivers is clicking.", expectation: "260-290 yards, 2-3 TDs" },
+      { name: "Josh Jacobs", position: "RB", team: "GB", verdict: "Physical runner who wears defenses down. Key to controlling clock.", detail: "Jacobs gives Green Bay a dimension they lacked last year.", expectation: "18-22 carries, 75-95 yards" },
+    ],
+    homePlayers: [
+      { name: "Brock Purdy", position: "QB", team: "SF", verdict: "Elite when protected. If the line holds, he picks apart any defense.", detail: "Purdy's efficiency numbers are among the best in the league. Quick reads, accurate throws.", expectation: "260-280 yards, 2 TDs" },
+      { name: "Christian McCaffrey", position: "RB", team: "SF", verdict: "If CMC plays, 49ers' offense goes to another level. Game-time decision.", detail: "The NFL's most versatile back — runs, catches, blocks. His presence changes everything.", expectation: "15-20 touches, 80-110 total yards if active" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "broncos-at-raiders",
+    awayAbbr: "DEN",
+    homeAbbr: "LV",
+    date: "Sun, Nov 24",
+    time: "4:05 PM ET",
+    network: "CBS",
+    spread: "DEN -5.5",
+    overUnder: "41.5",
+    insight: "Bo Nix is ahead of schedule. The Raiders are going nowhere fast.",
+    takeaway: "Denver's defense and Nix's efficiency should be enough. Like the Broncos.",
+    confidence: "like",
+    story: "The Broncos are in the wild card hunt behind a strong defense and Bo Nix's surprising rookie year. The Raiders are 2-8 and rudderless, cycling through quarterbacks and missing key players.",
+    oddsExplained: [
+      "Broncos -5.5 → Denver wins by nearly a touchdown. Road favorites in a division game.",
+      "Over/Under 41.5 → Low scoring expected. Two defenses, limited offenses.",
+      "Vegas is a tough place to play, but the Raiders aren't giving anyone a home-field edge this year.",
+    ],
+    awayPlayers: [
+      { name: "Bo Nix", position: "QB", team: "DEN", verdict: "Smart rookie who doesn't make big mistakes. Perfect for this system.", detail: "Nix won't wow you with arm talent but he protects the ball and moves the chains.", expectation: "220-250 yards, 1-2 TDs" },
+    ],
+    homePlayers: [
+      { name: "Aidan O'Connell", position: "QB", team: "LV", verdict: "Game manager on a bad team. Limited upside.", detail: "O'Connell can be functional but has no margin for error with this roster.", expectation: "200-230 yards, 1 TD, 1 INT" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+
+  // ── SUNDAY AFTERNOON CONT ──
+  {
+    slug: "colts-at-lions",
+    awayAbbr: "IND",
+    homeAbbr: "DET",
+    date: "Sun, Nov 24",
+    time: "1:00 PM ET",
+    network: "CBS",
+    spread: "DET -7.5",
+    overUnder: "50.5",
+    insight: "Detroit is the best team in the NFC. Indianapolis is feisty but outgunned.",
+    takeaway: "Lions are a machine right now. Indy will compete but Detroit's offense is too much. Like the Lions.",
+    confidence: "like",
+    story: "The Lions are 9-1 and arguably the best team in football. Their offense is relentless — they score from everywhere. The Colts are a scrappy 5-6 team that fights but doesn't have the ceiling to keep up in a shootout.",
+    oddsExplained: [
+      "Lions -7.5 → Detroit by a touchdown+. They're dominant at home.",
+      "Over/Under 50.5 → Highest total on the board. Expect points.",
+      "Detroit's offense has scored 30+ in most home games this year.",
+    ],
+    awayPlayers: [
+      { name: "Anthony Richardson", position: "QB", team: "IND", verdict: "Freak athlete, still raw. Boom-or-bust every week.", detail: "Richardson's physical tools are elite but his decision-making is inconsistent.", expectation: "200-240 yards, 1-2 TDs, 40+ rush yards" },
+    ],
+    homePlayers: [
+      { name: "Jared Goff", position: "QB", team: "DET", verdict: "Surgeon. Quietly having an MVP-worthy season in this offense.", detail: "Goff's accuracy in the short-to-intermediate game is elite. He doesn't turn it over.", expectation: "280-310 yards, 3 TDs" },
+      { name: "Jahmyr Gibbs", position: "RB", team: "DET", verdict: "The most electric back in football. Scores from anywhere on the field.", detail: "Gibbs is a matchup nightmare — explosive as a runner and a receiver.", expectation: "15 carries, 80+ yards, 4 catches, 1-2 TDs" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "ravens-at-chargers",
+    awayAbbr: "BAL",
+    homeAbbr: "LAC",
+    date: "Sun, Nov 24",
+    time: "4:25 PM ET",
+    network: "CBS",
+    spread: "BAL -3",
+    overUnder: "49.5",
+    insight: "Lamar vs. Herbert. Two elite QBs in a game with huge playoff implications.",
+    takeaway: "Lamar is playing at an MVP level and Baltimore's offense is nearly impossible to stop. Lean Ravens, but Herbert at home is no joke.",
+    confidence: "lean",
+    story: "Two of the best QBs in football meet in a game that could decide AFC seeding. The Ravens' offense with Lamar Jackson and Derrick Henry has been devastating. The Chargers under Jim Harbaugh have been disciplined and tough.",
+    oddsExplained: [
+      "Ravens -3 → Baltimore by a field goal. Close game expected.",
+      "Over/Under 49.5 → High scoring. Both offenses are legit.",
+      "This could be a playoff preview. Neither team can afford a loss.",
+    ],
+    awayPlayers: [
+      { name: "Lamar Jackson", position: "QB", team: "BAL", verdict: "MVP frontrunner. Unstoppable when the run game and pass game are both clicking.", detail: "Lamar is doing things no other QB can do — elite arm, elite legs, elite reads.", expectation: "260-290 yards, 2-3 TDs, 50+ rush yards" },
+      { name: "Derrick Henry", position: "RB", team: "BAL", verdict: "Ageless destroyer. Paired with Lamar, this run game is unfair.", detail: "Henry is averaging 5+ yards per carry and still breaking tackles at 30.", expectation: "20-24 carries, 90-120 yards, 1 TD" },
+    ],
+    homePlayers: [
+      { name: "Justin Herbert", position: "QB", team: "LAC", verdict: "Elite arm talent in a system that's finally maximizing it.", detail: "Herbert under Harbaugh has been more efficient and less turnover-prone.", expectation: "260-280 yards, 2 TDs" },
+      { name: "J.K. Dobbins", position: "RB", team: "LAC", verdict: "Revenge game against his former team. Running hard this year.", detail: "Dobbins has been the Chargers' best offensive addition. Physical and fast.", expectation: "16-20 carries, 70-90 yards" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+
+  // ── SUNDAY NIGHT ──
+  {
     slug: "eagles-at-rams",
-    awayTeam: "Philadelphia Eagles",
     awayAbbr: "PHI",
-    homeTeam: "Los Angeles Rams",
     homeAbbr: "LAR",
     date: "Sun, Nov 24",
     time: "8:20 PM ET",
-    network: "SNF",
+    network: "NBC",
     spread: "PHI -3",
     overUnder: "48.5",
-    moneyline: "Eagles -155 / Rams +130",
-    insight:
-      "Philly's run game has been unstoppable — can the Rams' thin defense slow them down?",
-    story:
-      "The Eagles are one of the hottest teams in football, winners of 7 straight behind a rushing attack that's been bulldozing everyone. Saquon Barkley is having a historic season, and Jalen Hurts is playing the most efficient football of his career. The Rams are 5-5 and fighting for a playoff spot, but their defense has been gutted by injuries — missing multiple starters in the secondary and along the defensive line. This Sunday Night Football matchup has the feel of a team that can't be stopped versus a team that can't stop anyone.",
+    insight: "Philly's run game has been unstoppable — can the Rams' thin defense slow them down?",
+    takeaway: "Philly's run game should dominate. The Rams can score enough to keep it interesting, but not enough to win. Take the Eagles, and don't overthink it.",
+    confidence: "like",
+    story: "The Eagles are one of the hottest teams in football, winners of 7 straight behind a rushing attack that's been bulldozing everyone. Saquon Barkley is having a historic season. The Rams are 5-5 with a defense gutted by injuries.",
     oddsExplained: [
-      "Eagles -3 → Vegas sees Philly winning by a field goal. A relatively tight spread for a team on a 7-game streak, which tells you the oddsmakers respect the Rams' offense enough to keep it close.",
-      "Over/Under 48.5 → They expect a high-scoring game. The Rams' defense can't stop the run, and when the Rams have the ball, they can move it through the air.",
-      "Moneyline: Eagles -155 / Rams +130 → Philly is the clear favorite, but this isn't a blowout line. A $10 bet on the Rams pays $23.",
+      "Eagles -3 → Philly by a field goal. Tighter than you'd expect for a team on a 7-game streak.",
+      "Over/Under 48.5 → High scoring. Rams can't stop the run, and their offense can score through the air.",
+      "Moneyline: Eagles -155 / Rams +130 → Clear favorite, but not a blowout line.",
     ],
     awayPlayers: [
-      {
-        name: "Jalen Hurts",
-        position: "QB",
-        team: "PHI Eagles",
-        whatsGoingOn:
-          "Hurts has been incredibly efficient during the win streak — not big numbers, but the right reads, protected ball, and punishing runs in the red zone. He has 10 rushing TDs this season.",
-        whatItMeans:
-          "He doesn't need to throw for 300 yards to win. The offense runs through Barkley and the ground game, and Hurts is the closer who punches it in at the goal line.",
-        expectation:
-          "200-230 passing yards, 1 passing TD, 1 rushing TD. Efficient, not flashy.",
-        whyItMatters:
-          "If you see low passing numbers from Hurts, that actually means the game plan is working. Don't mistake quiet stats for a bad performance — it means the run game is dominating.",
-      },
-      {
-        name: "Saquon Barkley",
-        position: "RB",
-        team: "PHI Eagles",
-        whatsGoingOn:
-          "Barkley is having the best season of his career — over 1,300 rushing yards, averaging 6+ yards per carry. He's been the most dominant offensive player in the NFL.",
-        whatItMeans:
-          "The Rams allow the 5th-most rushing yards in the league. This is the exact matchup where Barkley could go for 150+. The Eagles will feed him early and often.",
-        expectation:
-          "25+ carries, 130-160 yards, 1-2 TDs. This could be his biggest game of the year.",
-        whyItMatters:
-          "Barkley is the engine. If he gets going early, the Rams are playing from behind — and their depleted defense doesn't have the depth to adjust. Betting Philly means betting Barkley runs wild.",
-      },
-      {
-        name: "A.J. Brown",
-        position: "WR",
-        team: "PHI Eagles",
-        whatsGoingOn:
-          "Brown has been steady all season — a reliable deep threat who keeps defenses from stacking the box against the run. He's the Eagles' best downfield weapon.",
-        whatItMeans:
-          "Even in a run-first offense, Brown keeps the Rams honest. If LA loads up to stop Barkley, Brown is the guy who makes them pay over the top.",
-        expectation:
-          "4-6 catches, 65-85 yards. He won't get huge volume but his catches will be high-impact.",
-        whyItMatters:
-          "Brown is the insurance policy. If the Rams somehow slow down Barkley (unlikely), Brown gives Philly a Plan B. For props, he's a modest but safe play.",
-      },
+      { name: "Jalen Hurts", position: "QB", team: "PHI", verdict: "Efficient, not flashy. Low passing numbers mean the game plan is working.", detail: "10 rushing TDs this season. He's the closer who punches it in at the goal line.", expectation: "200-230 yards, 1 pass TD, 1 rush TD" },
+      { name: "Saquon Barkley", position: "RB", team: "PHI", verdict: "Best player in football right now. This matchup could be his biggest game.", detail: "1,300+ rushing yards, 6+ yards per carry. Rams allow the 5th-most rushing yards in the league.", expectation: "25+ carries, 130-160 yards, 1-2 TDs" },
+      { name: "A.J. Brown", position: "WR", team: "PHI", verdict: "Insurance policy. If the Rams stack the box, Brown makes them pay deep.", detail: "Reliable deep threat who keeps defenses honest. Modest but safe prop play.", expectation: "4-6 catches, 65-85 yards" },
     ],
     homePlayers: [
-      {
-        name: "Matthew Stafford",
-        position: "QB",
-        team: "LA Rams",
-        whatsGoingOn:
-          "Stafford is still one of the smartest quarterbacks in the league — he reads defenses quickly and gets the ball out fast. He's keeping the Rams competitive despite a patchwork defense.",
-        whatItMeans:
-          "The Rams' best chance to keep this close is Stafford moving the ball through the air. He has the weapons to score, even if the defense can't get stops.",
-        expectation:
-          "260-290 passing yards, 2 TDs. He'll likely be throwing a lot in the second half if they fall behind.",
-        whyItMatters:
-          "Stafford is why the spread is only 3. If the Rams cover, it'll be because Stafford kept the offense churning. Over on his passing yards could be a solid play.",
-      },
-      {
-        name: "Puka Nacua",
-        position: "WR",
-        team: "LA Rams",
-        whatsGoingOn:
-          "Nacua missed time earlier with a knee injury but has been explosive since returning. He's Stafford's top target and one of the most dynamic receivers in the league when healthy.",
-        whatItMeans:
-          "The Rams' best chance is through the air, and Nacua is the most dangerous weapon. If he wins his one-on-one matchups, LA's offense can score.",
-        expectation:
-          "7-9 catches, 90-110 yards. He's going to get volume because the Rams will likely be trailing and throwing.",
-        whyItMatters:
-          "Even if you're betting Eagles, Nacua is why the spread is tight. He's the Rams' entire big-play threat. Over on his receiving yards is one of the sharper plays this week.",
-      },
-      {
-        name: "Kyren Williams",
-        position: "RB",
-        team: "LA Rams",
-        whatsGoingOn:
-          "Williams has been the Rams' lead back all season, but his production has been inconsistent. Some weeks he's explosive, others he's bottled up.",
-        whatItMeans:
-          "Philly's run defense is much better than their reputation. Williams is going to have a hard time finding lanes against this front seven.",
-        expectation:
-          "14-18 carries, 45-65 yards. A tough day on the ground.",
-        whyItMatters:
-          "If Williams can't run, the Rams become completely one-dimensional. That puts all the pressure on Stafford and makes the Eagles easier to bet on.",
-      },
+      { name: "Matthew Stafford", position: "QB", team: "LAR", verdict: "Why the spread is only 3. If the Rams cover, it's because Stafford carried them.", detail: "Smart, quick release. Keeping the Rams competitive despite a patchwork defense.", expectation: "260-290 yards, 2 TDs" },
+      { name: "Puka Nacua", position: "WR", team: "LAR", verdict: "The Rams' entire big-play threat. Over on his receiving yards is one of the sharper plays.", detail: "Explosive since returning from knee injury. Will get volume because LA will be trailing.", expectation: "7-9 catches, 90-110 yards" },
+      { name: "Kyren Williams", position: "RB", team: "LAR", verdict: "If he can't run, the Rams become one-dimensional. Tough day expected.", detail: "Inconsistent production against a Philly front seven that's much better than its reputation.", expectation: "14-18 carries, 45-65 yards" },
     ],
-    takeaway:
-      "Philly's run game should dominate. The Rams can score enough to keep it interesting, but not enough to win. Take the Eagles, and don't overthink it.",
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+
+  // ── MONDAY NIGHT ──
+  {
+    slug: "ravens-at-bengals",
+    awayAbbr: "BAL",
+    homeAbbr: "CIN",
+    date: "Mon, Nov 25",
+    time: "8:15 PM ET",
+    network: "ESPN",
+    spread: "BAL -2.5",
+    overUnder: "51.5",
+    insight: "AFC North fireworks. Lamar vs. Burrow is appointment television.",
+    takeaway: "This game will be electric. Burrow at home is dangerous, but Lamar + Henry is a cheat code. Lean Ravens, but enjoy the show.",
+    confidence: "lean",
+    story: "Two of the most talented QBs in football meet on Monday Night Football. The Ravens' rushing attack with Lamar and Henry has been historic. The Bengals' passing offense with Burrow and Chase is equally lethal. Something has to give.",
+    oddsExplained: [
+      "Ravens -2.5 → Baltimore is the slight road favorite. They're the better team right now.",
+      "Over/Under 51.5 → Highest total of the week. Fireworks expected.",
+      "Both teams have the offense to score 30+. This could be the game of the week.",
+    ],
+    awayPlayers: [
+      { name: "Lamar Jackson", position: "QB", team: "BAL", verdict: "MVP playing at peak level. The most dangerous player in football.", detail: "Lamar's combination of arm talent and rushing ability is unmatched. Cincy has struggled to contain him.", expectation: "270-300 yards, 2-3 TDs, 50+ rush yards" },
+      { name: "Derrick Henry", position: "RB", team: "BAL", verdict: "Battering ram. Wears down Cincinnati's undersized front.", detail: "Henry's power running paired with Lamar's read-option is unfair.", expectation: "20-25 carries, 100-130 yards, 1 TD" },
+    ],
+    homePlayers: [
+      { name: "Joe Burrow", position: "QB", team: "CIN", verdict: "When he's healthy and dealing, he's as good as anyone. Prime-time Burrow is real.", detail: "Burrow has been elite in the second half of the season. His chemistry with Chase is electric.", expectation: "280-310 yards, 3 TDs" },
+      { name: "Ja'Marr Chase", position: "WR", team: "CIN", verdict: "Best receiver in football right now. On pace for the triple crown.", detail: "Chase is dominating — leading the league in yards, TDs, and catches. He's unguardable.", expectation: "7-10 catches, 100-130 yards, 1-2 TDs" },
+    ],
+    lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
+  },
+  {
+    slug: "seahawks-at-cardinals",
+    awayAbbr: "SEA",
+    homeAbbr: "ARI",
+    date: "Sun, Nov 24",
+    time: "4:05 PM ET",
+    network: "FOX",
+    spread: "SEA -1",
+    overUnder: "47.5",
+    insight: "NFC West division game. Both teams fighting for a wild card spot.",
+    takeaway: "True toss-up. Both teams are mediocre and inconsistent. If you bet this, keep it small. Slight lean Seattle.",
+    confidence: "lean",
+    story: "A division game between two .500 teams fighting for playoff relevance. Geno Smith has been up and down, and Kyler Murray is healthy but the Cardinals' defense is inconsistent.",
+    oddsExplained: [
+      "Seahawks -1 → Basically a pick'em. Road team barely favored.",
+      "Over/Under 47.5 → Moderate-to-high. Both teams can score but can also give up points.",
+      "This is the kind of game that's hard to predict. Flip a coin.",
+    ],
+    awayPlayers: [
+      { name: "Geno Smith", position: "QB", team: "SEA", verdict: "Capable but inconsistent. Great one week, invisible the next.", detail: "Smith can light it up when the line protects him, but he's been under pressure all year.", expectation: "240-270 yards, 2 TDs, 1 INT" },
+      { name: "Kenneth Walker III", position: "RB", team: "SEA", verdict: "Explosive when healthy. Gives Seattle a physical dimension.", detail: "Walker's burst is elite. If Seattle establishes the run, they control this game.", expectation: "16-20 carries, 70-90 yards" },
+    ],
+    homePlayers: [
+      { name: "Kyler Murray", position: "QB", team: "ARI", verdict: "Healthy and dangerous. His legs make Arizona unpredictable.", detail: "Murray's dual-threat ability stretches defenses. At home, he's been solid.", expectation: "230-260 yards, 1-2 TDs, 30+ rush yards" },
+      { name: "Marvin Harrison Jr.", position: "WR", team: "ARI", verdict: "Rookie adjusting. Flashes of dominance mixed with quiet games.", detail: "Harrison has the talent to take over any game but consistency is still developing.", expectation: "4-7 catches, 60-90 yards" },
+    ],
     lastUpdated: "Saturday, Nov 23 · 6:15 PM ET",
   },
 ];
