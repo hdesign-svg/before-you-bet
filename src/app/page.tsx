@@ -64,14 +64,22 @@ function PlayerCard({ player }: { player: PlayerSpotlight }) {
 export default function Page() {
   const [active, setActive] = useState<Game | null>(null);
   const detailRef = useRef<HTMLElement>(null);
+  const backBtnRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const slots = useMemo(() => groupByDay(games), []);
 
-  const open = useCallback((g: Game) => {
+  const open = useCallback((g: Game, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
     setActive(g);
     window.scrollTo({ top: 0 });
   }, []);
 
-  const close = useCallback(() => setActive(null), []);
+  const close = useCallback(() => {
+    const trigger = triggerRef.current;
+    setActive(null);
+    // Restore focus to the card that opened detail
+    requestAnimationFrame(() => trigger?.focus());
+  }, []);
 
   // Keyboard: Escape to close detail
   useEffect(() => {
@@ -82,9 +90,9 @@ export default function Page() {
     return () => window.removeEventListener("keydown", onKey);
   }, [active, close]);
 
-  // Scroll detail to top on change
+  // Focus the back button when detail opens
   useEffect(() => {
-    if (active && detailRef.current) detailRef.current.scrollTop = 0;
+    if (active && backBtnRef.current) backBtnRef.current.focus();
   }, [active]);
 
   const away = active ? teams[active.awayAbbr] : null;
@@ -95,10 +103,10 @@ export default function Page() {
     const gradBg = `linear-gradient(135deg, ${away.color} 0%, ${home.color} 100%)`;
 
     return (
-      <main className={s.detailView} style={{ background: gradBg }} ref={detailRef}>
+      <main className={s.detailView} style={{ background: gradBg }} ref={detailRef} aria-label={`${away.city} ${away.name} at ${home.city} ${home.name}`}>
         {/* Back */}
         <nav className={s.detailNav}>
-          <button className={s.backBtn} onClick={close} aria-label="Back to games">
+          <button ref={backBtnRef} className={s.backBtn} onClick={close}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -108,8 +116,9 @@ export default function Page() {
 
         {/* Matchup hero */}
         <header className={s.hero}>
+          <h1 className={s.srOnly}>{away.city} {away.name} at {home.city} {home.name}</h1>
           <div className={s.heroTeam}>
-            <Image src={away.logo} alt={away.abbr} width={72} height={72} className={s.heroLogo} unoptimized />
+            <Image src={away.logo} alt={`${away.city} ${away.name} logo`} width={72} height={72} className={s.heroLogo} unoptimized />
             <span className={s.heroCity}>{away.city}</span>
             <span className={s.heroName}>{away.name}</span>
           </div>
@@ -119,7 +128,7 @@ export default function Page() {
             <span className={s.heroTime}>{active.time}</span>
           </div>
           <div className={s.heroTeam}>
-            <Image src={home.logo} alt={home.abbr} width={72} height={72} className={s.heroLogo} unoptimized />
+            <Image src={home.logo} alt={`${home.city} ${home.name} logo`} width={72} height={72} className={s.heroLogo} unoptimized />
             <span className={s.heroCity}>{home.city}</span>
             <span className={s.heroName}>{home.name}</span>
           </div>
@@ -198,23 +207,24 @@ export default function Page() {
                 <button
                   key={game.slug}
                   className={s.gameCard}
-                  onClick={() => open(game)}
+                  onClick={(e) => open(game, e.currentTarget)}
                   style={{ animationDelay: `${idx * 60}ms` }}
+                  aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}, ${game.time}`}
                 >
-                  <div className={s.cardGradientStrip} style={{ background: grad }} />
+                  <div className={s.cardGradientStrip} style={{ background: grad }} aria-hidden="true" />
                   <div className={s.cardBody}>
                     <div className={s.cardMatchup}>
                       <div className={s.cardTeam}>
-                        <Image src={a.logo} alt={a.abbr} width={32} height={32} className={s.cardLogo} unoptimized />
+                        <Image src={a.logo} alt="" width={32} height={32} className={s.cardLogo} unoptimized />
                         <span className={s.cardAbbr}>{a.abbr}</span>
                       </div>
-                      <span className={s.cardVs}>@</span>
+                      <span className={s.cardVs} aria-hidden="true">@</span>
                       <div className={s.cardTeam}>
                         <span className={s.cardAbbr}>{h.abbr}</span>
-                        <Image src={h.logo} alt={h.abbr} width={32} height={32} className={s.cardLogo} unoptimized />
+                        <Image src={h.logo} alt="" width={32} height={32} className={s.cardLogo} unoptimized />
                       </div>
                     </div>
-                    <time className={s.cardTime}>{game.time}</time>
+                    <time className={s.cardTime} dateTime={game.time}>{game.time}</time>
                     <p className={s.cardPreview}>{game.headline}</p>
                   </div>
                 </button>
