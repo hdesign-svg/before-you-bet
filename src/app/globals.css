@@ -42,27 +42,6 @@
   --live-color: #34d399;
 }
 
-/* ═══ Light theme ═══ */
-[data-theme="light"] {
-  --bg: #fafaf9;
-  --bg-warm: #f3f2f0;
-  --surface: #ffffff;
-  --surface-dim: #f0ede7;
-  --ink: #1a1a1a;
-  --ink-secondary: #555555;
-  --ink-tertiary: #999999;
-  --ink-ghost: #bbbbbb;
-  --ink-inverse: #ffffff;
-  --rule: #e0ddd6;
-  --rule-strong: #c5c1b8;
-  --wordmark-gradient: linear-gradient(135deg, #1a1a1a 60%, rgba(0,0,0,0.4));
-  --live-color: #059669;
-  --final-color: rgba(0,0,0,0.3);
-  --toggle-bg: rgba(0,0,0,0.08);
-  --toggle-knob: #1a1a1a;
-  color-scheme: light;
-}
-
 /* ═══ Dark theme (default) ═══ */
 :root,
 [data-theme="dark"] {
@@ -83,6 +62,27 @@
   --toggle-bg: rgba(255,255,255,0.08);
   --toggle-knob: #ffffff;
   color-scheme: dark;
+}
+
+/* ═══ Light theme ═══ */
+[data-theme="light"] {
+  --bg: #fafaf9;
+  --bg-warm: #f3f2f0;
+  --surface: #ffffff;
+  --surface-dim: #f0ede7;
+  --ink: #1a1a1a;
+  --ink-secondary: #555555;
+  --ink-tertiary: #999999;
+  --ink-ghost: #bbbbbb;
+  --ink-inverse: #ffffff;
+  --rule: #e0ddd6;
+  --rule-strong: #c5c1b8;
+  --wordmark-gradient: linear-gradient(135deg, #1a1a1a 60%, rgba(0,0,0,0.4));
+  --live-color: #059669;
+  --final-color: rgba(0,0,0,0.3);
+  --toggle-bg: rgba(0,0,0,0.08);
+  --toggle-knob: #1a1a1a;
+  color-scheme: light;
 }
 
 /* ═══ Reset ═══ */
