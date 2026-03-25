@@ -275,14 +275,24 @@
   color: rgba(255, 255, 255, 0.6);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
-  transition:
-    color var(--duration-fast) var(--ease-out),
-    opacity var(--duration-fast) var(--ease-out);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.backBtn svg {
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .backBtn:hover {
   color: #fff;
-  opacity: 0.9;
+}
+
+.backBtn:hover svg {
+  transform: translateX(-2px);
+}
+
+.backBtn:active {
+  transform: scale(0.97);
+  transition-duration: 60ms;
 }
 
 .backBtn:focus-visible {
@@ -315,6 +325,26 @@
   object-fit: contain;
   filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.35));
   margin-bottom: var(--sp-2);
+  animation: logoReveal var(--duration-slow) var(--ease-out) backwards;
+}
+
+.heroTeam:first-of-type .heroLogo {
+  animation-delay: 50ms;
+}
+
+.heroTeam:last-of-type .heroLogo {
+  animation-delay: 150ms;
+}
+
+@keyframes logoReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .heroCity {
@@ -426,6 +456,23 @@
   border-radius: var(--r-sm);
   border-left: 2px solid var(--rule-strong);
   text-wrap: pretty;
+  animation: bulletEnter var(--duration-normal) var(--ease-out) backwards;
+}
+
+.bullet:nth-child(1) { animation-delay: 200ms; }
+.bullet:nth-child(2) { animation-delay: 280ms; }
+.bullet:nth-child(3) { animation-delay: 360ms; }
+.bullet:nth-child(4) { animation-delay: 440ms; }
+
+@keyframes bulletEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .cardTitle {
@@ -468,11 +515,14 @@
   background: var(--surface-dim);
   border-radius: var(--r-md);
   padding: var(--sp-4);
-  transition: opacity var(--duration-fast) var(--ease-out);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .playerCard:hover {
-  opacity: 0.85;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .playerHead {
