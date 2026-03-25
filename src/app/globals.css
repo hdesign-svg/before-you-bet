@@ -1,28 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
   /* ── Brand ── */
-  --brand: #141B2B;
-  --brand-mid: #1F2D47;
+  --brand: #151820;
+  --brand-mid: #1E2536;
 
-  /* ── Accent: deep ocean teal ── */
-  --accent: #1B6B76;
-  --accent-hover: #145A63;
-  --accent-soft: #E6F2F3;
+  /* ── Accent: dusty burgundy/wine ── */
+  --accent: #8B3A4A;
+  --accent-hover: #7A2E3E;
+  --accent-soft: #F5E8EC;
 
   /* ── Surfaces ── */
-  --bg: #FAFAF8;
+  --bg: #FAF9F7;
   --surface: #FFFFFF;
-  --surface-alt: #F3F2EF;
+  --surface-alt: #F2F1EE;
 
   /* ── Text ── */
   --text-primary: #1A1A1A;
-  --text-secondary: #5C5C5C;
-  --text-tertiary: #9A9A9A;
+  --text-secondary: #5A5A5A;
+  --text-tertiary: #959595;
 
   /* ── Borders ── */
-  --border: #E5E4E1;
-  --border-subtle: #EDEDEB;
+  --border: #E4E3E0;
+  --border-subtle: #ECEBE8;
 
   /* ── Semantic ── */
   --live: #d93025;
@@ -31,8 +31,8 @@
   --max-width: 960px;
   --gutter: 20px;
   --card-radius: 14px;
-  --font-display: "Instrument Serif", serif;
-  --font-body: "Outfit", sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-body: "DM Sans", sans-serif;
 }
 
 *,
@@ -77,5 +77,5 @@ html {
 
 ::selection {
   background: var(--accent-soft);
-  color: var(--brand);
+  color: var(--accent-hover);
 }

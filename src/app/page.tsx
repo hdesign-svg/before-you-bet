@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
-import GameModal from "./components/GameModal";
+import GameDrawer from "./components/GameDrawer";
 import styles from "./page.module.css";
 
 function groupByDay(gameList: Game[]) {
@@ -38,7 +38,7 @@ export default function HomePage() {
         <header className={styles.masthead}>
           <h1 className={styles.brandName}>Before You Bet</h1>
           <p className={styles.tagline}>
-            Understand every game in 60 seconds.
+            Understand your bets in minutes.
           </p>
         </header>
 
@@ -118,7 +118,7 @@ export default function HomePage() {
         </footer>
       </div>
 
-      <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
+      <GameDrawer game={selectedGame} onClose={() => setSelectedGame(null)} />
     </>
   );
 }
