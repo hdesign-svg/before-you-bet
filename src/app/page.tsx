@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { games, WEEK, type Game, type PlayerSpotlight } from "@/data/games";
 import { teams } from "@/data/teams";
@@ -22,6 +22,17 @@ function groupByDay(gameList: Game[]) {
     map[label].push(game);
   }
   return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
+}
+
+/** Blend a hex color toward white by a given amount (0–1) */
+function lighten(hex: string, amount: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  const nr = Math.round(r + (255 - r) * amount);
+  const ng = Math.round(g + (255 - g) * amount);
+  const nb = Math.round(b + (255 - b) * amount);
+  return `rgb(${nr}, ${ng}, ${nb})`;
 }
 
 function PlayerRow({ player }: { player: PlayerSpotlight }) {
@@ -57,6 +68,16 @@ export default function HomePage() {
   const sel = selected;
   const away = sel ? teams[sel.awayAbbr] : null;
   const home = sel ? teams[sel.homeAbbr] : null;
+
+  // Build gradient from both teams' colors
+  const gradientStyle = useMemo(() => {
+    if (!away || !home) return {};
+    const c1 = lighten(away.color, 0.35);
+    const c2 = lighten(home.color, 0.35);
+    return {
+      background: `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`,
+    };
+  }, [away, home]);
 
   return (
     <div className={styles.shell}>
@@ -108,7 +129,11 @@ export default function HomePage() {
       </aside>
 
       {/* ════════ RIGHT: Detail panel ════════ */}
-      <main className={styles.detail} ref={detailRef}>
+      <main
+        className={styles.detail}
+        ref={detailRef}
+        style={sel ? gradientStyle : undefined}
+      >
         {!sel ? (
           <div className={styles.empty}>
             <span className={styles.emptyEmoji}>🧠</span>
@@ -128,7 +153,7 @@ export default function HomePage() {
             {/* ── Matchup header ── */}
             <header className={styles.matchupHeader}>
               <div className={styles.matchupTeam}>
-                <Image src={away?.logo || ""} alt={sel.awayAbbr} width={52} height={52} className={styles.matchupLogo} unoptimized />
+                <Image src={away?.logo || ""} alt={sel.awayAbbr} width={56} height={56} className={styles.matchupLogo} unoptimized />
                 <div className={styles.matchupTeamInfo}>
                   <span className={styles.matchupName}>{away?.city}</span>
                   <span className={styles.matchupName}>{away?.name}</span>
@@ -140,7 +165,7 @@ export default function HomePage() {
                 <span className={styles.matchupMeta}>{sel.time}</span>
               </div>
               <div className={styles.matchupTeam}>
-                <Image src={home?.logo || ""} alt={sel.homeAbbr} width={52} height={52} className={styles.matchupLogo} unoptimized />
+                <Image src={home?.logo || ""} alt={sel.homeAbbr} width={56} height={56} className={styles.matchupLogo} unoptimized />
                 <div className={styles.matchupTeamInfo}>
                   <span className={styles.matchupName}>{home?.city}</span>
                   <span className={styles.matchupName}>{home?.name}</span>

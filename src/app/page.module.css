@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════
-   OPTION 1 — Minimal Modern
-   Clean, airy, generous spacing, warm.
+   OPTION 2 — Team Color Gradient
+   Right panel gradient from away→home colors.
+   Cards are frosted glass. No brand accent.
    ═══════════════════════════════════════ */
 
 /* ═══ SHELL ═══ */
@@ -55,7 +56,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 12px;
-  color: var(--accent);
+  color: var(--text-primary);
   letter-spacing: 0.01em;
 }
 
@@ -112,8 +113,8 @@
 }
 
 .gameRowActive {
-  background: var(--accent-soft);
-  border-color: var(--accent-muted);
+  background: var(--surface-alt);
+  border-color: var(--border);
 }
 
 .gameTeams {
@@ -161,12 +162,13 @@
 }
 
 /* ═══════════════════════════════════════
-   DETAIL PANEL
+   DETAIL PANEL — gradient background
    ═══════════════════════════════════════ */
 .detail {
   flex: 1;
   overflow-y: auto;
   background: var(--bg);
+  transition: background 500ms ease;
 }
 
 /* ── Empty state ── */
@@ -209,11 +211,11 @@
   gap: 20px;
   margin-top: 32px;
   font-size: 13px;
-  color: var(--accent);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
-/* ═══ BREAKDOWN ═══ */
+/* ═══ BREAKDOWN — on gradient ═══ */
 .breakdown {
   max-width: 640px;
   margin: 0 auto;
@@ -243,9 +245,10 @@
 }
 
 .matchupLogo {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
 }
 
 .matchupTeamInfo {
@@ -258,7 +261,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 14px;
-  color: var(--brand);
+  color: rgba(0, 0, 0, 0.7);
   letter-spacing: -0.02em;
 }
 
@@ -273,7 +276,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 11px;
-  color: var(--text-tertiary);
+  color: rgba(0, 0, 0, 0.35);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 2px;
@@ -281,54 +284,64 @@
 
 .matchupMeta {
   font-size: 11px;
-  color: var(--text-tertiary);
+  color: rgba(0, 0, 0, 0.4);
 }
 
-/* ═══ INSIGHT ═══ */
+/* ═══ INSIGHT — frosted glass card ═══ */
 .insight {
-  padding: 40px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
 }
 
 .headline {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   line-height: 1.3;
-  color: var(--brand);
+  color: rgba(0, 0, 0, 0.85);
   letter-spacing: -0.03em;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .rundown {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .rundownItem {
   font-size: 14px;
   line-height: 1.75;
-  color: var(--text-secondary);
-  padding: 14px 18px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
+  color: rgba(0, 0, 0, 0.6);
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
-/* ═══ PLAYERS ═══ */
+/* ═══ PLAYERS — frosted glass card ═══ */
 .playersSection {
-  padding: 36px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 28px 32px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
 
 .sectionTitle {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 15px;
-  color: var(--brand);
+  color: rgba(0, 0, 0, 0.8);
   margin-bottom: 20px;
   letter-spacing: -0.02em;
 }
@@ -348,17 +361,17 @@
 .teamGroupLabel {
   font-size: 10px;
   font-weight: 700;
-  color: var(--text-tertiary);
+  color: rgba(0, 0, 0, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 4px;
 }
 
-/* ── Player card ── */
+/* ── Player card — inner frosted ── */
 .playerRow {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
   padding: 16px;
 }
 
@@ -367,7 +380,7 @@
   height: 32px;
   object-fit: cover;
   border-radius: var(--radius-sm);
-  background: var(--surface-alt);
+  background: rgba(255, 255, 255, 0.4);
   flex-shrink: 0;
 }
 
@@ -388,14 +401,14 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 14px;
-  color: var(--brand);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .playerPos {
   font-size: 10px;
   font-weight: 600;
-  color: var(--text-tertiary);
-  background: var(--surface-alt);
+  color: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.5);
   padding: 2px 6px;
   border-radius: 4px;
   letter-spacing: 0.04em;
@@ -404,19 +417,19 @@
 .playerVerdict {
   font-size: 13px;
   line-height: 1.6;
-  color: var(--text-secondary);
+  color: rgba(0, 0, 0, 0.55);
   margin-bottom: 12px;
 }
 
 .playerProjWrap {
   padding-top: 10px;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .playerProj {
   font-size: 12px;
   font-weight: 600;
-  color: var(--accent);
+  color: rgba(0, 0, 0, 0.65);
   letter-spacing: 0.01em;
 }
 
@@ -424,7 +437,8 @@
 .detailFooter {
   padding-top: 28px;
   font-size: 11px;
-  color: var(--text-tertiary);
+  color: rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 /* ═══════════════════════════════════════
@@ -471,17 +485,25 @@
     padding: 28px 20px 48px;
   }
 
+  .insight {
+    padding: 24px;
+  }
+
+  .playersSection {
+    padding: 20px 24px;
+  }
+
   .matchupHeader {
     gap: 24px;
   }
 
   .matchupLogo {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
   }
 
   .headline {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .playersGrid {
