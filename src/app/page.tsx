@@ -1,93 +1,58 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import GameDrawer from "./components/GameDrawer";
 import styles from "./page.module.css";
 
-const confidenceLabel: Record<string, string> = {
-  lean: "Lean",
-  like: "Like",
-  love: "Love",
-};
-
-const confidenceColor: Record<string, string> = {
-  lean: "var(--text-tertiary)",
-  like: "var(--caution)",
-  love: "var(--positive)",
-};
-
-// Group games by timeslot
-function groupBySlot(gameList: Game[]) {
-  const slots: { label: string; games: Game[] }[] = [];
-  const slotMap: Record<string, Game[]> = {};
-  const slotLabels: Record<string, string> = {};
+// Group games by day slot
+function groupByDay(gameList: Game[]) {
+  const order = ["Thursday", "Sunday Early", "Sunday Afternoon", "Sunday Night", "Monday"];
+  const map: Record<string, Game[]> = {};
 
   for (const game of gameList) {
-    const key = `${game.date} · ${game.time}`;
-    if (!slotMap[key]) {
-      slotMap[key] = [];
-      // Determine day label
-      if (game.date.startsWith("Thu")) slotLabels[key] = "Thursday";
-      else if (game.date.startsWith("Mon")) slotLabels[key] = "Monday";
-      else if (game.time.includes("1:00")) slotLabels[key] = "Sunday Early";
-      else if (game.time.includes("4:")) slotLabels[key] = "Sunday Afternoon";
-      else if (game.time.includes("8:20")) slotLabels[key] = "Sunday Night";
-      else slotLabels[key] = game.date;
-    }
-    slotMap[key].push(game);
+    let label: string;
+    if (game.date.startsWith("Thu")) label = "Thursday";
+    else if (game.date.startsWith("Mon")) label = "Monday";
+    else if (game.time.includes("8:20") || game.time.includes("8:15")) {
+      label = game.date.startsWith("Thu") ? "Thursday" : game.date.startsWith("Mon") ? "Monday" : "Sunday Night";
+    } else if (game.time.includes("4:")) label = "Sunday Afternoon";
+    else label = "Sunday Early";
+
+    if (!map[label]) map[label] = [];
+    map[label].push(game);
   }
 
-  // Merge into ordered slots with deduped labels
-  const seenLabels = new Set<string>();
-  for (const key of Object.keys(slotMap)) {
-    const label = slotLabels[key];
-    if (seenLabels.has(label)) {
-      // Append to existing slot with same label
-      const existing = slots.find((s) => s.label === label);
-      if (existing) existing.games.push(...slotMap[key]);
-    } else {
-      seenLabels.add(label);
-      slots.push({ label, games: slotMap[key] });
-    }
-  }
-
-  return slots;
+  return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
 }
 
 export default function HomePage() {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-  const slots = groupBySlot(games);
+  const slots = groupByDay(games);
 
   return (
     <>
       <div className={styles.page}>
-        {/* Branded header */}
-        <header className={styles.header}>
-          <div className={styles.headerTop}>
-            <div className={styles.logoMark}>
-              <span className={styles.logoIcon}>◆</span>
-            </div>
-            <div>
-              <h1 className={styles.title}>Before You Bet</h1>
-              <p className={styles.subtitle}>
-                Plain-English betting intelligence
-              </p>
-            </div>
-          </div>
-          <div className={styles.weekBadge}>
-            <span className={styles.weekLabel}>
-              Week {WEEK.number}
-            </span>
-            <span className={styles.weekDates}>{WEEK.dateRange}</span>
-            <span className={styles.updatedBadge}>
-              Updated {WEEK.lastUpdated}
-            </span>
-          </div>
+        {/* ── Masthead ── */}
+        <header className={styles.masthead}>
+          <h1 className={styles.brandName}>Before You Bet</h1>
+          <p className={styles.tagline}>Cut through the noise.</p>
         </header>
 
-        {/* Tab Bar */}
+        {/* ── Week context bar ── */}
+        <div className={styles.contextBar}>
+          <div className={styles.contextLeft}>
+            <span className={styles.weekLabel}>Week {WEEK.number}</span>
+            <span className={styles.weekDates}>{WEEK.dateRange}</span>
+          </div>
+          <span className={styles.updatedPill}>
+            Updated {WEEK.lastUpdated}
+          </span>
+        </div>
+
+        {/* ── Tab Bar ── */}
         <nav className={styles.tabBar}>
           <button className={`${styles.tab} ${styles.tabActive}`}>
             Matchups
@@ -95,84 +60,53 @@ export default function HomePage() {
           <button className={styles.tab}>Players</button>
         </nav>
 
-        {/* Game grid by timeslot */}
+        {/* ── Game grid ── */}
         <main className={styles.main}>
           {slots.map((slot) => (
-            <section key={slot.label} className={styles.slotSection}>
-              <div className={styles.slotHeader}>
-                <h2 className={styles.slotLabel}>{slot.label}</h2>
-                <span className={styles.slotCount}>
-                  {slot.games.length} game{slot.games.length > 1 ? "s" : ""}
-                </span>
-              </div>
-              <div className={styles.gameGrid}>
-                {slot.games.map((game) => {
+            <section key={slot.label} className={styles.daySection}>
+              <h2 className={styles.dayLabel}>{slot.label}</h2>
+              <div className={styles.grid}>
+                {slot.games.map((game, i) => {
                   const away = teams[game.awayAbbr];
                   const home = teams[game.homeAbbr];
                   return (
                     <button
                       key={game.slug}
-                      className={styles.gameCard}
+                      className={styles.card}
                       onClick={() => setSelectedGame(game)}
+                      style={{ animationDelay: `${i * 60}ms` }}
                     >
-                      {/* Team color bar */}
-                      <div className={styles.teamColorBar}>
-                        <div
-                          className={styles.teamColorHalf}
-                          style={{ background: away?.color || "#ccc" }}
-                        />
-                        <div
-                          className={styles.teamColorHalf}
-                          style={{ background: home?.color || "#ccc" }}
-                        />
+                      {/* Team logos + matchup */}
+                      <div className={styles.matchup}>
+                        <div className={styles.team}>
+                          <Image
+                            src={away?.logo || ""}
+                            alt={away?.name || game.awayAbbr}
+                            width={48}
+                            height={48}
+                            className={styles.teamLogo}
+                            unoptimized
+                          />
+                          <span className={styles.teamAbbr}>{game.awayAbbr}</span>
+                        </div>
+                        <span className={styles.vs}>@</span>
+                        <div className={styles.team}>
+                          <Image
+                            src={home?.logo || ""}
+                            alt={home?.name || game.homeAbbr}
+                            width={48}
+                            height={48}
+                            className={styles.teamLogo}
+                            unoptimized
+                          />
+                          <span className={styles.teamAbbr}>{game.homeAbbr}</span>
+                        </div>
                       </div>
 
-                      {/* Matchup */}
-                      <div className={styles.cardBody}>
-                        <div className={styles.matchupRow}>
-                          <div className={styles.teamBlock}>
-                            <span className={styles.teamAbbr}>
-                              {game.awayAbbr}
-                            </span>
-                            <span className={styles.teamName}>
-                              {away?.name || ""}
-                            </span>
-                          </div>
-                          <span className={styles.atSymbol}>@</span>
-                          <div className={styles.teamBlock}>
-                            <span className={styles.teamAbbr}>
-                              {game.homeAbbr}
-                            </span>
-                            <span className={styles.teamName}>
-                              {home?.name || ""}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Spread + time */}
-                        <div className={styles.cardMeta}>
-                          <span className={styles.spreadBadge}>
-                            {game.spread}
-                          </span>
-                          {game.network && (
-                            <span className={styles.networkBadge}>
-                              {game.network}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Confidence + insight */}
-                        <div className={styles.cardInsight}>
-                          <span
-                            className={styles.confidenceDot}
-                            style={{
-                              background:
-                                confidenceColor[game.confidence] || "#ccc",
-                            }}
-                            title={confidenceLabel[game.confidence]}
-                          />
-                          <p className={styles.insightText}>{game.insight}</p>
-                        </div>
+                      {/* Spread + time */}
+                      <div className={styles.cardFooter}>
+                        <span className={styles.spread}>{game.spread}</span>
+                        <span className={styles.time}>{game.time}</span>
                       </div>
                     </button>
                   );
@@ -183,18 +117,12 @@ export default function HomePage() {
         </main>
 
         <footer className={styles.footer}>
-          <p>
-            Before You Bet is not a sportsbook. Content is for informational
-            purposes only.
-          </p>
+          <p>Not a sportsbook. For informational purposes only.</p>
         </footer>
       </div>
 
-      {/* Game detail drawer */}
-      <GameDrawer
-        game={selectedGame}
-        onClose={() => setSelectedGame(null)}
-      />
+      {/* Game drawer */}
+      <GameDrawer game={selectedGame} onClose={() => setSelectedGame(null)} />
     </>
   );
 }

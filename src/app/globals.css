@@ -1,33 +1,45 @@
-@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montagu+Slab:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montagu+Slab:wght@500;600;700&display=swap");
 
 :root {
+  /* ── Brand ── */
+  --brand: #1b2a4a;
+  --brand-light: #2a3f6a;
+
+  /* ── Accent: warm terra cotta ── */
+  --accent: #c26849;
+  --accent-hover: #a8553b;
+  --accent-soft: #faf0eb;
+  --accent-glow: rgba(194, 104, 73, 0.15);
+
+  /* ── Surfaces ── */
   --bg: #fafaf8;
   --surface: #ffffff;
-  --surface-alt: #f2f1ee;
+  --surface-alt: #f4f3f0;
+
+  /* ── Text ── */
   --text-primary: #1a1a1a;
   --text-secondary: #5c5c5c;
-  --text-tertiary: #8e8e8e;
-  --accent: #2a5bd7;
-  --accent-hover: #1e47a8;
-  --accent-light: #ebf0fa;
+  --text-tertiary: #9a9a9a;
+
+  /* ── Borders ── */
   --border: #e5e4e1;
   --border-subtle: #ededeb;
-  --positive: #1a8754;
-  --caution: #c17d10;
-  --negative: #c4392d;
-  --pos-qb: #7c5ccc;
-  --pos-rb: #2ba8b8;
-  --pos-wr: #45a862;
-  --pos-te: #d97048;
-  --max-width: 680px;
+
+  /* ── Semantic ── */
+  --live: #d93025;
+  --live-glow: rgba(217, 48, 37, 0.12);
+
+  /* ── Layout ── */
+  --max-width: 960px;
   --gutter: 20px;
-  --card-radius: 12px;
-  --card-padding: 24px;
+  --card-radius: 14px;
   --font-display: "Montagu Slab", serif;
   --font-body: "Figtree", sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -41,9 +53,34 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Subtle grain texture for depth */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: var(--accent-soft);
+  color: var(--brand);
 }
