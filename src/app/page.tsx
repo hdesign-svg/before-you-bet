@@ -1,200 +1,232 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { games, WEEK, type Game, type PlayerSpotlight } from "@/data/games";
 import { teams } from "@/data/teams";
 import { getPlayerHeadshot } from "@/data/players";
-import styles from "./page.module.css";
+import s from "./page.module.css";
 
-function groupByDay(gameList: Game[]) {
-  const order = ["Thursday Night", "Sunday Early", "Sunday Afternoon", "Sunday Night", "Monday Night"];
+/* ─── Helpers ─── */
+
+function groupByDay(list: Game[]) {
+  const order = [
+    "Thursday",
+    "Sunday Early",
+    "Sunday Late",
+    "Sunday Night",
+    "Monday Night",
+  ];
   const map: Record<string, Game[]> = {};
-  for (const game of gameList) {
+  for (const g of list) {
     let label: string;
-    if (game.date.startsWith("Thu")) label = "Thursday Night";
-    else if (game.date.startsWith("Mon")) label = "Monday Night";
-    else if (game.time.includes("8:20") || game.time.includes("8:15"))
-      label = game.date.startsWith("Mon") ? "Monday Night" : "Sunday Night";
-    else if (game.time.includes("4:")) label = "Sunday Afternoon";
+    if (g.date.startsWith("Thu")) label = "Thursday";
+    else if (g.date.startsWith("Mon")) label = "Monday Night";
+    else if (g.time.includes("8:20") || g.time.includes("8:15"))
+      label = g.date.startsWith("Mon") ? "Monday Night" : "Sunday Night";
+    else if (g.time.includes("4:")) label = "Sunday Late";
     else label = "Sunday Early";
-    if (!map[label]) map[label] = [];
-    map[label].push(game);
+    (map[label] ??= []).push(g);
   }
   return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
 }
 
-function PlayerRow({ player }: { player: PlayerSpotlight }) {
-  const headshot = getPlayerHeadshot(player.name);
+/* ─── Sub-components ─── */
+
+function PlayerCard({ player }: { player: PlayerSpotlight }) {
+  const src = getPlayerHeadshot(player.name);
   return (
-    <div className={styles.playerRow}>
-      <div className={styles.playerTop}>
-        {headshot && (
-          <Image src={headshot} alt={player.name} width={44} height={32} className={styles.playerHeadshot} unoptimized />
+    <div className={s.playerCard}>
+      <div className={s.playerHead}>
+        {src && (
+          <Image
+            src={src}
+            alt={player.name}
+            width={48}
+            height={35}
+            className={s.headshot}
+            unoptimized
+          />
         )}
-        <div className={styles.playerMeta}>
-          <span className={styles.playerName}>{player.name}</span>
-          <span className={styles.playerPos}>{player.position}</span>
+        <div>
+          <p className={s.playerName}>{player.name}</p>
+          <span className={s.posBadge}>{player.position}</span>
         </div>
       </div>
-      <p className={styles.playerVerdict}>{player.verdict}</p>
-      <div className={styles.playerProjWrap}>
-        <span className={styles.playerProj}>{player.projection}</span>
-      </div>
+      <p className={s.verdict}>{player.verdict}</p>
+      <p className={s.projection}>{player.projection}</p>
     </div>
   );
 }
 
-export default function HomePage() {
-  const [selected, setSelected] = useState<Game | null>(null);
-  const detailRef = useRef<HTMLDivElement>(null);
-  const slots = groupByDay(games);
+/* ─── Main Page ─── */
 
+export default function Page() {
+  const [active, setActive] = useState<Game | null>(null);
+  const detailRef = useRef<HTMLElement>(null);
+  const slots = useMemo(() => groupByDay(games), []);
+
+  const open = useCallback((g: Game) => {
+    setActive(g);
+    window.scrollTo({ top: 0 });
+  }, []);
+
+  const close = useCallback(() => setActive(null), []);
+
+  // Keyboard: Escape to close detail
   useEffect(() => {
-    if (selected && detailRef.current) detailRef.current.scrollTop = 0;
-  }, [selected]);
-
-  const sel = selected;
-  const away = sel ? teams[sel.awayAbbr] : null;
-  const home = sel ? teams[sel.homeAbbr] : null;
-
-  const gradientStyle = useMemo(() => {
-    if (!away || !home) return {};
-    return {
-      background: `linear-gradient(135deg, ${away.color} 0%, ${home.color} 100%)`,
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && active) close();
     };
-  }, [away, home]);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active, close]);
 
-  return (
-    <div className={styles.shell}>
-      {/* ════════ LEFT: Game list ════════ */}
-      <aside className={styles.sidebar}>
-        <header className={styles.sideHeader}>
-          <h1 className={styles.brand}>Before You Bet</h1>
-          <p className={styles.tagline}>Plain-English game breakdowns</p>
-        </header>
+  // Scroll detail to top on change
+  useEffect(() => {
+    if (active && detailRef.current) detailRef.current.scrollTop = 0;
+  }, [active]);
 
-        <div className={styles.sideInfo}>
-          <span className={styles.weekLabel}>Week {WEEK.number}</span>
-          <span className={styles.weekDivider}>/</span>
-          <span className={styles.weekDates}>{WEEK.dateRange}</span>
-        </div>
+  const away = active ? teams[active.awayAbbr] : null;
+  const home = active ? teams[active.homeAbbr] : null;
 
-        <nav className={styles.gameList}>
-          {slots.map((slot) => (
-            <div key={slot.label} className={styles.slotGroup}>
-              <h2 className={styles.slotLabel}>{slot.label}</h2>
-              {slot.games.map((game) => {
-                const a = teams[game.awayAbbr];
-                const h = teams[game.homeAbbr];
-                const active = sel?.slug === game.slug;
-                return (
-                  <button
-                    key={game.slug}
-                    className={`${styles.gameRow} ${active ? styles.gameRowActive : ""}`}
-                    onClick={() => setSelected(game)}
-                  >
-                    <div className={styles.gameTeams}>
-                      <Image src={a?.logo || ""} alt={game.awayAbbr} width={24} height={24} className={styles.gameLogo} unoptimized />
-                      <span className={styles.gameAbbr}>{game.awayAbbr}</span>
-                      <span className={styles.gameAt}>@</span>
-                      <span className={styles.gameAbbr}>{game.homeAbbr}</span>
-                      <Image src={h?.logo || ""} alt={game.homeAbbr} width={24} height={24} className={styles.gameLogo} unoptimized />
-                    </div>
-                    <span className={styles.gameTime}>{game.time}</span>
-                  </button>
-                );
-              })}
-            </div>
-          ))}
+  /* ─────────── DETAIL VIEW ─────────── */
+  if (active && away && home) {
+    const gradBg = `linear-gradient(135deg, ${away.color} 0%, ${home.color} 100%)`;
+
+    return (
+      <main className={s.detailView} style={{ background: gradBg }} ref={detailRef}>
+        {/* Back */}
+        <nav className={s.detailNav}>
+          <button className={s.backBtn} onClick={close} aria-label="Back to games">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>All Games</span>
+          </button>
         </nav>
 
-        <footer className={styles.sideFooter}>
-          <p>Not a sportsbook. Informational only.</p>
-        </footer>
-      </aside>
-
-      {/* ════════ RIGHT: Detail panel ════════ */}
-      <main
-        className={styles.detail}
-        ref={detailRef}
-        style={sel ? gradientStyle : undefined}
-      >
-        {!sel ? (
-          <div className={styles.empty}>
-            <span className={styles.emptyEmoji}>🧠</span>
-            <h2 className={styles.emptyTitle}>Know what you&apos;re betting on.</h2>
-            <p className={styles.emptyText}>
-              Pick any game and we&apos;ll tell you what&apos;s actually going on — in words you already understand.
-              No spreads, no jargon, no guessing.
-            </p>
-            <div className={styles.emptyFeatures}>
-              <span>✓ Plain-English breakdowns</span>
-              <span>✓ Player projections</span>
-              <span>✓ Updated before kickoff</span>
-            </div>
+        {/* Matchup hero */}
+        <header className={s.hero}>
+          <div className={s.heroTeam}>
+            <Image src={away.logo} alt={away.abbr} width={72} height={72} className={s.heroLogo} unoptimized />
+            <span className={s.heroCity}>{away.city}</span>
+            <span className={s.heroName}>{away.name}</span>
           </div>
-        ) : (
-          <article className={styles.breakdown}>
-            {/* ── Matchup header ── */}
-            <header className={styles.matchupHeader}>
-              <div className={styles.matchupTeam}>
-                <Image src={away?.logo || ""} alt={sel.awayAbbr} width={60} height={60} className={styles.matchupLogo} unoptimized />
-                <div className={styles.matchupTeamInfo}>
-                  <span className={styles.matchupName}>{away?.city}</span>
-                  <span className={styles.matchupNameBold}>{away?.name}</span>
+          <div className={s.heroMid}>
+            <span className={s.heroAt}>at</span>
+            <span className={s.heroTime}>{active.date}</span>
+            <span className={s.heroTime}>{active.time}</span>
+          </div>
+          <div className={s.heroTeam}>
+            <Image src={home.logo} alt={home.abbr} width={72} height={72} className={s.heroLogo} unoptimized />
+            <span className={s.heroCity}>{home.city}</span>
+            <span className={s.heroName}>{home.name}</span>
+          </div>
+        </header>
+
+        {/* Content cards on gradient */}
+        <div className={s.detailContent}>
+          {/* Insight card */}
+          <section className={s.card}>
+            <h2 className={s.cardHeadline}>{active.headline}</h2>
+            <ul className={s.bullets}>
+              {active.rundown.map((b, i) => (
+                <li key={i} className={s.bullet}>{b}</li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Players card */}
+          <section className={s.card}>
+            <h3 className={s.cardTitle}>Players to Watch</h3>
+            <div className={s.playerGrid}>
+              {active.awayPlayers.length > 0 && (
+                <div className={s.teamCol}>
+                  <h4 className={s.teamLabel}>{away.name}</h4>
+                  {active.awayPlayers.map((p) => (
+                    <PlayerCard key={p.name} player={p} />
+                  ))}
                 </div>
-              </div>
-              <div className={styles.matchupCenter}>
-                <span className={styles.matchupAt}>at</span>
-                <span className={styles.matchupMeta}>{sel.date}</span>
-                <span className={styles.matchupMeta}>{sel.time}</span>
-              </div>
-              <div className={styles.matchupTeam}>
-                <Image src={home?.logo || ""} alt={sel.homeAbbr} width={60} height={60} className={styles.matchupLogo} unoptimized />
-                <div className={styles.matchupTeamInfo}>
-                  <span className={styles.matchupName}>{home?.city}</span>
-                  <span className={styles.matchupNameBold}>{home?.name}</span>
+              )}
+              {active.homePlayers.length > 0 && (
+                <div className={s.teamCol}>
+                  <h4 className={s.teamLabel}>{home.name}</h4>
+                  {active.homePlayers.map((p) => (
+                    <PlayerCard key={p.name} player={p} />
+                  ))}
                 </div>
-              </div>
-            </header>
+              )}
+            </div>
+          </section>
+        </div>
 
-            {/* ── Headline + Rundown ── */}
-            <section className={styles.insight}>
-              <h2 className={styles.headline}>{sel.headline}</h2>
-              <ul className={styles.rundown}>
-                {sel.rundown.map((bullet, i) => (
-                  <li key={i} className={styles.rundownItem}>{bullet}</li>
-                ))}
-              </ul>
-            </section>
-
-            {/* ── Players ── */}
-            <section className={styles.playersSection}>
-              <h3 className={styles.sectionTitle}>Players to watch</h3>
-              <div className={styles.playersGrid}>
-                {sel.awayPlayers.length > 0 && (
-                  <div className={styles.playersCol}>
-                    <h4 className={styles.teamGroupLabel}>{away?.name}</h4>
-                    {sel.awayPlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
-                  </div>
-                )}
-                {sel.homePlayers.length > 0 && (
-                  <div className={styles.playersCol}>
-                    <h4 className={styles.teamGroupLabel}>{home?.name}</h4>
-                    {sel.homePlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
-                  </div>
-                )}
-              </div>
-            </section>
-
-            {/* ── Footer ── */}
-            <footer className={styles.detailFooter}>
-              <span>Updated {sel.lastUpdated}</span>
-            </footer>
-          </article>
-        )}
+        <footer className={s.detailFooter}>
+          <span>Updated {active.lastUpdated}</span>
+        </footer>
       </main>
-    </div>
+    );
+  }
+
+  /* ─────────── GRID VIEW ─────────── */
+  return (
+    <main className={s.gridView}>
+      {/* Header */}
+      <header className={s.header}>
+        <div className={s.headerLeft}>
+          <h1 className={s.wordmark}>Before You Bet</h1>
+          <p className={s.subtitle}>
+            Plain-English game intelligence for people who don&apos;t speak betting.
+          </p>
+        </div>
+        <div className={s.headerRight}>
+          <span className={s.weekBadge}>Week {WEEK.number}</span>
+          <span className={s.weekDate}>{WEEK.dateRange}</span>
+        </div>
+      </header>
+
+      {/* Game slots */}
+      {slots.map((slot) => (
+        <section key={slot.label} className={s.slot}>
+          <h2 className={s.slotLabel}>{slot.label}</h2>
+          <div className={s.grid}>
+            {slot.games.map((game, idx) => {
+              const a = teams[game.awayAbbr];
+              const h = teams[game.homeAbbr];
+              const grad = `linear-gradient(135deg, ${a.color}, ${h.color})`;
+              return (
+                <button
+                  key={game.slug}
+                  className={s.gameCard}
+                  onClick={() => open(game)}
+                  style={{ animationDelay: `${idx * 60}ms` }}
+                >
+                  <div className={s.cardGradientStrip} style={{ background: grad }} />
+                  <div className={s.cardBody}>
+                    <div className={s.cardMatchup}>
+                      <div className={s.cardTeam}>
+                        <Image src={a.logo} alt={a.abbr} width={32} height={32} className={s.cardLogo} unoptimized />
+                        <span className={s.cardAbbr}>{a.abbr}</span>
+                      </div>
+                      <span className={s.cardVs}>@</span>
+                      <div className={s.cardTeam}>
+                        <span className={s.cardAbbr}>{h.abbr}</span>
+                        <Image src={h.logo} alt={h.abbr} width={32} height={32} className={s.cardLogo} unoptimized />
+                      </div>
+                    </div>
+                    <time className={s.cardTime}>{game.time}</time>
+                    <p className={s.cardPreview}>{game.headline}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      <footer className={s.gridFooter}>
+        <p>Not a sportsbook. Informational only. Updated {WEEK.lastUpdated}.</p>
+      </footer>
+    </main>
   );
 }
