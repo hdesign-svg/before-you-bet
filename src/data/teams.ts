@@ -2,7 +2,9 @@ export type TeamInfo = {
   abbr: string;
   name: string;
   city: string;
-  logo: string; // ESPN CDN team logo URL
+  logo: string;
+  color: string;      // Primary brand color
+  colorAlt: string;   // Secondary/contrast color
 };
 
 function espnLogo(id: string): string {
@@ -10,36 +12,36 @@ function espnLogo(id: string): string {
 }
 
 export const teams: Record<string, TeamInfo> = {
-  KC: { abbr: "KC", name: "Chiefs", city: "Kansas City", logo: espnLogo("kc") },
-  BUF: { abbr: "BUF", name: "Bills", city: "Buffalo", logo: espnLogo("buf") },
-  DAL: { abbr: "DAL", name: "Cowboys", city: "Dallas", logo: espnLogo("dal") },
-  WAS: { abbr: "WAS", name: "Commanders", city: "Washington", logo: espnLogo("wsh") },
-  PHI: { abbr: "PHI", name: "Eagles", city: "Philadelphia", logo: espnLogo("phi") },
-  LAR: { abbr: "LAR", name: "Rams", city: "Los Angeles", logo: espnLogo("lar") },
-  SF: { abbr: "SF", name: "49ers", city: "San Francisco", logo: espnLogo("sf") },
-  GB: { abbr: "GB", name: "Packers", city: "Green Bay", logo: espnLogo("gb") },
-  DET: { abbr: "DET", name: "Lions", city: "Detroit", logo: espnLogo("det") },
-  IND: { abbr: "IND", name: "Colts", city: "Indianapolis", logo: espnLogo("ind") },
-  MIA: { abbr: "MIA", name: "Dolphins", city: "Miami", logo: espnLogo("mia") },
-  LV: { abbr: "LV", name: "Raiders", city: "Las Vegas", logo: espnLogo("lv") },
-  BAL: { abbr: "BAL", name: "Ravens", city: "Baltimore", logo: espnLogo("bal") },
-  CIN: { abbr: "CIN", name: "Bengals", city: "Cincinnati", logo: espnLogo("cin") },
-  PIT: { abbr: "PIT", name: "Steelers", city: "Pittsburgh", logo: espnLogo("pit") },
-  HOU: { abbr: "HOU", name: "Texans", city: "Houston", logo: espnLogo("hou") },
-  TEN: { abbr: "TEN", name: "Titans", city: "Tennessee", logo: espnLogo("ten") },
-  MIN: { abbr: "MIN", name: "Vikings", city: "Minnesota", logo: espnLogo("min") },
-  CHI: { abbr: "CHI", name: "Bears", city: "Chicago", logo: espnLogo("chi") },
-  TB: { abbr: "TB", name: "Buccaneers", city: "Tampa Bay", logo: espnLogo("tb") },
-  NYG: { abbr: "NYG", name: "Giants", city: "New York", logo: espnLogo("nyg") },
-  CAR: { abbr: "CAR", name: "Panthers", city: "Carolina", logo: espnLogo("car") },
-  SEA: { abbr: "SEA", name: "Seahawks", city: "Seattle", logo: espnLogo("sea") },
-  ARI: { abbr: "ARI", name: "Cardinals", city: "Arizona", logo: espnLogo("ari") },
-  NO: { abbr: "NO", name: "Saints", city: "New Orleans", logo: espnLogo("no") },
-  CLE: { abbr: "CLE", name: "Browns", city: "Cleveland", logo: espnLogo("cle") },
-  DEN: { abbr: "DEN", name: "Broncos", city: "Denver", logo: espnLogo("den") },
-  ATL: { abbr: "ATL", name: "Falcons", city: "Atlanta", logo: espnLogo("atl") },
-  JAX: { abbr: "JAX", name: "Jaguars", city: "Jacksonville", logo: espnLogo("jax") },
-  NYJ: { abbr: "NYJ", name: "Jets", city: "New York", logo: espnLogo("nyj") },
-  NE: { abbr: "NE", name: "Patriots", city: "New England", logo: espnLogo("ne") },
-  LAC: { abbr: "LAC", name: "Chargers", city: "Los Angeles", logo: espnLogo("lac") },
+  KC:  { abbr: "KC",  name: "Chiefs",     city: "Kansas City",   logo: espnLogo("kc"),  color: "#E31837", colorAlt: "#FFB81C" },
+  BUF: { abbr: "BUF", name: "Bills",      city: "Buffalo",       logo: espnLogo("buf"), color: "#00338D", colorAlt: "#C60C30" },
+  DAL: { abbr: "DAL", name: "Cowboys",    city: "Dallas",        logo: espnLogo("dal"), color: "#003594", colorAlt: "#869397" },
+  WAS: { abbr: "WAS", name: "Commanders", city: "Washington",    logo: espnLogo("wsh"), color: "#5A1414", colorAlt: "#FFB612" },
+  PHI: { abbr: "PHI", name: "Eagles",     city: "Philadelphia",  logo: espnLogo("phi"), color: "#004C54", colorAlt: "#A5ACAF" },
+  LAR: { abbr: "LAR", name: "Rams",       city: "Los Angeles",   logo: espnLogo("lar"), color: "#003594", colorAlt: "#FFA300" },
+  SF:  { abbr: "SF",  name: "49ers",      city: "San Francisco", logo: espnLogo("sf"),  color: "#AA0000", colorAlt: "#B3995D" },
+  GB:  { abbr: "GB",  name: "Packers",    city: "Green Bay",     logo: espnLogo("gb"),  color: "#203731", colorAlt: "#FFB612" },
+  DET: { abbr: "DET", name: "Lions",      city: "Detroit",       logo: espnLogo("det"), color: "#0076B6", colorAlt: "#B0B7BC" },
+  IND: { abbr: "IND", name: "Colts",      city: "Indianapolis",  logo: espnLogo("ind"), color: "#002C5F", colorAlt: "#A2AAAD" },
+  MIA: { abbr: "MIA", name: "Dolphins",   city: "Miami",         logo: espnLogo("mia"), color: "#008E97", colorAlt: "#FC4C02" },
+  LV:  { abbr: "LV",  name: "Raiders",    city: "Las Vegas",     logo: espnLogo("lv"),  color: "#000000", colorAlt: "#A5ACAF" },
+  BAL: { abbr: "BAL", name: "Ravens",     city: "Baltimore",     logo: espnLogo("bal"), color: "#241773", colorAlt: "#9E7C0C" },
+  CIN: { abbr: "CIN", name: "Bengals",    city: "Cincinnati",    logo: espnLogo("cin"), color: "#FB4F14", colorAlt: "#000000" },
+  PIT: { abbr: "PIT", name: "Steelers",   city: "Pittsburgh",    logo: espnLogo("pit"), color: "#FFB612", colorAlt: "#101820" },
+  HOU: { abbr: "HOU", name: "Texans",     city: "Houston",       logo: espnLogo("hou"), color: "#03202F", colorAlt: "#A71930" },
+  TEN: { abbr: "TEN", name: "Titans",     city: "Tennessee",     logo: espnLogo("ten"), color: "#0C2340", colorAlt: "#4B92DB" },
+  MIN: { abbr: "MIN", name: "Vikings",    city: "Minnesota",     logo: espnLogo("min"), color: "#4F2683", colorAlt: "#FFC62F" },
+  CHI: { abbr: "CHI", name: "Bears",      city: "Chicago",       logo: espnLogo("chi"), color: "#0B162A", colorAlt: "#C83803" },
+  TB:  { abbr: "TB",  name: "Buccaneers", city: "Tampa Bay",     logo: espnLogo("tb"),  color: "#D50A0A", colorAlt: "#34302B" },
+  NYG: { abbr: "NYG", name: "Giants",     city: "New York",      logo: espnLogo("nyg"), color: "#0B2265", colorAlt: "#A71930" },
+  CAR: { abbr: "CAR", name: "Panthers",   city: "Carolina",      logo: espnLogo("car"), color: "#0085CA", colorAlt: "#101820" },
+  SEA: { abbr: "SEA", name: "Seahawks",   city: "Seattle",       logo: espnLogo("sea"), color: "#002244", colorAlt: "#69BE28" },
+  ARI: { abbr: "ARI", name: "Cardinals",  city: "Arizona",       logo: espnLogo("ari"), color: "#97233F", colorAlt: "#000000" },
+  NO:  { abbr: "NO",  name: "Saints",     city: "New Orleans",   logo: espnLogo("no"),  color: "#D3BC8D", colorAlt: "#101820" },
+  CLE: { abbr: "CLE", name: "Browns",     city: "Cleveland",     logo: espnLogo("cle"), color: "#311D00", colorAlt: "#FF3C00" },
+  DEN: { abbr: "DEN", name: "Broncos",    city: "Denver",        logo: espnLogo("den"), color: "#FB4F14", colorAlt: "#002244" },
+  ATL: { abbr: "ATL", name: "Falcons",    city: "Atlanta",       logo: espnLogo("atl"), color: "#A71930", colorAlt: "#000000" },
+  JAX: { abbr: "JAX", name: "Jaguars",    city: "Jacksonville",  logo: espnLogo("jax"), color: "#006778", colorAlt: "#D7A22A" },
+  NYJ: { abbr: "NYJ", name: "Jets",       city: "New York",      logo: espnLogo("nyj"), color: "#125740", colorAlt: "#000000" },
+  NE:  { abbr: "NE",  name: "Patriots",   city: "New England",   logo: espnLogo("ne"),  color: "#002244", colorAlt: "#C60C30" },
+  LAC: { abbr: "LAC", name: "Chargers",   city: "Los Angeles",   logo: espnLogo("lac"), color: "#0080C6", colorAlt: "#FFC20E" },
 };

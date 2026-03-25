@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { games, WEEK, type Game, type PlayerSpotlight } from "@/data/games";
 import { teams } from "@/data/teams";
+import { getPlayerHeadshot } from "@/data/players";
 import styles from "./page.module.css";
 
 function groupByDay(gameList: Game[]) {
@@ -24,14 +25,22 @@ function groupByDay(gameList: Game[]) {
 }
 
 function PlayerRow({ player }: { player: PlayerSpotlight }) {
+  const headshot = getPlayerHeadshot(player.name);
   return (
     <div className={styles.playerRow}>
       <div className={styles.playerTop}>
-        <span className={styles.playerName}>{player.name}</span>
-        <span className={styles.playerPos}>{player.position}</span>
+        {headshot && (
+          <Image src={headshot} alt={player.name} width={44} height={32} className={styles.playerHeadshot} unoptimized />
+        )}
+        <div className={styles.playerMeta}>
+          <span className={styles.playerName}>{player.name}</span>
+          <span className={styles.playerPos}>{player.position}</span>
+        </div>
       </div>
       <p className={styles.playerVerdict}>{player.verdict}</p>
-      <span className={styles.playerProj}>{player.projection}</span>
+      <div className={styles.playerProjWrap}>
+        <span className={styles.playerProj}>{player.projection}</span>
+      </div>
     </div>
   );
 }
@@ -54,14 +63,13 @@ export default function HomePage() {
       {/* ════════ LEFT: Game list ════════ */}
       <aside className={styles.sidebar}>
         <header className={styles.sideHeader}>
-          <div>
-            <h1 className={styles.brand}>Before You Bet</h1>
-            <p className={styles.tagline}>Understand your bets in minutes</p>
-          </div>
+          <h1 className={styles.brand}>Before You Bet</h1>
+          <p className={styles.tagline}>Plain-English game breakdowns</p>
         </header>
 
         <div className={styles.sideInfo}>
           <span className={styles.weekLabel}>Week {WEEK.number}</span>
+          <span className={styles.weekDivider}>/</span>
           <span className={styles.weekDates}>{WEEK.dateRange}</span>
         </div>
 
@@ -80,13 +88,13 @@ export default function HomePage() {
                     onClick={() => setSelected(game)}
                   >
                     <div className={styles.gameTeams}>
-                      <Image src={a?.logo || ""} alt={game.awayAbbr} width={28} height={28} className={styles.gameLogo} unoptimized />
+                      <Image src={a?.logo || ""} alt={game.awayAbbr} width={24} height={24} className={styles.gameLogo} unoptimized />
                       <span className={styles.gameAbbr}>{game.awayAbbr}</span>
                       <span className={styles.gameAt}>@</span>
                       <span className={styles.gameAbbr}>{game.homeAbbr}</span>
-                      <Image src={h?.logo || ""} alt={game.homeAbbr} width={28} height={28} className={styles.gameLogo} unoptimized />
+                      <Image src={h?.logo || ""} alt={game.homeAbbr} width={24} height={24} className={styles.gameLogo} unoptimized />
                     </div>
-                    <span className={styles.gameTime}>{game.date} · {game.time}</span>
+                    <span className={styles.gameTime}>{game.time}</span>
                   </button>
                 );
               })}
@@ -103,38 +111,44 @@ export default function HomePage() {
       <main className={styles.detail} ref={detailRef}>
         {!sel ? (
           <div className={styles.empty}>
-            <h2 className={styles.emptyTitle}>Your bets, explained simply.</h2>
+            <span className={styles.emptyEmoji}>🧠</span>
+            <h2 className={styles.emptyTitle}>Know what you&apos;re betting on.</h2>
             <p className={styles.emptyText}>
-              Pick a game on the left and we'll break it down in plain English — who's likely to win,
-              which players to watch, and whether the numbers in your betting app actually make sense.
+              Pick any game and we&apos;ll tell you what&apos;s actually going on — in words you already understand.
+              No spreads, no jargon, no guessing.
             </p>
-            <p className={styles.emptySubtext}>No jargon. No confusion. Just clarity before you place a bet.</p>
+            <div className={styles.emptyFeatures}>
+              <span>✓ Plain-English breakdowns</span>
+              <span>✓ Player projections</span>
+              <span>✓ Updated before kickoff</span>
+            </div>
           </div>
         ) : (
           <article className={styles.breakdown}>
             {/* ── Matchup header ── */}
             <header className={styles.matchupHeader}>
               <div className={styles.matchupTeam}>
-                <Image src={away?.logo || ""} alt={sel.awayAbbr} width={56} height={56} className={styles.matchupLogo} unoptimized />
+                <Image src={away?.logo || ""} alt={sel.awayAbbr} width={52} height={52} className={styles.matchupLogo} unoptimized />
                 <div className={styles.matchupTeamInfo}>
-                  <span className={styles.matchupAbbr}>{sel.awayAbbr}</span>
-                  <span className={styles.matchupCity}>{away?.city} {away?.name}</span>
+                  <span className={styles.matchupName}>{away?.city}</span>
+                  <span className={styles.matchupName}>{away?.name}</span>
                 </div>
               </div>
               <div className={styles.matchupCenter}>
                 <span className={styles.matchupAt}>at</span>
-                <span className={styles.matchupMeta}>{sel.date} · {sel.time}</span>
+                <span className={styles.matchupMeta}>{sel.date}</span>
+                <span className={styles.matchupMeta}>{sel.time}</span>
               </div>
               <div className={styles.matchupTeam}>
-                <Image src={home?.logo || ""} alt={sel.homeAbbr} width={56} height={56} className={styles.matchupLogo} unoptimized />
+                <Image src={home?.logo || ""} alt={sel.homeAbbr} width={52} height={52} className={styles.matchupLogo} unoptimized />
                 <div className={styles.matchupTeamInfo}>
-                  <span className={styles.matchupAbbr}>{sel.homeAbbr}</span>
-                  <span className={styles.matchupCity}>{home?.city} {home?.name}</span>
+                  <span className={styles.matchupName}>{home?.city}</span>
+                  <span className={styles.matchupName}>{home?.name}</span>
                 </div>
               </div>
             </header>
 
-            {/* ── Headline + Rundown (unified section) ── */}
+            {/* ── Headline + Rundown ── */}
             <section className={styles.insight}>
               <h2 className={styles.headline}>{sel.headline}</h2>
               <ul className={styles.rundown}>
@@ -146,17 +160,17 @@ export default function HomePage() {
 
             {/* ── Players ── */}
             <section className={styles.playersSection}>
-              <h3 className={styles.sectionTitle}>Players to Watch</h3>
+              <h3 className={styles.sectionTitle}>Players to watch</h3>
               <div className={styles.playersGrid}>
                 {sel.awayPlayers.length > 0 && (
                   <div className={styles.playersCol}>
-                    <h4 className={styles.teamGroupLabel}>{away?.city} {away?.name}</h4>
+                    <h4 className={styles.teamGroupLabel}>{away?.name}</h4>
                     {sel.awayPlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
                   </div>
                 )}
                 {sel.homePlayers.length > 0 && (
                   <div className={styles.playersCol}>
-                    <h4 className={styles.teamGroupLabel}>{home?.city} {home?.name}</h4>
+                    <h4 className={styles.teamGroupLabel}>{home?.name}</h4>
                     {sel.homePlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
                   </div>
                 )}
