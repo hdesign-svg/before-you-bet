@@ -233,7 +233,7 @@ export default function Page() {
             )}
           </button>
         </div>
-        <h1 className={s.wordmark}>Before<br />You Bet</h1>
+        <h1 className={s.wordmark}>Before You Bet</h1>
         <p className={s.subtitle}>
           Plain-English game intelligence for people who don{'\u2019'}t speak betting.
         </p>
@@ -244,7 +244,6 @@ export default function Page() {
         <div key={slate.label} className={s.stripSection} id={slateIdx === 0 ? "games" : undefined}>
           <div className={s.slateHeader}>
             <span className={s.slateLabel}>{slate.label}</span>
-            <div className={s.slateLine} />
           </div>
 
           {slate.games.map((game, idx) => {
