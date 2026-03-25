@@ -185,7 +185,7 @@ export default function Page() {
         <div className={s.headerLeft}>
           <h1 className={s.wordmark}>Before You Bet</h1>
           <p className={s.subtitle}>
-            Plain-English game intelligence for people who don&apos;t speak betting.
+            Plain-English game intelligence for people who don{'\u2019'}t speak betting.
           </p>
         </div>
         <div className={s.headerRight}>
