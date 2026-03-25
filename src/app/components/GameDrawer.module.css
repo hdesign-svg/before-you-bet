@@ -6,7 +6,7 @@
   z-index: 100;
   display: flex;
   justify-content: flex-end;
-  animation: fadeIn 200ms ease;
+  animation: fadeIn 180ms ease;
 }
 
 .overlayOut {
@@ -41,8 +41,8 @@
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  box-shadow: -12px 0 60px rgba(0, 0, 0, 0.25);
-  animation: slideIn 340ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.2);
+  animation: slideIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .drawerOut {
@@ -65,28 +65,26 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 24px 20px 20px;
   border-bottom: 1px solid var(--border);
-  transition: padding 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: padding 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .headerSmall {
-  padding: 14px 20px;
+  padding: 12px 20px;
 }
 
-/* Matchup */
 .matchup {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  transition: gap 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: gap 260ms ease;
 }
 
 .headerSmall .matchup {
-  gap: 14px;
+  gap: 12px;
 }
 
 .teamCol {
@@ -94,7 +92,7 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .teamColSmall {
@@ -106,7 +104,7 @@
   width: 48px;
   height: 48px;
   object-fit: contain;
-  transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logoSmall {
@@ -119,36 +117,30 @@
   font-weight: 700;
   font-size: 15px;
   color: var(--brand);
-  transition: font-size 280ms ease;
+  transition: font-size 260ms ease;
 }
 
 .abbrSmall {
   font-size: 13px;
 }
 
-/* Center */
 .center {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  transition: all 280ms ease;
-}
-
-.centerSmall {
-  gap: 0;
 }
 
 .spread {
   font-family: var(--font-display);
-  font-size: 18px;
   font-weight: 800;
+  font-size: 18px;
   color: var(--accent);
   letter-spacing: -0.02em;
-  transition: font-size 280ms ease;
+  transition: font-size 260ms ease;
 }
 
-.headerSmall .spread {
+.spreadSmall {
   font-size: 14px;
 }
 
@@ -158,7 +150,6 @@
   white-space: nowrap;
 }
 
-/* Close */
 .close {
   width: 32px;
   height: 32px;
@@ -171,8 +162,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-left: 12px;
-  transition: all 180ms ease;
+  margin-left: 16px;
+  transition: all 150ms ease;
 }
 
 .close:hover {
@@ -180,7 +171,7 @@
   border-color: var(--text-tertiary);
 }
 
-/* ═══ SCROLLABLE BODY ═══ */
+/* ═══ BODY ═══ */
 
 .body {
   flex: 1;
@@ -188,46 +179,43 @@
   overflow-x: hidden;
 }
 
-/* ═══ THE BOTTOM LINE — pull quote ═══ */
+/* ═══ TAKEAWAY — typographic hero ═══ */
 
 .takeaway {
-  padding: 28px 24px;
-  border-left: 3px solid var(--accent);
-  margin: 20px 20px 0;
-  background: var(--surface);
-  border-radius: 0 var(--card-radius) var(--card-radius) 0;
-}
-
-.takeawayText {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.45;
-  color: var(--brand);
-  letter-spacing: -0.01em;
+  padding: 32px 24px;
+  background: var(--surface-alt);
 }
 
 .takeawayLabel {
   display: block;
-  margin-top: 14px;
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.takeawayText {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--brand);
+  letter-spacing: -0.015em;
 }
 
 /* ═══ SECTIONS ═══ */
 
 .section {
-  padding: 24px 20px;
+  padding: 24px 24px;
   border-top: 1px solid var(--border-subtle);
 }
 
 .sectionTitle {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--brand);
   margin-bottom: 12px;
@@ -269,7 +257,6 @@
 }
 
 .teamGroupName {
-  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   color: var(--text-tertiary);
@@ -365,7 +352,7 @@
   flex-shrink: 0;
 }
 
-.footerDot {
+.dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -388,15 +375,14 @@
   }
 
   .takeaway {
-    margin: 16px 16px 0;
-    padding: 20px 20px;
+    padding: 24px 20px;
   }
 
   .takeawayText {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .section {
-    padding: 20px 16px;
+    padding: 20px;
   }
 }

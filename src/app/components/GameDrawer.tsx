@@ -55,7 +55,7 @@ export default function GameDrawer({
       setClosing(false);
       setVisible(false);
       onClose();
-    }, 280);
+    }, 260);
   }, [onClose]);
 
   useEffect(() => {
@@ -98,8 +98,10 @@ export default function GameDrawer({
               </span>
             </div>
 
-            <div className={`${styles.center} ${collapsed ? styles.centerSmall : ""}`}>
-              <span className={styles.spread}>{game.spread}</span>
+            <div className={styles.center}>
+              <span className={`${styles.spread} ${collapsed ? styles.spreadSmall : ""}`}>
+                {game.spread}
+              </span>
               {!collapsed && (
                 <span className={styles.gameMeta}>
                   {game.date} · {game.time} · O/U {game.overUnder}
@@ -129,10 +131,10 @@ export default function GameDrawer({
 
         {/* ── Scrollable body ── */}
         <div className={styles.body} ref={bodyRef} onScroll={handleScroll}>
-          {/* The Bottom Line — pull quote */}
+          {/* The Bottom Line — typographic hero */}
           <section className={styles.takeaway}>
-            <p className={styles.takeawayText}>{game.takeaway}</p>
             <span className={styles.takeawayLabel}>The Bottom Line</span>
+            <p className={styles.takeawayText}>{game.takeaway}</p>
           </section>
 
           {/* The Story */}
@@ -183,7 +185,7 @@ export default function GameDrawer({
 
         {/* Footer */}
         <footer className={styles.drawerFooter}>
-          <span className={styles.footerDot} />
+          <span className={styles.dot} />
           <span>Updated {game.lastUpdated}</span>
         </footer>
       </div>
