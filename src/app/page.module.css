@@ -88,7 +88,7 @@
   max-width: 400px;
   line-height: 1.5;
   margin-top: var(--sp-2);
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 /* ─── Theme Toggle ─── */
@@ -199,6 +199,10 @@
 .stripGradient {
   width: 4px;
   flex-shrink: 0;
+}
+
+:global([data-theme="light"]) .stripGradient {
+  filter: saturate(1.6) brightness(1.15);
 }
 
 .stripContent {
