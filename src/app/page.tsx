@@ -31,20 +31,6 @@ function groupBySlate(list: Game[]) {
   return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
 }
 
-/** Pick the most vibrant color from a team's palette */
-function vibrantColor(primary: string, alt: string): string {
-  const score = (hex: string) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    const chroma = max - min;
-    return chroma * max; // chromatic brightness
-  };
-  return score(alt) > score(primary) ? alt : primary;
-}
-
 /** Parse "4:25 PM ET" → { time: "4:25", period: "PM ET" } */
 function parseTime(raw: string) {
   const match = raw.match(/^(\d+:\d+)\s*(.*)$/);
@@ -270,7 +256,7 @@ export default function Page() {
           {slate.games.map((game, idx) => {
             const a = teams[game.awayAbbr];
             const h = teams[game.homeAbbr];
-            const grad = `linear-gradient(to bottom, ${vibrantColor(a.color, a.colorAlt)}, ${vibrantColor(h.color, h.colorAlt)})`;
+            const grad = `linear-gradient(to bottom, ${a.color}, ${h.color})`;
             const { time, period } = parseTime(game.time);
 
             return (
