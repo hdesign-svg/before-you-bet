@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { games, WEEK, type Game, type PlayerSpotlight } from "@/data/games";
 import { teams } from "@/data/teams";
@@ -22,17 +22,6 @@ function groupByDay(gameList: Game[]) {
     map[label].push(game);
   }
   return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
-}
-
-/** Blend a hex color toward white by a given amount (0–1) */
-function lighten(hex: string, amount: number): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  const nr = Math.round(r + (255 - r) * amount);
-  const ng = Math.round(g + (255 - g) * amount);
-  const nb = Math.round(b + (255 - b) * amount);
-  return `rgb(${nr}, ${ng}, ${nb})`;
 }
 
 function PlayerRow({ player }: { player: PlayerSpotlight }) {
@@ -68,16 +57,6 @@ export default function HomePage() {
   const sel = selected;
   const away = sel ? teams[sel.awayAbbr] : null;
   const home = sel ? teams[sel.homeAbbr] : null;
-
-  // Build gradient from both teams' colors
-  const gradientStyle = useMemo(() => {
-    if (!away || !home) return {};
-    const c1 = lighten(away.color, 0.35);
-    const c2 = lighten(home.color, 0.35);
-    return {
-      background: `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`,
-    };
-  }, [away, home]);
 
   return (
     <div className={styles.shell}>
@@ -129,11 +108,7 @@ export default function HomePage() {
       </aside>
 
       {/* ════════ RIGHT: Detail panel ════════ */}
-      <main
-        className={styles.detail}
-        ref={detailRef}
-        style={sel ? gradientStyle : undefined}
-      >
+      <main className={styles.detail} ref={detailRef}>
         {!sel ? (
           <div className={styles.empty}>
             <span className={styles.emptyEmoji}>🧠</span>
@@ -149,63 +124,71 @@ export default function HomePage() {
             </div>
           </div>
         ) : (
-          <article className={styles.breakdown}>
-            {/* ── Matchup header ── */}
-            <header className={styles.matchupHeader}>
-              <div className={styles.matchupTeam}>
-                <Image src={away?.logo || ""} alt={sel.awayAbbr} width={56} height={56} className={styles.matchupLogo} unoptimized />
-                <div className={styles.matchupTeamInfo}>
+          <article className={styles.breakdown} key={sel.slug}>
+            {/* ── Ambient background: team logos blown up and blurred ── */}
+            <div className={styles.ambientWrap}>
+              <div className={styles.ambientLogo} style={{ left: '15%', top: '8%' }}>
+                <Image src={away?.logo || ""} alt="" width={280} height={280} unoptimized />
+              </div>
+              <div className={styles.ambientLogo} style={{ right: '15%', top: '8%' }}>
+                <Image src={home?.logo || ""} alt="" width={280} height={280} unoptimized />
+              </div>
+              <div className={styles.ambientFade} />
+            </div>
+
+            {/* ── Content over ambient ── */}
+            <div className={styles.contentLayer}>
+              {/* ── Matchup header (no logos — ambient IS the logos) ── */}
+              <header className={styles.matchupHeader}>
+                <div className={styles.matchupTeam}>
                   <span className={styles.matchupName}>{away?.city}</span>
-                  <span className={styles.matchupName}>{away?.name}</span>
+                  <span className={styles.matchupNameBold}>{away?.name}</span>
                 </div>
-              </div>
-              <div className={styles.matchupCenter}>
-                <span className={styles.matchupAt}>at</span>
-                <span className={styles.matchupMeta}>{sel.date}</span>
-                <span className={styles.matchupMeta}>{sel.time}</span>
-              </div>
-              <div className={styles.matchupTeam}>
-                <Image src={home?.logo || ""} alt={sel.homeAbbr} width={56} height={56} className={styles.matchupLogo} unoptimized />
-                <div className={styles.matchupTeamInfo}>
+                <div className={styles.matchupCenter}>
+                  <span className={styles.matchupAt}>at</span>
+                  <span className={styles.matchupMeta}>{sel.date}</span>
+                  <span className={styles.matchupMeta}>{sel.time}</span>
+                </div>
+                <div className={styles.matchupTeam}>
                   <span className={styles.matchupName}>{home?.city}</span>
-                  <span className={styles.matchupName}>{home?.name}</span>
+                  <span className={styles.matchupNameBold}>{home?.name}</span>
                 </div>
-              </div>
-            </header>
+              </header>
 
-            {/* ── Headline + Rundown ── */}
-            <section className={styles.insight}>
-              <h2 className={styles.headline}>{sel.headline}</h2>
-              <ul className={styles.rundown}>
-                {sel.rundown.map((bullet, i) => (
-                  <li key={i} className={styles.rundownItem}>{bullet}</li>
-                ))}
-              </ul>
-            </section>
+              {/* ── Headline + Rundown ── */}
+              <section className={styles.insight}>
+                <h2 className={styles.headline}>{sel.headline}</h2>
+                <ul className={styles.rundown}>
+                  {sel.rundown.map((bullet, i) => (
+                    <li key={i} className={styles.rundownItem}>{bullet}</li>
+                  ))}
+                </ul>
+              </section>
 
-            {/* ── Players ── */}
-            <section className={styles.playersSection}>
-              <h3 className={styles.sectionTitle}>Players to watch</h3>
-              <div className={styles.playersGrid}>
-                {sel.awayPlayers.length > 0 && (
-                  <div className={styles.playersCol}>
-                    <h4 className={styles.teamGroupLabel}>{away?.name}</h4>
-                    {sel.awayPlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
-                  </div>
-                )}
-                {sel.homePlayers.length > 0 && (
-                  <div className={styles.playersCol}>
-                    <h4 className={styles.teamGroupLabel}>{home?.name}</h4>
-                    {sel.homePlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
-                  </div>
-                )}
-              </div>
-            </section>
+              {/* ── Players ── */}
+              <section className={styles.playersSection}>
+                <h3 className={styles.sectionTitle}>Players to watch</h3>
+                <div className={styles.playersGrid}>
+                  {sel.awayPlayers.length > 0 && (
+                    <div className={styles.playersCol}>
+                      <h4 className={styles.teamGroupLabel}>{away?.name}</h4>
+                      {sel.awayPlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
+                    </div>
+                  )}
+                  {sel.homePlayers.length > 0 && (
+                    <div className={styles.playersCol}>
+                      <h4 className={styles.teamGroupLabel}>{home?.name}</h4>
+                      {sel.homePlayers.map((p) => <PlayerRow key={p.name} player={p} />)}
+                    </div>
+                  )}
+                </div>
+              </section>
 
-            {/* ── Footer ── */}
-            <footer className={styles.detailFooter}>
-              <span>Updated {sel.lastUpdated}</span>
-            </footer>
+              {/* ── Footer ── */}
+              <footer className={styles.detailFooter}>
+                <span>Updated {sel.lastUpdated}</span>
+              </footer>
+            </div>
           </article>
         )}
       </main>
