@@ -25,7 +25,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 20px 16px;
+  padding: 28px 20px 20px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -42,25 +42,6 @@
   font-size: 12px;
   color: var(--text-tertiary);
   margin-top: 4px;
-}
-
-.themeBtn {
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 150ms ease;
-}
-
-.themeBtn:hover {
-  color: var(--text-primary);
-  border-color: var(--text-tertiary);
 }
 
 /* ── Week info ── */
@@ -83,15 +64,6 @@
 .weekDates {
   font-size: 12px;
   color: var(--text-tertiary);
-}
-
-.syncDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--success);
-  margin-left: auto;
-  flex-shrink: 0;
 }
 
 /* ── Game list ── */
@@ -166,23 +138,10 @@
   color: var(--text-tertiary);
 }
 
-.gameMeta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-left: 2px;
-}
-
-.gameSpread {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-
 .gameTime {
   font-size: 11px;
   color: var(--text-tertiary);
+  padding-left: 2px;
 }
 
 /* ── Sidebar footer ── */
@@ -219,23 +178,31 @@
 
 .emptyTitle {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 24px;
-  color: var(--text-tertiary);
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--brand);
+  letter-spacing: -0.03em;
+  max-width: 360px;
 }
 
 .emptyText {
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  max-width: 380px;
+}
+
+.emptySubtext {
+  font-size: 13px;
   color: var(--text-tertiary);
-  margin-top: 8px;
-  max-width: 260px;
+  margin-top: 12px;
 }
 
 /* ═══ BREAKDOWN — game detail ═══ */
 
 .breakdown {
-  max-width: 740px;
+  max-width: 680px;
   margin: 0 auto;
   padding: 40px 40px 60px;
   animation: enterDetail 350ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -264,8 +231,8 @@
 }
 
 .matchupLogo {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
 }
 
@@ -277,7 +244,7 @@
   display: block;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 22px;
+  font-size: 20px;
   color: var(--brand);
   letter-spacing: -0.03em;
 }
@@ -296,12 +263,13 @@
   gap: 4px;
 }
 
-.matchupSpread {
+.matchupAt {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 28px;
-  color: var(--accent);
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .matchupMeta {
@@ -309,87 +277,38 @@
   color: var(--text-tertiary);
 }
 
-.matchupOU {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
+/* ═══ INSIGHT — headline + rundown ═══ */
 
-/* ═══ TAKEAWAY ═══ */
-
-.takeaway {
+.insight {
   padding: 36px 0;
   border-bottom: 1px solid var(--border);
 }
 
-.takeawayTag {
-  display: inline-block;
+.headline {
   font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-
-.takeawayText {
-  font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.35;
   color: var(--brand);
   letter-spacing: -0.02em;
+  margin-bottom: 20px;
 }
 
-/* ═══ CONTENT GRID ═══ */
-
-.contentGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.contentBlock {
-  padding: 28px 24px 28px 0;
-  background: var(--bg);
-}
-
-.contentBlock:last-child {
-  padding: 28px 0 28px 24px;
-}
-
-.blockTitle {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--brand);
-  margin-bottom: 12px;
-  letter-spacing: -0.01em;
-}
-
-.blockBody {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text-primary);
-}
-
-/* ── Odds ── */
-.oddsList {
+.rundown {
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.oddsLine {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--text-primary);
-  padding: 10px 12px;
+.rundownItem {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  padding: 12px 16px;
   background: var(--surface);
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
 }
 
 /* ═══ PLAYERS ═══ */
@@ -399,17 +318,25 @@
   border-bottom: 1px solid var(--border);
 }
 
+.sectionTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--brand);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
 .playersGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  margin-top: 12px;
 }
 
 .playersCol {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .teamGroupLabel {
@@ -421,14 +348,15 @@
   margin-bottom: 2px;
 }
 
-.playerCard {
+/* ── Player row (simplified) ── */
+.playerRow {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 14px;
 }
 
-.playerHeader {
+.playerTop {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -454,59 +382,36 @@
 
 .playerVerdict {
   font-size: 13px;
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.playerDetail {
-  font-size: 12px;
   line-height: 1.5;
   color: var(--text-secondary);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .playerProj {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
   padding-top: 8px;
   border-top: 1px solid var(--border-subtle);
 }
 
-.projLabel {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.projVal {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent);
-}
-
 /* ── Detail footer ── */
 .detailFooter {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   padding-top: 24px;
   font-size: 11px;
   color: var(--text-tertiary);
 }
 
 /* ═══════════════════════════════════════
-   MOBILE — stacked layout
+   MOBILE
    ═══════════════════════════════════════ */
 
 @media (max-width: 768px) {
   .shell {
     flex-direction: column;
     height: auto;
+    min-height: 100vh;
   }
 
   html, body {
@@ -516,13 +421,16 @@
   .sidebar {
     width: 100%;
     height: auto;
-    max-height: 50vh;
     border-right: none;
     border-bottom: 1px solid var(--border);
   }
 
+  .gameList {
+    max-height: 40vh;
+  }
+
   .detail {
-    min-height: 50vh;
+    min-height: 60vh;
   }
 
   .breakdown {
@@ -534,29 +442,16 @@
   }
 
   .matchupLogo {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
   }
 
   .matchupAbbr {
-    font-size: 18px;
+    font-size: 17px;
   }
 
-  .matchupSpread {
-    font-size: 22px;
-  }
-
-  .takeawayText {
+  .headline {
     font-size: 20px;
-  }
-
-  .contentGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .contentBlock,
-  .contentBlock:last-child {
-    padding: 20px 0;
   }
 
   .playersGrid {

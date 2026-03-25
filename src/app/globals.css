@@ -1,61 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
-  --brand: #E8E5E0;
-  --brand-dim: #706D67;
+  --brand: #1A1A1A;
+  --brand-dim: #6B6B6B;
 
-  --accent: #00D4A8;
-  --accent-hover: #00BA94;
-  --accent-soft: rgba(0, 212, 168, 0.08);
-  --accent-muted: rgba(0, 212, 168, 0.5);
+  --accent: #2E6B4F;
+  --accent-hover: #245A42;
+  --accent-soft: rgba(46, 107, 79, 0.07);
+  --accent-muted: rgba(46, 107, 79, 0.35);
 
-  --bg: #08090D;
-  --surface: #111218;
-  --surface-alt: #191A22;
-  --surface-elevated: #21222C;
-  --surface-hover: #1C1D27;
+  --bg: #F7F6F3;
+  --surface: #FFFFFF;
+  --surface-alt: #F0EFEC;
+  --surface-elevated: #FFFFFF;
+  --surface-hover: #F2F1EE;
 
-  --text-primary: #E4E2DC;
-  --text-secondary: #8A877F;
-  --text-tertiary: #55534E;
+  --text-primary: #1A1A1A;
+  --text-secondary: #5C5C5C;
+  --text-tertiary: #9A9A9A;
 
-  --border: #1E1F28;
-  --border-subtle: #16171F;
+  --border: #E5E4E0;
+  --border-subtle: #EDECE9;
 
-  --success: #00D4A8;
+  --success: #2E6B4F;
 
   --font-display: "Syne", sans-serif;
   --font-body: "DM Sans", sans-serif;
 
   --sidebar-width: 360px;
-  --backdrop: rgba(0, 0, 0, 0.6);
-
-  color-scheme: dark;
-}
-
-[data-theme="light"] {
-  --brand: #111014;
-  --brand-dim: #8A877F;
-
-  --accent: #0A9E7E;
-  --accent-hover: #088A6E;
-  --accent-soft: rgba(10, 158, 126, 0.06);
-  --accent-muted: rgba(10, 158, 126, 0.4);
-
-  --bg: #F5F4F1;
-  --surface: #FFFFFF;
-  --surface-alt: #EEECEA;
-  --surface-elevated: #FFFFFF;
-  --surface-hover: #F0EFEC;
-
-  --text-primary: #111014;
-  --text-secondary: #6E6B64;
-  --text-tertiary: #A09D97;
-
-  --border: #E0DED9;
-  --border-subtle: #E8E7E3;
-
-  --success: #0A9E7E;
 
   color-scheme: light;
 }
