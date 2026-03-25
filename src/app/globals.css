@@ -1,24 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
+/* ═══ LIGHT MODE (default) ═══ */
 :root {
   /* ── Brand ── */
   --brand: #151820;
   --brand-mid: #1E2536;
 
-  /* ── Accent: dusty burgundy/wine ── */
-  --accent: #8B3A4A;
-  --accent-hover: #7A2E3E;
-  --accent-soft: #F5E8EC;
+  /* ── Accent: warm signal red — "stop and think" ── */
+  --accent: #D44040;
+  --accent-hover: #BD3636;
+  --accent-soft: #FDF0F0;
+  --accent-glow: rgba(212, 64, 64, 0.12);
 
   /* ── Surfaces ── */
   --bg: #FAF9F7;
   --surface: #FFFFFF;
   --surface-alt: #F2F1EE;
+  --surface-elevated: #FFFFFF;
 
   /* ── Text ── */
   --text-primary: #1A1A1A;
   --text-secondary: #5A5A5A;
   --text-tertiary: #959595;
+  --text-on-accent: #FFFFFF;
 
   /* ── Borders ── */
   --border: #E4E3E0;
@@ -26,6 +30,8 @@
 
   /* ── Semantic ── */
   --live: #d93025;
+  --success: #2D8B55;
+  --success-soft: #E8F5EE;
 
   /* ── Layout ── */
   --max-width: 960px;
@@ -33,6 +39,47 @@
   --card-radius: 14px;
   --font-display: "Bricolage Grotesque", sans-serif;
   --font-body: "DM Sans", sans-serif;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  /* ── Backdrop ── */
+  --backdrop: rgba(20, 24, 36, 0.45);
+}
+
+/* ═══ DARK MODE ═══ */
+[data-theme="dark"] {
+  --brand: #F0EDE8;
+  --brand-mid: #C8C4BC;
+
+  --accent: #E05555;
+  --accent-hover: #F06666;
+  --accent-soft: #2A1A1A;
+  --accent-glow: rgba(224, 85, 85, 0.15);
+
+  --bg: #111116;
+  --surface: #1A1A20;
+  --surface-alt: #222228;
+  --surface-elevated: #2A2A32;
+
+  --text-primary: #EEECEA;
+  --text-secondary: #9A9898;
+  --text-tertiary: #666464;
+  --text-on-accent: #FFFFFF;
+
+  --border: #2E2E35;
+  --border-subtle: #242429;
+
+  --success: #3DB06E;
+  --success-soft: #1A2A1F;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+  --backdrop: rgba(0, 0, 0, 0.6);
 }
 
 *,
@@ -51,6 +98,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 300ms ease, color 300ms ease;
 }
 
 /* Subtle grain texture */
@@ -66,6 +114,10 @@ body::after {
   background-size: 200px 200px;
 }
 
+[data-theme="dark"] body::after {
+  opacity: 0.03;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -77,5 +129,5 @@ html {
 
 ::selection {
   background: var(--accent-soft);
-  color: var(--accent-hover);
+  color: var(--accent);
 }
