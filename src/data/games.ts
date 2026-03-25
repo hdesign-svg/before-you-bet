@@ -18,7 +18,6 @@ export type Game = {
   overUnder: string;
   insight: string; // One-line card insight
   takeaway: string; // The verdict — shown FIRST in detail view
-  confidence: "lean" | "like" | "love"; // How confident the take is
   story: string;
   oddsExplained: string[];
   awayPlayers: PlayerSpotlight[];
@@ -45,7 +44,6 @@ export const games: Game[] = [
     overUnder: "36.5",
     insight: "Thursday night AFC North grudge match — expect ugly, physical football.",
     takeaway: "Pittsburgh's defense travels. This will be low-scoring and sloppy. Lean Steelers, take the under.",
-    confidence: "like",
     story: "Two proud AFC North defenses meet on a short week. The Steelers are 8-2 and grinding out wins with defense and Russell Wilson's deep ball. The Browns are 2-8 and going nowhere, but their defensive front still shows up for divisional games. Thursday night division games are historically brutal and low-scoring.",
     oddsExplained: [
       "Steelers -3.5 → Pittsburgh wins by a field goal or more. Close but not dominant.",
@@ -75,7 +73,6 @@ export const games: Game[] = [
     overUnder: "44.5",
     insight: "Dallas is in freefall and Washington is surging — this spread is massive for a rivalry game.",
     takeaway: "Washington should roll. The only real question is whether 10.5 is too many points in a rivalry game. Bet the Commanders if you're confident, but if you're nervous about the spread, just take the moneyline.",
-    confidence: "love",
     story: "This is a rivalry game that doesn't feel like one. The Cowboys have lost 5 straight and look like a team that's quit on the season. Meanwhile, rookie QB Jayden Daniels has Washington at 7-4 and in the playoff hunt. A double-digit spread in a division game tells you everything.",
     oddsExplained: [
       "Commanders -10.5 → Vegas expects Washington to win by nearly two touchdowns. Huge for a rivalry.",
@@ -105,7 +102,6 @@ export const games: Game[] = [
     overUnder: "40.5",
     insight: "Minnesota's defense is elite. Caleb Williams is still learning. This could get uncomfortable for Chicago.",
     takeaway: "Vikings defense dominates rookies. Minnesota covers unless Williams has the game of his life. Like the Vikings.",
-    confidence: "like",
     story: "The Vikings' defense is one of the best in football, and they're about to face a rookie QB still figuring things out. Caleb Williams has shown flashes but also looks lost under pressure. Minnesota's pass rush will test him.",
     oddsExplained: [
       "Vikings -3.5 → Minnesota wins by a field goal+. Close-ish, but Vikings are clearly better.",
@@ -133,7 +129,6 @@ export const games: Game[] = [
     overUnder: "43.5",
     insight: "Houston is a legit contender. Tennessee is figuring out life with a new QB.",
     takeaway: "Texans at home against a rebuilding team. Houston should handle this. Love the Texans.",
-    confidence: "love",
     story: "Houston is 7-4 and establishing themselves as the AFC South's best team. The Titans are 2-8 and playing out the string with Will Levis still developing. This should be a comfortable home win.",
     oddsExplained: [
       "Texans -8.5 → Houston by more than a touchdown. Vegas sees a mismatch.",
@@ -161,7 +156,6 @@ export const games: Game[] = [
     overUnder: "46.5",
     insight: "Tua is back and Miami's offense looks dangerous again. New England is rebuilding.",
     takeaway: "Miami at home with Tua healthy. Patriots don't have the firepower. Take the Dolphins.",
-    confidence: "like",
     story: "Tua Tagovailoa is back from injury and the Dolphins' offense is clicking again. The Patriots are in full rebuild mode with Drake Maye learning on the job. Miami's speed advantage is massive.",
     oddsExplained: [
       "Dolphins -7 → Miami by a touchdown. Comfortable favorite at home.",
@@ -188,7 +182,6 @@ export const games: Game[] = [
     overUnder: "41.5",
     insight: "Baker Mayfield keeps proving doubters wrong. The Giants keep proving theirs right.",
     takeaway: "Tampa's offense is too much for this Giants team. Buccaneers cover comfortably.",
-    confidence: "like",
     story: "Baker Mayfield is having a career year and the Bucs are in the NFC South race. The Giants are one of the worst teams in the league, struggling on both sides of the ball.",
     oddsExplained: [
       "Bucs -5.5 → Tampa wins by nearly a touchdown.",
@@ -215,7 +208,6 @@ export const games: Game[] = [
     overUnder: "43.5",
     insight: "Mahomes at home against the league's worst team. This should be quick.",
     takeaway: "Chiefs handle business. Carolina doesn't belong on this field. Take KC and move on.",
-    confidence: "love",
     story: "The 9-1 Chiefs host the 2-8 Panthers in a massive mismatch. Kansas City is resting for the playoffs, but even on autopilot they should cruise here. Bryce Young is still trying to find his footing.",
     oddsExplained: [
       "Chiefs -11 → KC by nearly two touchdowns. Major mismatch.",
@@ -244,7 +236,6 @@ export const games: Game[] = [
     overUnder: "46.5",
     insight: "Two AFC heavyweights collide — this is the game that could decide home field in January.",
     takeaway: "Coin-flip game. Allen is playing better, but you never bet against Mahomes when it matters. Lean Bills at home — but keep the bet small.",
-    confidence: "lean",
     story: "The Chiefs come to Buffalo riding a 9-1 record, but they haven't been blowing anyone away — they keep finding ways to win close games. The Bills are 9-2 and dominant at home. These two teams have met in the playoffs three of the last four years.",
     oddsExplained: [
       "Bills -2.5 → Vegas thinks Buffalo wins, but barely. A field goal is the difference.",
@@ -274,7 +265,6 @@ export const games: Game[] = [
     overUnder: "48.5",
     insight: "Playoff rematch with playoff implications. Both teams need this one badly.",
     takeaway: "Pick'em game. San Francisco at home is the tiebreaker, but Green Bay is dangerous. Lean 49ers, but this could go either way.",
-    confidence: "lean",
     story: "A rematch of last year's divisional round. The 49ers are dealing with injuries but still have the talent to beat anyone. The Packers are young, fast, and improving every week under Jordan Love.",
     oddsExplained: [
       "49ers -1.5 → Basically a pick'em. Home field is the edge.",
@@ -302,7 +292,6 @@ export const games: Game[] = [
     overUnder: "41.5",
     insight: "Bo Nix is ahead of schedule. The Raiders are going nowhere fast.",
     takeaway: "Denver's defense and Nix's efficiency should be enough. Like the Broncos.",
-    confidence: "like",
     story: "The Broncos are in the wild card hunt behind a strong defense and Bo Nix's surprising rookie year. The Raiders are 2-8 and rudderless, cycling through quarterbacks and missing key players.",
     oddsExplained: [
       "Broncos -5.5 → Denver wins by nearly a touchdown. Road favorites in a division game.",
@@ -330,7 +319,6 @@ export const games: Game[] = [
     overUnder: "50.5",
     insight: "Detroit is the best team in the NFC. Indianapolis is feisty but outgunned.",
     takeaway: "Lions are a machine right now. Indy will compete but Detroit's offense is too much. Like the Lions.",
-    confidence: "like",
     story: "The Lions are 9-1 and arguably the best team in football. Their offense is relentless — they score from everywhere. The Colts are a scrappy 5-6 team that fights but doesn't have the ceiling to keep up in a shootout.",
     oddsExplained: [
       "Lions -7.5 → Detroit by a touchdown+. They're dominant at home.",
@@ -357,7 +345,6 @@ export const games: Game[] = [
     overUnder: "49.5",
     insight: "Lamar vs. Herbert. Two elite QBs in a game with huge playoff implications.",
     takeaway: "Lamar is playing at an MVP level and Baltimore's offense is nearly impossible to stop. Lean Ravens, but Herbert at home is no joke.",
-    confidence: "lean",
     story: "Two of the best QBs in football meet in a game that could decide AFC seeding. The Ravens' offense with Lamar Jackson and Derrick Henry has been devastating. The Chargers under Jim Harbaugh have been disciplined and tough.",
     oddsExplained: [
       "Ravens -3 → Baltimore by a field goal. Close game expected.",
@@ -387,7 +374,6 @@ export const games: Game[] = [
     overUnder: "48.5",
     insight: "Philly's run game has been unstoppable — can the Rams' thin defense slow them down?",
     takeaway: "Philly's run game should dominate. The Rams can score enough to keep it interesting, but not enough to win. Take the Eagles, and don't overthink it.",
-    confidence: "like",
     story: "The Eagles are one of the hottest teams in football, winners of 7 straight behind a rushing attack that's been bulldozing everyone. Saquon Barkley is having a historic season. The Rams are 5-5 with a defense gutted by injuries.",
     oddsExplained: [
       "Eagles -3 → Philly by a field goal. Tighter than you'd expect for a team on a 7-game streak.",
@@ -419,7 +405,6 @@ export const games: Game[] = [
     overUnder: "51.5",
     insight: "AFC North fireworks. Lamar vs. Burrow is appointment television.",
     takeaway: "This game will be electric. Burrow at home is dangerous, but Lamar + Henry is a cheat code. Lean Ravens, but enjoy the show.",
-    confidence: "lean",
     story: "Two of the most talented QBs in football meet on Monday Night Football. The Ravens' rushing attack with Lamar and Henry has been historic. The Bengals' passing offense with Burrow and Chase is equally lethal. Something has to give.",
     oddsExplained: [
       "Ravens -2.5 → Baltimore is the slight road favorite. They're the better team right now.",
@@ -447,7 +432,6 @@ export const games: Game[] = [
     overUnder: "47.5",
     insight: "NFC West division game. Both teams fighting for a wild card spot.",
     takeaway: "True toss-up. Both teams are mediocre and inconsistent. If you bet this, keep it small. Slight lean Seattle.",
-    confidence: "lean",
     story: "A division game between two .500 teams fighting for playoff relevance. Geno Smith has been up and down, and Kyler Murray is healthy but the Cardinals' defense is inconsistent.",
     oddsExplained: [
       "Seahawks -1 → Basically a pick'em. Road team barely favored.",
