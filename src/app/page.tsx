@@ -9,7 +9,7 @@ import s from "./page.module.css";
 
 /* ─── Helpers ─── */
 
-function groupByDay(list: Game[]) {
+function groupBySlate(list: Game[]) {
   const order = [
     "Thursday",
     "Sunday Early",
@@ -23,12 +23,19 @@ function groupByDay(list: Game[]) {
     if (g.date.startsWith("Thu")) label = "Thursday";
     else if (g.date.startsWith("Mon")) label = "Monday Night";
     else if (g.time.includes("8:20") || g.time.includes("8:15"))
-      label = g.date.startsWith("Mon") ? "Monday Night" : "Sunday Night";
+      label = "Sunday Night";
     else if (g.time.includes("4:")) label = "Sunday Late";
     else label = "Sunday Early";
     (map[label] ??= []).push(g);
   }
   return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
+}
+
+/** Parse "4:25 PM ET" → { time: "4:25", period: "PM ET" } */
+function parseTime(raw: string) {
+  const match = raw.match(/^(\d+:\d+)\s*(.*)$/);
+  if (!match) return { time: raw, period: "" };
+  return { time: match[1], period: match[2] };
 }
 
 /* ─── Sub-components ─── */
@@ -63,12 +70,22 @@ function PlayerCard({ player }: { player: PlayerSpotlight }) {
 
 export default function Page() {
   const [active, setActive] = useState<Game | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const detailRef = useRef<HTMLElement>(null);
   const backBtnRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const slots = useMemo(() => groupByDay(games), []);
+  const slates = useMemo(() => groupBySlate(games), []);
 
   const scrollRef = useRef(0);
+
+  // Apply theme to html element
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((t) => (t === "dark" ? "light" : "dark"));
+  }, []);
 
   const open = useCallback((g: Game, trigger: HTMLButtonElement) => {
     scrollRef.current = window.scrollY;
@@ -81,7 +98,6 @@ export default function Page() {
     const trigger = triggerRef.current;
     const scrollY = scrollRef.current;
     setActive(null);
-    // Restore scroll position and focus to the card that opened detail
     requestAnimationFrame(() => {
       window.scrollTo({ top: scrollY });
       trigger?.focus();
@@ -184,66 +200,77 @@ export default function Page() {
     );
   }
 
-  /* ─────────── GRID VIEW ─────────── */
+  /* ─────────── STRIP LIST VIEW ─────────── */
   return (
     <main className={s.gridView}>
       <a href="#games" className={s.srOnly}>Skip to games</a>
-      {/* Header */}
+
+      {/* Hero Header */}
       <header className={s.header}>
-        <div className={s.headerLeft}>
-          <h1 className={s.wordmark}>Before You Bet</h1>
-          <p className={s.subtitle}>
-            Plain-English game intelligence for people who don{'\u2019'}t speak betting.
-          </p>
+        <div className={s.headerTop}>
+          <span className={s.weekTag}>Week {WEEK.number} · NFL</span>
+          <button
+            className={s.themeToggle}
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            <span className={s.toggleLabel}>{theme === "dark" ? "Dark" : "Light"}</span>
+            <div className={s.toggleTrack}>
+              <div className={`${s.toggleKnob} ${theme === "light" ? s.toggleKnobLight : ""}`} />
+            </div>
+          </button>
         </div>
-        <div className={s.headerRight}>
-          <span className={s.weekBadge}>Week {WEEK.number}</span>
-          <span className={s.weekDate}>{WEEK.dateRange}</span>
-        </div>
+        <h1 className={s.wordmark}>Before<br />You Bet</h1>
+        <p className={s.subtitle}>
+          Plain-English game intelligence for people who don{'\u2019'}t speak betting.
+        </p>
       </header>
 
-      {/* Game slots */}
-      {slots.map((slot, slotIdx) => (
-        <section key={slot.label} className={s.slot} id={slotIdx === 0 ? "games" : undefined}>
-          <h2 className={s.slotLabel}>{slot.label}</h2>
-          <div className={s.grid}>
-            {slot.games.map((game, idx) => {
-              const a = teams[game.awayAbbr];
-              const h = teams[game.homeAbbr];
-              const grad = `linear-gradient(135deg, ${a.color}, ${h.color})`;
-              return (
-                <button
-                  key={game.slug}
-                  className={s.gameCard}
-                  onClick={(e) => open(game, e.currentTarget)}
-                  style={{ animationDelay: `${idx * 60}ms` }}
-                  aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}, ${game.time}`}
-                >
-                  <div className={s.cardGradientStrip} style={{ background: grad }} aria-hidden="true" />
-                  <div className={s.cardBody}>
-                    <div className={s.cardMatchup}>
-                      <div className={s.cardTeam}>
-                        <Image src={a.logo} alt="" width={32} height={32} className={s.cardLogo} unoptimized />
-                        <span className={s.cardAbbr}>{a.abbr}</span>
-                      </div>
-                      <span className={s.cardVs} aria-hidden="true">@</span>
-                      <div className={s.cardTeam}>
-                        <span className={s.cardAbbr}>{h.abbr}</span>
-                        <Image src={h.logo} alt="" width={32} height={32} className={s.cardLogo} unoptimized />
-                      </div>
-                    </div>
-                    <time className={s.cardTime} dateTime={game.time}>{game.time}</time>
-                    <p className={s.cardPreview}>{game.headline}</p>
-                  </div>
-                </button>
-              );
-            })}
+      {/* Game Strips by Slate */}
+      {slates.map((slate, slateIdx) => (
+        <div key={slate.label} className={s.stripSection} id={slateIdx === 0 ? "games" : undefined}>
+          <div className={s.slateHeader}>
+            <span className={s.slateLabel}>{slate.label}</span>
+            <div className={s.slateLine} />
           </div>
-        </section>
+
+          {slate.games.map((game, idx) => {
+            const a = teams[game.awayAbbr];
+            const h = teams[game.homeAbbr];
+            const grad = `linear-gradient(to bottom, ${a.color}, ${h.color})`;
+            const { time, period } = parseTime(game.time);
+
+            return (
+              <button
+                key={game.slug}
+                className={s.strip}
+                onClick={(e) => open(game, e.currentTarget)}
+                style={{ animationDelay: `${(slateIdx * 3 + idx) * 60}ms` }}
+                aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}, ${game.time}`}
+              >
+                <div className={s.stripGradient} style={{ background: grad }} aria-hidden="true" />
+                <div className={s.stripContent}>
+                  <div className={s.stripStatus}>
+                    <span className={s.statusTime}>{time}</span>
+                    <span className={s.statusPeriod}>{period}</span>
+                  </div>
+                  <div className={s.stripLogos}>
+                    <Image src={a.logo} alt="" width={32} height={32} className={s.stripLogo} unoptimized />
+                    <Image src={h.logo} alt="" width={32} height={32} className={s.stripLogo} unoptimized />
+                  </div>
+                  <span className={s.stripTeams}>{a.abbr} @ {h.abbr}</span>
+                  <p className={s.stripHeadline}>{game.headline}</p>
+                  <span className={s.stripArrow} aria-hidden="true">&rarr;</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       ))}
 
       <footer className={s.gridFooter}>
-        <p>Not a sportsbook. Informational only. Updated {WEEK.lastUpdated}.</p>
+        <p>Not a sportsbook. Informational only.</p>
+        <p>Updated {WEEK.lastUpdated}</p>
       </footer>
     </main>
   );

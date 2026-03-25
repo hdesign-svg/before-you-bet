@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variant B: Scoreboard List (Dark)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@100..900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; font-family: 'Geist', -apple-system, sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+  .header { max-width: 720px; margin: 0 auto; padding: 48px 24px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .wordmark { font-family: 'Instrument Serif', Georgia, serif; font-size: 32px; font-weight: 400; font-style: italic; letter-spacing: -0.02em; }
+  .subtitle { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 8px; }
+  .week-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 100px; margin-top: 16px; }
+  .list { max-width: 720px; margin: 0 auto; padding: 24px 24px 64px; display: flex; flex-direction: column; gap: 12px; }
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; cursor: pointer; transition: border-color 150ms ease-out, background 150ms ease-out; }
+  .card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+  .card-inner { display: flex; align-items: stretch; }
+  .gradient-bar { width: 4px; flex-shrink: 0; }
+  .card-content { flex: 1; padding: 16px 20px; display: flex; align-items: center; gap: 20px; }
+  .matchup { display: flex; align-items: center; gap: 10px; min-width: 160px; flex-shrink: 0; }
+  .team-stack { display: flex; align-items: center; gap: 8px; }
+  .logo { width: 28px; height: 28px; object-fit: contain; }
+  .abbr { font-family: 'Instrument Serif', Georgia, serif; font-size: 18px; font-weight: 400; }
+  .at { font-size: 10px; color: rgba(255,255,255,0.25); font-weight: 600; }
+  .divider { width: 1px; align-self: stretch; background: rgba(255,255,255,0.08); }
+  .headline { font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; font-weight: 400; line-height: 1.45; color: rgba(255,255,255,0.7); flex: 1; }
+  .meta { font-size: 11px; color: rgba(255,255,255,0.3); font-variant-numeric: tabular-nums; text-align: right; min-width: 80px; flex-shrink: 0; line-height: 1.5; }
+</style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="wordmark">Before You Bet</h1>
+    <p class="subtitle">Plain-English game intelligence for people who don't speak betting.</p>
+    <div class="week-pill">
+      <span>Week 21</span>
+      <span>·</span>
+      <span>Jan 23–Jan 27, 2025</span>
+    </div>
+  </header>
+
+  <div class="list">
+    <div class="card">
+      <div class="card-inner">
+        <div class="gradient-bar" style="background: linear-gradient(to bottom, #E31837, #00338D)"></div>
+        <div class="card-content">
+          <div class="matchup">
+            <div class="team-stack">
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/kc.png" alt="" class="logo">
+              <span class="abbr">KC</span>
+            </div>
+            <span class="at">@</span>
+            <div class="team-stack">
+              <span class="abbr">BUF</span>
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/buf.png" alt="" class="logo">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <p class="headline">Allen's arm vs. Mahomes' magic—a rematch built on broken records</p>
+          <span class="meta">Sun Jan 26<br>6:30 PM ET</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="gradient-bar" style="background: linear-gradient(to bottom, #004C54, #AA0000)"></div>
+        <div class="card-content">
+          <div class="matchup">
+            <div class="team-stack">
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/phi.png" alt="" class="logo">
+              <span class="abbr">PHI</span>
+            </div>
+            <span class="at">@</span>
+            <div class="team-stack">
+              <span class="abbr">SF</span>
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/sf.png" alt="" class="logo">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <p class="headline">Hurts returns to the scene of last year's heartbreak—with a vengeance</p>
+          <span class="meta">Sun Jan 26<br>3:00 PM ET</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="gradient-bar" style="background: linear-gradient(to bottom, #003594, #0076B6)"></div>
+        <div class="card-content">
+          <div class="matchup">
+            <div class="team-stack">
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/dal.png" alt="" class="logo">
+              <span class="abbr">DAL</span>
+            </div>
+            <span class="at">@</span>
+            <div class="team-stack">
+              <span class="abbr">DET</span>
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/det.png" alt="" class="logo">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <p class="headline">Detroit's dream season meets Dallas's road warrior streak</p>
+          <span class="meta">Sun Jan 26<br>1:00 PM ET</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="gradient-bar" style="background: linear-gradient(to bottom, #E31837, #AA0000)"></div>
+        <div class="card-content">
+          <div class="matchup">
+            <div class="team-stack">
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/kc.png" alt="" class="logo">
+              <span class="abbr">KC</span>
+            </div>
+            <span class="at">@</span>
+            <div class="team-stack">
+              <span class="abbr">SF</span>
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/sf.png" alt="" class="logo">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <p class="headline">Super Bowl rematch preview—both teams look sharper than February</p>
+          <span class="meta">Thu Jan 23<br>4:25 PM ET</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="gradient-bar" style="background: linear-gradient(to bottom, #00338D, #004C54)"></div>
+        <div class="card-content">
+          <div class="matchup">
+            <div class="team-stack">
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/buf.png" alt="" class="logo">
+              <span class="abbr">BUF</span>
+            </div>
+            <span class="at">@</span>
+            <div class="team-stack">
+              <span class="abbr">PHI</span>
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/phi.png" alt="" class="logo">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <p class="headline">Two MVP candidates, one prime-time stage, zero margin for error</p>
+          <span class="meta">Sun Jan 26<br>8:20 PM ET</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="gradient-bar" style="background: linear-gradient(to bottom, #0076B6, #003594)"></div>
+        <div class="card-content">
+          <div class="matchup">
+            <div class="team-stack">
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/det.png" alt="" class="logo">
+              <span class="abbr">DET</span>
+            </div>
+            <span class="at">@</span>
+            <div class="team-stack">
+              <span class="abbr">DAL</span>
+              <img src="https://a.espncdn.com/i/teamlogos/nfl/500/dal.png" alt="" class="logo">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <p class="headline">Can Goff silence the doubters on the road? Dallas says no.</p>
+          <span class="meta">Mon Jan 27<br>1:00 PM ET</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

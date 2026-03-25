@@ -8,23 +8,6 @@
   --font-display: "Instrument Serif", Georgia, serif;
   --font-body: "Geist", -apple-system, sans-serif;
 
-  /* Surfaces */
-  --bg: #F5F2ED;
-  --bg-warm: #EDE9E1;
-  --surface: #FFFFFF;
-  --surface-dim: #F0EDE7;
-
-  /* Text — strict hierarchy */
-  --ink: #111111;
-  --ink-secondary: #555555;
-  --ink-tertiary: #999999;
-  --ink-ghost: #BBBBBB;
-  --ink-inverse: #FFFFFF;
-
-  /* Borders */
-  --rule: #E0DDD6;
-  --rule-strong: #C5C1B8;
-
   /* Spacing scale (4px base) */
   --sp-1: 4px;
   --sp-2: 8px;
@@ -46,7 +29,7 @@
   --r-xl: 24px;
 
   /* Containment */
-  --max-w: 1100px;
+  --max-w: 1200px;
   --max-w-content: 720px;
 
   /* Timing */
@@ -55,7 +38,51 @@
   --duration-normal: 300ms;
   --duration-slow: 500ms;
 
+  /* Live status */
+  --live-color: #34d399;
+}
+
+/* ═══ Light theme ═══ */
+[data-theme="light"] {
+  --bg: #fafaf9;
+  --bg-warm: #f3f2f0;
+  --surface: #ffffff;
+  --surface-dim: #f0ede7;
+  --ink: #1a1a1a;
+  --ink-secondary: #555555;
+  --ink-tertiary: #999999;
+  --ink-ghost: #bbbbbb;
+  --ink-inverse: #ffffff;
+  --rule: #e0ddd6;
+  --rule-strong: #c5c1b8;
+  --wordmark-gradient: linear-gradient(135deg, #1a1a1a 60%, rgba(0,0,0,0.4));
+  --live-color: #059669;
+  --final-color: rgba(0,0,0,0.3);
+  --toggle-bg: rgba(0,0,0,0.08);
+  --toggle-knob: #1a1a1a;
   color-scheme: light;
+}
+
+/* ═══ Dark theme (default) ═══ */
+:root,
+[data-theme="dark"] {
+  --bg: #111111;
+  --bg-warm: #1a1a1a;
+  --surface: rgba(255,255,255,0.04);
+  --surface-dim: rgba(255,255,255,0.06);
+  --ink: #ffffff;
+  --ink-secondary: rgba(255,255,255,0.5);
+  --ink-tertiary: rgba(255,255,255,0.3);
+  --ink-ghost: rgba(255,255,255,0.12);
+  --ink-inverse: #111111;
+  --rule: rgba(255,255,255,0.08);
+  --rule-strong: rgba(255,255,255,0.15);
+  --wordmark-gradient: linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.4));
+  --live-color: #34d399;
+  --final-color: rgba(255,255,255,0.3);
+  --toggle-bg: rgba(255,255,255,0.08);
+  --toggle-knob: #ffffff;
+  color-scheme: dark;
 }
 
 /* ═══ Reset ═══ */
@@ -104,7 +131,7 @@ img {
 }
 
 ::selection {
-  background: rgba(17, 17, 17, 0.12);
+  background: rgba(128, 128, 128, 0.2);
   color: var(--ink);
 }
 
