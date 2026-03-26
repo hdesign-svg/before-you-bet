@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Trophy, Users, Info } from "lucide-react";
+import { ChevronDown, Zap, Info } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -78,26 +78,27 @@ export default function Page() {
 
       {/* Content Tabs + Card Grid */}
       <div className={s.container}>
-        <nav className={s.contentTabs} role="tablist">
-          <button
-            className={`${s.contentTab} ${tab === "games" ? s.contentTabActive : ""}`}
-            role="tab"
-            aria-selected={tab === "games"}
-            onClick={() => setTab("games")}
-          >
-            <Trophy size={14} />
-            Games
-          </button>
-          <button
-            className={`${s.contentTab} ${tab === "players" ? s.contentTabActive : ""}`}
-            role="tab"
-            aria-selected={tab === "players"}
-            onClick={() => setTab("players")}
-          >
-            <Users size={14} />
-            Players
-          </button>
-        </nav>
+        <div className={s.contentBar}>
+          <nav className={s.contentTabs} role="tablist">
+            <button
+              className={`${s.contentTab} ${tab === "games" ? s.contentTabActive : ""}`}
+              role="tab"
+              aria-selected={tab === "games"}
+              onClick={() => setTab("games")}
+            >
+              Games
+            </button>
+            <button
+              className={`${s.contentTab} ${tab === "players" ? s.contentTabActive : ""}`}
+              role="tab"
+              aria-selected={tab === "players"}
+              onClick={() => setTab("players")}
+            >
+              Players
+            </button>
+          </nav>
+          <span className={s.contentWeek}>Week {WEEK.number}</span>
+        </div>
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
             <div className={s.slateHeader}>
