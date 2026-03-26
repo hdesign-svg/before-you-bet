@@ -53,25 +53,36 @@
 .headerInner {
   max-width: var(--max-w);
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+}
+
+.headerBrand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  min-width: 0;
 }
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 48px);
+  font-size: clamp(28px, 5vw, 40px);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.01em;
   line-height: 1;
   color: #ffffff;
+  white-space: nowrap;
 }
 
 .subtitle {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: rgba(255, 255, 255, 0.4);
-  max-width: 400px;
-  line-height: 1.5;
-  margin-top: var(--sp-2);
+  line-height: 1.4;
+  white-space: nowrap;
 }
 
 /* ─── Header Tabs ─── */
@@ -79,7 +90,7 @@
 .headerTabs {
   display: flex;
   gap: var(--sp-1);
-  margin-top: var(--sp-6);
+  flex-shrink: 0;
 }
 
 .headerTab {
@@ -672,6 +683,21 @@
    ═══════════════════════════════════════ */
 
 @media (max-width: 900px) {
+  .headerInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-4);
+  }
+
+  .headerBrand {
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .subtitle {
+    white-space: normal;
+  }
+
   .header {
     padding: var(--sp-6) var(--sp-6) var(--sp-5);
   }

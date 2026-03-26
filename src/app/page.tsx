@@ -197,10 +197,12 @@ export default function Page() {
       {/* App Header — Midnight Strip */}
       <header className={s.header}>
         <div className={s.headerInner}>
-          <h1 className={s.wordmark}>Before You Bet</h1>
-          <p className={s.subtitle}>
-            Plain-English game intelligence for people who don{'\u2019'}t speak betting.
-          </p>
+          <div className={s.headerBrand}>
+            <h1 className={s.wordmark}>Before You Bet</h1>
+            <p className={s.subtitle}>
+              Plain-English game intelligence for people who don{'\u2019'}t speak betting.
+            </p>
+          </div>
           <nav className={s.headerTabs} role="tablist">
             <button
               className={`${s.headerTab} ${tab === "games" ? s.headerTabActive : ""}`}
