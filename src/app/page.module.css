@@ -140,11 +140,9 @@
 }
 
 .contentWeek {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
   color: var(--neutral-400);
   padding-bottom: var(--sp-3);
 }

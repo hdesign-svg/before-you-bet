@@ -97,7 +97,7 @@ export default function Page() {
               Players
             </button>
           </nav>
-          <span className={s.contentWeek}>Week {WEEK.number}</span>
+          <span className={s.contentWeek}>Week {WEEK.number} &middot; {WEEK.dateRange}</span>
         </div>
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
