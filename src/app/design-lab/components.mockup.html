@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Before You Bet — Components</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --font-display: "Big Shoulders Display", sans-serif;
+    --font-body: "Outfit", sans-serif;
+
+    /* Midnight */
+    --midnight-50: #eef1f7;
+    --midnight-100: #d4dae8;
+    --midnight-400: #6178b0;
+    --midnight-900: #0f1729;
+
+    /* Coral */
+    --coral-50: #fff5f4;
+    --coral-500: #ff6b5a;
+    --coral-600: #e5503f;
+
+    /* Neutral */
+    --neutral-100: #f1f3f6;
+    --neutral-200: #e4e7ed;
+    --neutral-300: #cdd2dc;
+    --neutral-400: #a3aab9;
+    --neutral-500: #7a8293;
+
+    /* Green */
+    --green-50: #eefbf4;
+    --green-100: #d4f5e2;
+    --green-500: #22c55e;
+    --green-600: #16a34a;
+    --green-700: #15803d;
+
+    /* Amber */
+    --amber-50: #fffbeb;
+    --amber-500: #f59e0b;
+    --amber-700: #b45309;
+
+    /* Red */
+    --red-50: #fef2f2;
+    --red-500: #ef4444;
+    --red-700: #b91c1c;
+
+    /* Spacing */
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+    --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+    /* Radii */
+    --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-full: 9999px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f1f3f6;
+    font-family: var(--font-body);
+    color: var(--midnight-900);
+    padding: 48px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--neutral-500);
+    margin-bottom: 56px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--midnight-900);
+    margin-bottom: 24px;
+    margin-top: 56px;
+  }
+
+  h2:first-of-type { margin-top: 0; }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--neutral-400);
+    margin-bottom: 16px;
+    margin-top: 32px;
+  }
+
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .component-card {
+    background: #ffffff;
+    border-radius: var(--r-lg);
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .component-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--coral-600);
+    margin-bottom: 20px;
+  }
+
+  .component-note {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--neutral-400);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+
+  .component-card-dark {
+    background: var(--midnight-900);
+    color: #ffffff;
+  }
+
+  .component-card-dark .component-label {
+    color: var(--coral-500);
+  }
+
+  .component-card-dark .component-note {
+    color: var(--midnight-400);
+  }
+
+  /* ─── Inline specimens ─── */
+  .specimen-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ─── Status Badge ─── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: var(--r-full);
+  }
+
+  .badge-green {
+    color: var(--green-700);
+    background: var(--green-50);
+  }
+
+  .badge-green .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-500);
+  }
+
+  .badge-green svg { color: var(--green-500); }
+
+  .badge-amber {
+    color: var(--amber-700);
+    background: var(--amber-50);
+  }
+
+  .badge-amber svg { color: var(--amber-500); }
+
+  .badge-red {
+    color: var(--red-700);
+    background: var(--red-50);
+  }
+
+  .badge-red svg { color: var(--red-500); }
+
+  .badge-neutral {
+    color: var(--neutral-500);
+    background: var(--neutral-200);
+  }
+
+  /* ─── Pill Tabs ─── */
+  .pill-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--neutral-200);
+    padding: 4px;
+    border-radius: var(--r-full);
+    width: fit-content;
+  }
+
+  .pill-tab {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 16px;
+    border-radius: var(--r-full);
+    color: var(--neutral-500);
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .pill-tab-active {
+    background: #ffffff;
+    color: var(--midnight-900);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* ─── Section Label (Slate Header) ─── */
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--midnight-900);
+    padding: var(--sp-6) 0 var(--sp-4);
+  }
+
+  /* ─── Footer ─── */
+  .footer-specimen {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--neutral-200);
+    border-radius: var(--r-lg);
+    padding: 20px 24px;
+  }
+
+  .footer-disclaimer {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--neutral-500);
+  }
+
+  .footer-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green-700);
+    background: var(--green-50);
+    padding: 4px 12px;
+    border-radius: var(--r-full);
+  }
+
+  .footer-status svg { color: var(--green-500); }
+
+  /* ─── CTA Button ─── */
+  .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--r-sm);
+    padding: 8px 16px;
+  }
+
+  .cta-coral {
+    background: var(--coral-50);
+    color: var(--coral-600);
+  }
+
+  .cta-midnight {
+    background: var(--midnight-900);
+    color: #ffffff;
+  }
+
+  .cta-ghost {
+    background: transparent;
+    color: var(--midnight-900);
+    border: 1px solid var(--neutral-300);
+  }
+
+  /* SVG icon placeholder */
+  .icon-sm {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<h1>Components</h1>
+<p class="page-subtitle">Before You Bet — Reusable UI patterns and their variants</p>
+
+<!-- ═══ STATUS BADGES ═══ -->
+<h2>Status Badges</h2>
+<div class="component-grid">
+  <div class="component-card">
+    <div class="component-label">Updated / Live Data</div>
+    <div class="specimen-row">
+      <span class="badge badge-green">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Updated Nov 23
+      </span>
+      <span class="badge badge-green">
+        <span class="badge-dot"></span>
+        Live
+      </span>
+    </div>
+    <div class="component-note">Green pill with Activity icon (or dot for live state). Used in footer and card meta. Communicates freshness without being distracting.</div>
+  </div>
+  <div class="component-card">
+    <div class="component-label">Semantic Variants</div>
+    <div class="specimen-row" style="flex-direction:column; align-items:flex-start; gap:10px">
+      <span class="badge badge-green">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Updated 2h ago
+      </span>
+      <span class="badge badge-amber">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Pending update
+      </span>
+      <span class="badge badge-red">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        Stale data
+      </span>
+      <span class="badge badge-neutral">Offseason</span>
+    </div>
+    <div class="component-note">Semantic color tiers: green (fresh), amber (aging), red (stale), neutral (inactive). Badge shape stays consistent — only color changes.</div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<h2>Footer</h2>
+<div class="component-card" style="padding:0; overflow:hidden">
+  <div style="padding:24px 24px 12px">
+    <div class="component-label">Page Footer</div>
+  </div>
+  <div class="footer-specimen">
+    <span class="footer-disclaimer">Not a sportsbook. Informational only.</span>
+    <span class="footer-status">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Updated Nov 23
+    </span>
+  </div>
+  <div style="padding:12px 24px 24px">
+    <div class="component-note">Full-width neutral-200 fill. Disclaimer left, status badge right. On mobile, stacks vertically centered. Activity icon + green pill communicates data freshness.</div>
+  </div>
+</div>
+
+<!-- ═══ SECTION LABELS ═══ -->
+<h2>Section Labels</h2>
+<div class="component-grid">
+  <div class="component-card">
+    <div class="component-label">Slate Header</div>
+    <div class="section-label">Sunday Early</div>
+    <div class="section-label">Sunday Late</div>
+    <div class="section-label">Monday Night</div>
+    <div class="component-note">Display 900, text-xl, uppercase. Spacing above creates separation between game groups — no divider lines needed.</div>
+  </div>
+  <div class="component-card-dark component-card">
+    <div class="component-label">Header Tabs</div>
+    <div style="display:flex; gap:24px; padding:12px 0; border-bottom:2px solid transparent">
+      <span style="font-family:var(--font-display); font-size:13px; font-weight:900; text-transform:uppercase; letter-spacing:0.06em; color:#fff; padding-bottom:8px; border-bottom:2px solid var(--coral-500)">Games</span>
+      <span style="font-family:var(--font-display); font-size:13px; font-weight:900; text-transform:uppercase; letter-spacing:0.06em; color:var(--midnight-400); padding-bottom:8px">Players</span>
+    </div>
+    <div class="component-note">Active tab: white text + coral underline. Inactive: midnight-400. Display font, xs size, uppercase.</div>
+  </div>
+</div>
+
+<!-- ═══ CTAs ═══ -->
+<h2>CTAs &amp; Actions</h2>
+<div class="component-card">
+  <div class="component-label">Button Variants</div>
+  <div class="cta-row" style="margin-bottom:16px">
+    <button class="cta cta-coral">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Take
+    </button>
+    <button class="cta cta-midnight">View Intel</button>
+    <button class="cta cta-ghost">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      Expand
+    </button>
+  </div>
+  <div class="component-note">Primary: coral-50 bg + coral-600 text. Dark: midnight fill. Ghost: neutral border. All use Display font, uppercase, with optional leading icon.</div>
+</div>
+
+<!-- ═══ PILL TABS ═══ -->
+<h2>Pill Tabs</h2>
+<div class="component-card">
+  <div class="component-label">Segmented Control</div>
+  <div class="pill-tabs" style="margin-bottom:16px">
+    <button class="pill-tab pill-tab-active">All Games</button>
+    <button class="pill-tab">Favorites</button>
+    <button class="pill-tab">Prime Time</button>
+  </div>
+  <div class="component-note">Neutral-200 track, white active pill with shadow. Could be used for filtering within the Games or Players tabs. Display font keeps it consistent with the brand voice.</div>
+</div>
+
+</body>
+</html>

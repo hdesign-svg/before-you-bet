@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Trophy, Users, Info } from "lucide-react";
+import { ChevronDown, Zap, Trophy, Users, Info, Activity } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -187,8 +187,11 @@ export default function Page() {
 
       <footer className={s.pageFooter}>
         <div className={`${s.container} ${s.footerInner}`}>
-          <p>Not a sportsbook. Informational only.</p>
-          <p>Updated {WEEK.lastUpdated}</p>
+          <p className={s.footerDisclaimer}>Not a sportsbook. Informational only.</p>
+          <div className={s.footerStatus}>
+            <Activity size={12} className={s.footerStatusIcon} />
+            <span>Updated {WEEK.lastUpdated}</span>
+          </div>
         </div>
       </footer>
     </main>

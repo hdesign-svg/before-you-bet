@@ -464,13 +464,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: var(--sp-8);
-  padding-bottom: var(--sp-12);
+  padding-top: var(--sp-10);
+  padding-bottom: var(--sp-10);
 }
 
-.pageFooter p {
+.footerDisclaimer {
   font-size: var(--text-xs);
-  color: var(--neutral-400);
+  font-weight: 500;
+  color: var(--neutral-500);
+}
+
+.footerStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--green-700);
+  background: var(--green-50);
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--r-full);
+}
+
+.footerStatusIcon {
+  color: var(--green-500);
+  flex-shrink: 0;
 }
 
 /* ═══════════════════════════════════════
@@ -530,8 +548,11 @@
     height: 32px;
   }
 
-  .pageFooter {
-    padding: var(--sp-6) 0 var(--sp-10);
+  .footerInner {
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding-top: var(--sp-6);
+    padding-bottom: var(--sp-8);
   }
 
   /* On mobile, intel panel is inline not absolute */
