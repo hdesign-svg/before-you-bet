@@ -184,11 +184,14 @@ export default function Page() {
           </section>
         ))}
 
-        <footer className={s.pageFooter}>
+      </div>
+
+      <footer className={s.pageFooter}>
+        <div className={`${s.container} ${s.footerInner}`}>
           <p>Not a sportsbook. Informational only.</p>
           <p>Updated {WEEK.lastUpdated}</p>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </main>
   );
 }

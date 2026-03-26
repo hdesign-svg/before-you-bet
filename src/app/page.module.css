@@ -462,10 +462,16 @@
 /* ─── Page Footer ─── */
 
 .pageFooter {
-  padding: var(--sp-10) 0 var(--sp-12);
+  margin-top: var(--sp-8);
+  background: var(--neutral-100);
+}
+
+.footerInner {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: var(--sp-8);
+  padding-bottom: var(--sp-12);
 }
 
 .pageFooter p {
