@@ -142,8 +142,8 @@
 .contentWeek {
   font-family: var(--font-body);
   font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--neutral-300);
+  font-weight: 600;
+  color: var(--midnight-400);
   padding-bottom: var(--sp-3);
 }
 
