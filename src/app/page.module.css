@@ -55,22 +55,6 @@
   margin: 0 auto;
 }
 
-.headerTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--sp-3);
-}
-
-.weekTag {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.5);
-}
-
 .wordmark {
   font-family: var(--font-display);
   font-size: clamp(36px, 6vw, 48px);
@@ -88,6 +72,49 @@
   max-width: 400px;
   line-height: 1.5;
   margin-top: var(--sp-2);
+}
+
+/* ─── Header Tabs ─── */
+
+.headerTabs {
+  display: flex;
+  gap: var(--sp-1);
+  margin-top: var(--sp-6);
+}
+
+.headerTab {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.4);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-sm);
+  min-height: 44px;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out),
+              background var(--duration-fast) var(--ease-out);
+  position: relative;
+}
+
+.headerTab:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.headerTabActive {
+  color: #ffffff;
+}
+
+.headerTabActive::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: var(--sp-4);
+  right: var(--sp-4);
+  height: 3px;
+  background: var(--coral);
+  border-radius: 3px 3px 0 0;
 }
 
 /* ─── Slate Sections ─── */

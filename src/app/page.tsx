@@ -70,6 +70,7 @@ function PlayerCard({ player }: { player: PlayerSpotlight }) {
 export default function Page() {
   const [active, setActive] = useState<Game | null>(null);
   const [closing, setClosing] = useState(false);
+  const [tab, setTab] = useState<"games" | "players">("games");
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -196,13 +197,28 @@ export default function Page() {
       {/* App Header — Midnight Strip */}
       <header className={s.header}>
         <div className={s.headerInner}>
-          <div className={s.headerTop}>
-            <span className={s.weekTag}>Week {WEEK.number} · NFL</span>
-          </div>
           <h1 className={s.wordmark}>Before You Bet</h1>
           <p className={s.subtitle}>
             Plain-English game intelligence for people who don{'\u2019'}t speak betting.
           </p>
+          <nav className={s.headerTabs} role="tablist">
+            <button
+              className={`${s.headerTab} ${tab === "games" ? s.headerTabActive : ""}`}
+              role="tab"
+              aria-selected={tab === "games"}
+              onClick={() => setTab("games")}
+            >
+              Games
+            </button>
+            <button
+              className={`${s.headerTab} ${tab === "players" ? s.headerTabActive : ""}`}
+              role="tab"
+              aria-selected={tab === "players"}
+              onClick={() => setTab("players")}
+            >
+              Players
+            </button>
+          </nav>
         </div>
       </header>
 
