@@ -96,7 +96,7 @@
 
 .contentBar {
   display: flex;
-  align-items: flex-end;
+  align-items: last baseline;
   justify-content: space-between;
   padding-top: var(--sp-6);
   border-bottom: 1px solid var(--neutral-200);
