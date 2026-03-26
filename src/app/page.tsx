@@ -31,7 +31,6 @@ function groupBySlate(list: Game[]) {
   return order.filter((l) => map[l]).map((label) => ({ label, games: map[label] }));
 }
 
-/** Parse "4:25 PM ET" → { time: "4:25", period: "PM ET" } */
 function parseTime(raw: string) {
   const match = raw.match(/^(\d+:\d+)\s*(.*)$/);
   if (!match) return { time: raw, period: "" };
@@ -70,29 +69,12 @@ function PlayerCard({ player }: { player: PlayerSpotlight }) {
 
 export default function Page() {
   const [active, setActive] = useState<Game | null>(null);
-  const [theme, setTheme] = useState<"dark" | "light" | null>(null);
   const detailRef = useRef<HTMLElement>(null);
   const backBtnRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const slates = useMemo(() => groupBySlate(games), []);
 
   const scrollRef = useRef(0);
-
-  // Initialize from system preference
-  useEffect(() => {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setTheme(prefersDark ? "dark" : "light");
-  }, []);
-
-  // Apply theme to html element
-  useEffect(() => {
-    if (theme) document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  const resolvedTheme = theme ?? "dark";
-  const toggleTheme = useCallback(() => {
-    setTheme((t) => (t === "dark" ? "light" : "dark"));
-  }, []);
 
   const open = useCallback((g: Game, trigger: HTMLButtonElement) => {
     scrollRef.current = window.scrollY;
@@ -111,7 +93,6 @@ export default function Page() {
     });
   }, []);
 
-  // Keyboard: Escape to close detail
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" && active) close();
@@ -120,7 +101,6 @@ export default function Page() {
     return () => window.removeEventListener("keydown", onKey);
   }, [active, close]);
 
-  // Focus the back button when detail opens
   useEffect(() => {
     if (active && backBtnRef.current) backBtnRef.current.focus();
   }, [active]);
@@ -130,18 +110,18 @@ export default function Page() {
 
   /* ─────────── DETAIL VIEW ─────────── */
   if (active && away && home) {
-    const gradBg = `linear-gradient(135deg, ${away.color} 0%, ${home.color} 100%)`;
-
     return (
-      <main className={s.detailView} style={{ background: gradBg }} ref={detailRef} aria-label={`${away.city} ${away.name} at ${home.city} ${home.name}`}>
-        {/* Back */}
+      <main className={s.detailView} ref={detailRef} aria-label={`${away.city} ${away.name} at ${home.city} ${home.name}`}>
+        {/* Nav — midnight strip */}
         <nav className={s.detailNav}>
-          <button ref={backBtnRef} className={s.backBtn} onClick={close}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span>All Games</span>
-          </button>
+          <div className={s.detailNavInner}>
+            <button ref={backBtnRef} className={s.backBtn} onClick={close}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>All Games</span>
+            </button>
+          </div>
         </nav>
 
         {/* Matchup hero */}
@@ -164,19 +144,22 @@ export default function Page() {
           </div>
         </header>
 
-        {/* Content cards on gradient */}
+        {/* Content */}
         <div className={s.detailContent}>
-          {/* Insight card */}
-          <section className={s.card}>
+          {/* Insight card — coral */}
+          <section className={s.insightCard}>
+            <div className={s.insightLabel}>Quick Take</div>
             <h2 className={s.cardHeadline}>{active.headline}</h2>
             <ul className={s.bullets}>
               {active.rundown.map((b, i) => (
-                <li key={i} className={s.bullet}>{b}</li>
+                <li key={i} className={s.bullet}>
+                  <span>{b}</span>
+                </li>
               ))}
             </ul>
           </section>
 
-          {/* Players card */}
+          {/* Players card — white */}
           <section className={s.card}>
             <h3 className={s.cardTitle}>Players to Watch</h3>
             <div className={s.playerGrid}>
@@ -207,43 +190,22 @@ export default function Page() {
     );
   }
 
-  /* ─────────── STRIP LIST VIEW ─────────── */
+  /* ─────────── LIST VIEW ─────────── */
   return (
     <main className={s.gridView}>
       <a href="#games" className={s.srOnly}>Skip to games</a>
 
-      {/* Hero Header */}
+      {/* App Header — Midnight Strip */}
       <header className={s.header}>
-        <div className={s.headerTop}>
-          <span className={s.weekTag}>Week {WEEK.number} · NFL</span>
-          <button
-            className={s.themeToggle}
-            onClick={toggleTheme}
-            aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
-          >
-            {resolvedTheme === "dark" ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
+        <div className={s.headerInner}>
+          <div className={s.headerTop}>
+            <span className={s.weekTag}>Week {WEEK.number} · NFL</span>
+          </div>
+          <h1 className={s.wordmark}>Before You Bet</h1>
+          <p className={s.subtitle}>
+            Plain-English game intelligence for people who don{'\u2019'}t speak betting.
+          </p>
         </div>
-        <h1 className={s.wordmark}>Before You Bet</h1>
-        <p className={s.subtitle}>
-          Plain-English game intelligence for people who don{'\u2019'}t speak betting.
-        </p>
       </header>
 
       {/* Game Strips by Slate */}
@@ -256,7 +218,6 @@ export default function Page() {
           {slate.games.map((game, idx) => {
             const a = teams[game.awayAbbr];
             const h = teams[game.homeAbbr];
-            const grad = `linear-gradient(to bottom, ${a.color}, ${h.color})`;
             const { time, period } = parseTime(game.time);
 
             return (
@@ -267,7 +228,6 @@ export default function Page() {
                 style={{ animationDelay: `${(slateIdx * 3 + idx) * 60}ms` }}
                 aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}, ${game.time}`}
               >
-                <div className={s.stripGradient} style={{ background: grad }} aria-hidden="true" />
                 <div className={s.stripContent}>
                   <div className={s.stripStatus}>
                     <span className={s.statusTime}>{time}</span>

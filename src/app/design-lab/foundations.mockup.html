@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Before You Bet — Design Foundations v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --midnight: #0f1729;
+    --midnight-rich: #1a2744;
+    --midnight-soft: #2a3a5c;
+    --coral: #FF6B5A;
+    --coral-hover: #FF8A7A;
+    --coral-deep: #E5503F;
+    --bg: #f4f5f7;
+    --bg-elevated: #ffffff;
+    --ink: #0f1729;
+    --ink-secondary: rgba(15, 23, 41, 0.6);
+    --ink-tertiary: rgba(15, 23, 41, 0.4);
+    --ink-ghost: rgba(15, 23, 41, 0.12);
+    --rule: rgba(15, 23, 41, 0.08);
+    --rule-strong: rgba(15, 23, 41, 0.15);
+    --live: #059669;
+    --caution: #d97706;
+    --error: #dc2626;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-xl: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Outfit", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header strip */
+  .header {
+    background: var(--midnight);
+    padding: 40px 32px 24px;
+  }
+  .header h1 {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: #fff;
+  }
+  .header p {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 0 32px 64px; }
+
+  /* Section */
+  .section { margin-top: 48px; }
+  .section-label {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--coral);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+
+  /* Color swatches */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .swatch {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .swatch-color {
+    height: 72px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 12px;
+  }
+  .swatch-color span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+  .swatch-info {
+    background: var(--bg-elevated);
+    padding: 10px 12px;
+  }
+  .swatch-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .swatch-role {
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    margin-top: 2px;
+  }
+
+  /* Typography specimens */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .type-meta {
+    min-width: 100px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    flex-shrink: 0;
+  }
+
+  /* Shadow cards */
+  .shadow-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .shadow-card {
+    background: var(--bg-elevated);
+    border-radius: 10px;
+    padding: 24px 16px;
+    text-align: center;
+  }
+  .shadow-card .label {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-tertiary);
+    margin-top: 12px;
+  }
+  .shadow-sm { box-shadow: var(--shadow-sm); }
+  .shadow-md { box-shadow: var(--shadow-md); }
+  .shadow-lg { box-shadow: var(--shadow-lg); }
+  .shadow-xl { box-shadow: var(--shadow-xl); }
+
+  /* Radii */
+  .radii-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+  }
+  .radii-item {
+    text-align: center;
+  }
+  .radii-box {
+    width: 64px;
+    height: 64px;
+    background: var(--midnight);
+    margin: 0 auto 8px;
+  }
+  .radii-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-tertiary);
+  }
+  .radii-name {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  /* Spacing */
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+  }
+  .spacing-bar {
+    height: 8px;
+    background: var(--coral);
+    border-radius: 4px;
+    opacity: 0.7;
+  }
+  .spacing-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-tertiary);
+    min-width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .spacing-val {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-secondary);
+    min-width: 40px;
+    flex-shrink: 0;
+  }
+
+  /* Brand surfaces demo */
+  .surface-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .surface-card {
+    border-radius: 14px;
+    padding: 28px 24px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .surface-card h3 {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .surface-card p {
+    font-size: 13px;
+    margin-top: 4px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Before You Bet</h1>
+  <p>Design Foundations v2 — Light mode, Midnight Navy + Warm Coral</p>
+</div>
+
+<div class="container">
+
+  <!-- BRAND COLORS -->
+  <div class="section">
+    <div class="section-label">Brand Colors</div>
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0f1729;"><span style="color: rgba(255,255,255,0.6);">#0f1729</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Midnight</div>
+          <div class="swatch-role">Headers, strips, authority</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #1a2744;"><span style="color: rgba(255,255,255,0.6);">#1a2744</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Midnight Rich</div>
+          <div class="swatch-role">Hover, secondary</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #2a3a5c;"><span style="color: rgba(255,255,255,0.6);">#2a3a5c</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Midnight Soft</div>
+          <div class="swatch-role">Badges, muted brand</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FF6B5A;"><span style="color: rgba(255,255,255,0.8);">#FF6B5A</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Coral</div>
+          <div class="swatch-role">Insight cards, verdicts, CTAs</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FF8A7A;"><span style="color: rgba(255,255,255,0.8);">#FF8A7A</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Coral Hover</div>
+          <div class="swatch-role">Hover state</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #E5503F;"><span style="color: rgba(255,255,255,0.8);">#E5503F</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Coral Deep</div>
+          <div class="swatch-role">Active/pressed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SURFACE COLORS -->
+  <div class="section">
+    <div class="section-label">Surfaces & Ink</div>
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #f4f5f7; border: 1px solid rgba(0,0,0,0.08);"><span style="color: var(--ink-tertiary);">#f4f5f7</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Canvas</div>
+          <div class="swatch-role">Page background</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.08);"><span style="color: var(--ink-tertiary);">#ffffff</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Elevated</div>
+          <div class="swatch-role">Cards, panels</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0f1729;"><span style="color: rgba(255,255,255,0.6);">#0f1729</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ink</div>
+          <div class="swatch-role">Primary text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: rgba(15,23,41,0.6); border: 1px solid rgba(0,0,0,0.08);"><span style="color: #fff;">60%</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ink Secondary</div>
+          <div class="swatch-role">Body text, descriptions</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: rgba(15,23,41,0.4); border: 1px solid rgba(0,0,0,0.08);"><span style="color: #fff;">40%</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ink Tertiary</div>
+          <div class="swatch-role">Labels, meta, captions</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: rgba(15,23,41,0.12); border: 1px solid rgba(0,0,0,0.08);"><span style="color: var(--ink-tertiary);">12%</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ink Ghost</div>
+          <div class="swatch-role">Disabled, decorative</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEMANTIC -->
+  <div class="section">
+    <div class="section-label">Semantic Status</div>
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #059669;"><span style="color: rgba(255,255,255,0.8);">#059669</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Live</div>
+          <div class="swatch-role">Live games, positive</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #d97706;"><span style="color: rgba(255,255,255,0.8);">#d97706</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Caution</div>
+          <div class="swatch-role">Warnings, toss-ups</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #dc2626;"><span style="color: rgba(255,255,255,0.8);">#dc2626</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Error</div>
+          <div class="swatch-role">Errors, low confidence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAND SURFACES -->
+  <div class="section">
+    <div class="section-label">Brand Surface Usage</div>
+    <div class="surface-demo">
+      <div class="surface-card" style="background: var(--midnight); color: #fff; box-shadow: var(--shadow-lg);">
+        <h3>Midnight Strip</h3>
+        <p>Headers, nav bars, authority moments</p>
+      </div>
+      <div class="surface-card" style="background: var(--coral); color: #fff; box-shadow: var(--shadow-lg);">
+        <h3>Coral Surface</h3>
+        <p>Insight cards, verdicts, value moments</p>
+      </div>
+      <div class="surface-card" style="background: var(--bg-elevated); color: var(--ink); box-shadow: var(--shadow-md);">
+        <h3>White Card</h3>
+        <p>Game strips, player cards, data</p>
+      </div>
+      <div class="surface-card" style="background: var(--bg); color: var(--ink); border: 1px solid var(--rule);">
+        <h3>Canvas</h3>
+        <p>Page background, breathing room</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+
+    <div class="type-row">
+      <div class="type-meta">56px / 900<br/>Display</div>
+      <div style="font-family: 'Big Shoulders Display'; font-weight: 900; font-size: 56px; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.1;">Game Day</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">40px / 900<br/>Display</div>
+      <div style="font-family: 'Big Shoulders Display'; font-weight: 900; font-size: 40px; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.1;">245 Yards</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">32px / 900<br/>Display</div>
+      <div style="font-family: 'Big Shoulders Display'; font-weight: 900; font-size: 32px; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.15;">Sunday Early</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">24px / 900<br/>Display</div>
+      <div style="font-family: 'Big Shoulders Display'; font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.15;">Washington is the Safe Bet</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">20px / 800<br/>Display</div>
+      <div style="font-family: 'Big Shoulders Display'; font-weight: 800; font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em;">Cowboys at Commanders</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">17px / 600<br/>Outfit</div>
+      <div style="font-family: 'Outfit'; font-weight: 600; font-size: 17px;">Jayden Daniels is a dual-threat nightmare</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">15px / 400<br/>Outfit</div>
+      <div style="font-family: 'Outfit'; font-weight: 400; font-size: 15px; color: var(--ink-secondary); line-height: 1.6;">Dallas is starting a backup QB and has lost five straight. Washington's rookie Jayden Daniels has been electric — this is one of the more confident picks of the week.</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">13px / 500<br/>Outfit</div>
+      <div style="font-family: 'Outfit'; font-weight: 500; font-size: 13px; color: var(--ink-tertiary); text-transform: uppercase; letter-spacing: 0.04em;">Metadata · Labels · Supporting</div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">13px / 600<br/>Mono</div>
+      <div style="font-family: 'JetBrains Mono'; font-weight: 600; font-size: 13px;">4:25 PM ET &nbsp;·&nbsp; -110 &nbsp;·&nbsp; 7-4</div>
+    </div>
+  </div>
+
+  <!-- SHADOWS -->
+  <div class="section">
+    <div class="section-label">Depth — Shadow Scale</div>
+    <div class="shadow-row">
+      <div class="shadow-card shadow-sm">
+        <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 6px; margin: 0 auto;"></div>
+        <div class="label">SM</div>
+      </div>
+      <div class="shadow-card shadow-md">
+        <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 6px; margin: 0 auto;"></div>
+        <div class="label">MD</div>
+      </div>
+      <div class="shadow-card shadow-lg">
+        <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 6px; margin: 0 auto;"></div>
+        <div class="label">LG</div>
+      </div>
+      <div class="shadow-card shadow-xl">
+        <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 6px; margin: 0 auto;"></div>
+        <div class="label">XL</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RADII -->
+  <div class="section">
+    <div class="section-label">Border Radius</div>
+    <div class="radii-row">
+      <div class="radii-item">
+        <div class="radii-box" style="border-radius: 6px;"></div>
+        <div class="radii-name">SM</div>
+        <div class="radii-label">6px</div>
+      </div>
+      <div class="radii-item">
+        <div class="radii-box" style="border-radius: 10px;"></div>
+        <div class="radii-name">MD</div>
+        <div class="radii-label">10px</div>
+      </div>
+      <div class="radii-item">
+        <div class="radii-box" style="border-radius: 14px;"></div>
+        <div class="radii-name">LG</div>
+        <div class="radii-label">14px</div>
+      </div>
+      <div class="radii-item">
+        <div class="radii-box" style="border-radius: 20px;"></div>
+        <div class="radii-name">XL</div>
+        <div class="radii-label">20px</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-label">Spacing Scale</div>
+    <div class="spacing-row"><div class="spacing-label">--sp-1</div><div class="spacing-bar" style="width: 4px;"></div><div class="spacing-val">4px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-2</div><div class="spacing-bar" style="width: 8px;"></div><div class="spacing-val">8px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-3</div><div class="spacing-bar" style="width: 12px;"></div><div class="spacing-val">12px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-4</div><div class="spacing-bar" style="width: 16px;"></div><div class="spacing-val">16px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-6</div><div class="spacing-bar" style="width: 24px;"></div><div class="spacing-val">24px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-8</div><div class="spacing-bar" style="width: 32px;"></div><div class="spacing-val">32px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-12</div><div class="spacing-bar" style="width: 48px;"></div><div class="spacing-val">48px</div></div>
+    <div class="spacing-row"><div class="spacing-label">--sp-16</div><div class="spacing-bar" style="width: 64px;"></div><div class="spacing-val">64px</div></div>
+  </div>
+
+</div>
+</body>
+</html>
