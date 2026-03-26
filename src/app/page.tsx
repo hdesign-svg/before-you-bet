@@ -115,16 +115,10 @@ export default function Page() {
                   <div
                     key={game.slug}
                     className={`${s.gameCard} ${isOpen ? s.gameCardExpanded : ""}`}
-                    style={{
-                      animationDelay: `${(slateIdx * 3 + idx) * 50}ms`,
-                      // @ts-expect-error CSS custom properties
-                      "--away-color": a.color,
-                      "--home-color": h.color,
-                    }}
+                    style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
                   >
-                    {/* Team color gradient header zone */}
-                    <div className={s.cardColorZone}>
-                      <div className={s.cardColorBg} />
+                    {/* Card matchup zone */}
+                    <div className={s.cardMatchupZone}>
                       <div className={s.cardMatchup}>
                         <div className={s.cardTeam}>
                           <div className={s.cardLogoBg}>
