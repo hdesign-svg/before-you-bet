@@ -69,130 +69,128 @@ function PlayerCard({ player }: { player: PlayerSpotlight }) {
 
 export default function Page() {
   const [active, setActive] = useState<Game | null>(null);
-  const detailRef = useRef<HTMLElement>(null);
-  const backBtnRef = useRef<HTMLButtonElement>(null);
+  const [closing, setClosing] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const slates = useMemo(() => groupBySlate(games), []);
 
-  const scrollRef = useRef(0);
-
   const open = useCallback((g: Game, trigger: HTMLButtonElement) => {
-    scrollRef.current = window.scrollY;
     triggerRef.current = trigger;
     setActive(g);
-    window.scrollTo({ top: 0 });
+    document.body.style.overflow = "hidden";
   }, []);
 
   const close = useCallback(() => {
-    const trigger = triggerRef.current;
-    const scrollY = scrollRef.current;
-    setActive(null);
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: scrollY });
-      trigger?.focus();
-    });
+    setClosing(true);
+    setTimeout(() => {
+      setClosing(false);
+      setActive(null);
+      document.body.style.overflow = "";
+      triggerRef.current?.focus();
+    }, 280);
   }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && active) close();
+      if (e.key === "Escape" && active && !closing) close();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [active, close]);
+  }, [active, closing, close]);
 
   useEffect(() => {
-    if (active && backBtnRef.current) backBtnRef.current.focus();
+    if (active && closeBtnRef.current) closeBtnRef.current.focus();
   }, [active]);
 
   const away = active ? teams[active.awayAbbr] : null;
   const home = active ? teams[active.homeAbbr] : null;
 
-  /* ─────────── DETAIL VIEW ─────────── */
-  if (active && away && home) {
-    return (
-      <main className={s.detailView} ref={detailRef} aria-label={`${away.city} ${away.name} at ${home.city} ${home.name}`}>
-        {/* Nav — midnight strip */}
-        <nav className={s.detailNav}>
-          <div className={s.detailNavInner}>
-            <button ref={backBtnRef} className={s.backBtn} onClick={close}>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span>All Games</span>
-            </button>
-          </div>
-        </nav>
-
-        {/* Matchup hero */}
-        <header className={s.hero}>
-          <h1 className={s.srOnly}>{away.city} {away.name} at {home.city} {home.name}</h1>
-          <div className={s.heroTeam}>
-            <Image src={away.logo} alt={`${away.city} ${away.name} logo`} width={72} height={72} className={s.heroLogo} unoptimized />
-            <span className={s.heroCity}>{away.city}</span>
-            <span className={s.heroName}>{away.name}</span>
-          </div>
-          <div className={s.heroMid}>
-            <span className={s.heroAt}>at</span>
-            <span className={s.heroTime}>{active.date}</span>
-            <span className={s.heroTime}>{active.time}</span>
-          </div>
-          <div className={s.heroTeam}>
-            <Image src={home.logo} alt={`${home.city} ${home.name} logo`} width={72} height={72} className={s.heroLogo} unoptimized />
-            <span className={s.heroCity}>{home.city}</span>
-            <span className={s.heroName}>{home.name}</span>
-          </div>
-        </header>
-
-        {/* Content */}
-        <div className={s.detailContent}>
-          {/* Insight card — coral */}
-          <section className={s.insightCard}>
-            <div className={s.insightLabel}>Quick Take</div>
-            <h2 className={s.cardHeadline}>{active.headline}</h2>
-            <ul className={s.bullets}>
-              {active.rundown.map((b, i) => (
-                <li key={i} className={s.bullet}>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Players card — white */}
-          <section className={s.card}>
-            <h3 className={s.cardTitle}>Players to Watch</h3>
-            <div className={s.playerGrid}>
-              {active.awayPlayers.length > 0 && (
-                <div className={s.teamCol}>
-                  <h4 className={s.teamLabel}>{away.name}</h4>
-                  {active.awayPlayers.map((p) => (
-                    <PlayerCard key={p.name} player={p} />
-                  ))}
-                </div>
-              )}
-              {active.homePlayers.length > 0 && (
-                <div className={s.teamCol}>
-                  <h4 className={s.teamLabel}>{home.name}</h4>
-                  {active.homePlayers.map((p) => (
-                    <PlayerCard key={p.name} player={p} />
-                  ))}
-                </div>
-              )}
-            </div>
-          </section>
-        </div>
-
-        <footer className={s.detailFooter}>
-          <span>Updated {active.lastUpdated}</span>
-        </footer>
-      </main>
-    );
-  }
-
   /* ─────────── LIST VIEW ─────────── */
   return (
     <main className={s.gridView}>
+      {/* ─── Modal Overlay ─── */}
+      {active && away && home && (
+        <div
+          className={`${s.overlay} ${closing ? s.overlayClosing : ""}`}
+          onClick={(e) => { if (e.target === e.currentTarget) close(); }}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${away.city} ${away.name} at ${home.city} ${home.name}`}
+        >
+          <div ref={modalRef} className={`${s.modal} ${closing ? s.modalClosing : ""}`}>
+            {/* Close button */}
+            <button ref={closeBtnRef} className={s.closeBtn} onClick={close} aria-label="Close">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
+
+            {/* Matchup hero */}
+            <header className={s.hero}>
+              <h2 className={s.srOnly}>{away.city} {away.name} at {home.city} {home.name}</h2>
+              <div className={s.heroTeam}>
+                <Image src={away.logo} alt={`${away.city} ${away.name} logo`} width={72} height={72} className={s.heroLogo} unoptimized />
+                <span className={s.heroCity}>{away.city}</span>
+                <span className={s.heroName}>{away.name}</span>
+              </div>
+              <div className={s.heroMid}>
+                <span className={s.heroAt}>at</span>
+                <span className={s.heroTime}>{active.date}</span>
+                <span className={s.heroTime}>{active.time}</span>
+              </div>
+              <div className={s.heroTeam}>
+                <Image src={home.logo} alt={`${home.city} ${home.name} logo`} width={72} height={72} className={s.heroLogo} unoptimized />
+                <span className={s.heroCity}>{home.city}</span>
+                <span className={s.heroName}>{home.name}</span>
+              </div>
+            </header>
+
+            {/* Content */}
+            <div className={s.detailContent}>
+              {/* Insight card — coral */}
+              <section className={s.insightCard}>
+                <div className={s.insightLabel}>Quick Take</div>
+                <h2 className={s.cardHeadline}>{active.headline}</h2>
+                <ul className={s.bullets}>
+                  {active.rundown.map((b, i) => (
+                    <li key={i} className={s.bullet}>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              {/* Players card — white */}
+              <section className={s.card}>
+                <h3 className={s.cardTitle}>Players to Watch</h3>
+                <div className={s.playerGrid}>
+                  {active.awayPlayers.length > 0 && (
+                    <div className={s.teamCol}>
+                      <h4 className={s.teamLabel}>{away.name}</h4>
+                      {active.awayPlayers.map((p) => (
+                        <PlayerCard key={p.name} player={p} />
+                      ))}
+                    </div>
+                  )}
+                  {active.homePlayers.length > 0 && (
+                    <div className={s.teamCol}>
+                      <h4 className={s.teamLabel}>{home.name}</h4>
+                      {active.homePlayers.map((p) => (
+                        <PlayerCard key={p.name} player={p} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </section>
+            </div>
+
+            <footer className={s.detailFooter}>
+              <span>Updated {active.lastUpdated}</span>
+            </footer>
+          </div>
+        </div>
+      )}
       <a href="#games" className={s.srOnly}>Skip to games</a>
 
       {/* App Header — Midnight Strip */}
