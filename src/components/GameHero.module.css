@@ -42,7 +42,7 @@
 }
 
 .record {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   color: var(--ink-tertiary);
 }

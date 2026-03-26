@@ -9,7 +9,6 @@
   /* ── Typography ── */
   --font-display: "Big Shoulders Display", -apple-system, sans-serif;
   --font-body: "Outfit", -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   /* ── Type Scale ── */
   --text-xs: 11px;

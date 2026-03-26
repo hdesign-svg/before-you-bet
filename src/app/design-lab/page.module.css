@@ -62,7 +62,7 @@
 }
 
 .list li strong {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 600;
   color: var(--ink);

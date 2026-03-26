@@ -32,7 +32,7 @@
 }
 
 .value {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--ink);
