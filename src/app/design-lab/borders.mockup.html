@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Before You Bet — Borders</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --font-display: "Big Shoulders Display", sans-serif;
+    --font-body: "Outfit", sans-serif;
+
+    --midnight-900: #0f1729;
+    --coral-500: #ff6b5a;
+    --coral-600: #e5503f;
+    --neutral-100: #f1f3f6;
+    --neutral-200: #e4e7ed;
+    --neutral-300: #cdd2dc;
+    --neutral-400: #a3aab9;
+    --neutral-500: #7a8293;
+    --green-500: #22c55e;
+    --red-500: #ef4444;
+    --amber-500: #f59e0b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f1f3f6;
+    font-family: var(--font-body);
+    color: var(--midnight-900);
+    padding: 48px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--neutral-500);
+    margin-bottom: 56px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--midnight-900);
+    margin-bottom: 24px;
+    margin-top: 56px;
+  }
+
+  h2:first-of-type { margin-top: 0; }
+
+  /* ─── Specimen Grid ─── */
+  .border-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .border-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .border-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--coral-600);
+    margin-bottom: 16px;
+  }
+
+  .border-specimen {
+    width: 100%;
+    height: 80px;
+    border-radius: 10px;
+    background: var(--neutral-100);
+    margin-bottom: 16px;
+  }
+
+  .border-note {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--neutral-400);
+    line-height: 1.6;
+  }
+
+  .border-code {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--neutral-500);
+    margin-bottom: 4px;
+  }
+
+  /* ─── Divider specimens ─── */
+  .divider-row {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+
+  .divider-specimen {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .divider-line {
+    width: 100%;
+    height: 0;
+  }
+
+  .divider-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+
+  .divider-meta span:first-child {
+    font-weight: 600;
+    color: var(--midnight-900);
+  }
+
+  .divider-meta span:last-child {
+    color: var(--neutral-400);
+  }
+</style>
+</head>
+<body>
+
+<h1>Borders</h1>
+<p class="page-subtitle">Before You Bet — Border styles, dividers, and separator patterns</p>
+
+<!-- ═══ BORDER COLORS ═══ -->
+<h2>Border Colors</h2>
+<div class="border-grid">
+  <div class="border-card">
+    <div class="border-label">Default</div>
+    <div class="border-specimen" style="border: 1px solid #e4e7ed"></div>
+    <div class="border-code">neutral-200</div>
+    <div class="border-note">Primary border color. Used for dividers, card separators, table rows, and content boundaries.</div>
+  </div>
+  <div class="border-card">
+    <div class="border-label">Subtle</div>
+    <div class="border-specimen" style="border: 1px solid #f1f3f6"></div>
+    <div class="border-code">neutral-100</div>
+    <div class="border-note">Barely visible borders for internal divisions within cards or panels where a full border feels heavy.</div>
+  </div>
+  <div class="border-card">
+    <div class="border-label">Strong</div>
+    <div class="border-specimen" style="border: 1px solid #cdd2dc"></div>
+    <div class="border-code">neutral-300</div>
+    <div class="border-note">Higher contrast borders for focused inputs, hover states, or elements that need stronger definition.</div>
+  </div>
+</div>
+
+<!-- ═══ ACCENT BORDERS ═══ -->
+<h2>Accent Borders</h2>
+<div class="border-grid">
+  <div class="border-card">
+    <div class="border-label">Coral Accent</div>
+    <div class="border-specimen" style="border-bottom: 3px solid #e5503f"></div>
+    <div class="border-code">coral-600 · 3px</div>
+    <div class="border-note">Active tab indicator, selected state underline. Always bottom-positioned, 3px thick.</div>
+  </div>
+  <div class="border-card">
+    <div class="border-label">Success</div>
+    <div class="border-specimen" style="border: 1px solid #22c55e"></div>
+    <div class="border-code">green-500</div>
+    <div class="border-note">Valid form fields, success states. Pairs with green-50 background.</div>
+  </div>
+  <div class="border-card">
+    <div class="border-label">Error</div>
+    <div class="border-specimen" style="border: 1px solid #ef4444"></div>
+    <div class="border-code">red-500</div>
+    <div class="border-note">Invalid form fields, error states. Pairs with red-50 background.</div>
+  </div>
+</div>
+
+<!-- ═══ DIVIDER PATTERNS ═══ -->
+<h2>Dividers</h2>
+<div class="divider-row">
+  <div class="divider-specimen">
+    <div class="divider-line" style="border-top: 1px solid #e4e7ed"></div>
+    <div class="divider-meta">
+      <span>Section divider</span>
+      <span>1px solid neutral-200 · Used between slate groups, above footer</span>
+    </div>
+  </div>
+  <div class="divider-specimen">
+    <div class="divider-line" style="border-top: 1px solid #f1f3f6"></div>
+    <div class="divider-meta">
+      <span>Internal divider</span>
+      <span>1px solid neutral-100 · Used within cards, between intel rows</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BORDER WIDTHS ═══ -->
+<h2>Widths</h2>
+<div class="border-grid">
+  <div class="border-card">
+    <div class="border-label">1px — Default</div>
+    <div class="border-specimen" style="border: 1px solid #0f1729"></div>
+    <div class="border-note">Standard border width for all structural borders, dividers, and form fields.</div>
+  </div>
+  <div class="border-card">
+    <div class="border-label">2px — Emphasis</div>
+    <div class="border-specimen" style="border: 2px solid #0f1729"></div>
+    <div class="border-note">Focus rings, selected card outlines, emphasized boundaries.</div>
+  </div>
+  <div class="border-card">
+    <div class="border-label">3px — Accent</div>
+    <div class="border-specimen" style="border-bottom: 3px solid #e5503f"></div>
+    <div class="border-note">Reserved for brand accents only — active tab indicators and decorative underlines.</div>
+  </div>
+</div>
+
+</body>
+</html>
