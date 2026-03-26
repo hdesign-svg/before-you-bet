@@ -63,7 +63,7 @@ export default function Page() {
 
       {/* Sticky Header */}
       <header className={s.header}>
-        <div className={s.headerInner}>
+        <div className={`${s.container} ${s.headerInner}`}>
           <div className={s.headerBrand}>
             <h1 className={s.wordmark}>Before You Bet</h1>
             <p className={s.subtitle}>
@@ -94,7 +94,7 @@ export default function Page() {
       </header>
 
       {/* Game Card Grid */}
-      <div className={s.content}>
+      <div className={s.container}>
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
             <div className={s.slateHeader}>

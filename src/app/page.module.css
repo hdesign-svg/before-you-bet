@@ -23,13 +23,21 @@
   min-height: 100dvh;
 }
 
+/* Shared containment — guarantees header + content align */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+
 /* ═══════════════════════════════════════
    STICKY HEADER
    ═══════════════════════════════════════ */
 
 .header {
   background: var(--midnight-900);
-  padding: var(--sp-5) var(--sp-8) 0;
+  padding: var(--sp-5) 0 0;
   position: sticky;
   top: 0;
   z-index: 50;
@@ -37,8 +45,6 @@
 }
 
 .headerInner {
-  max-width: var(--max-w);
-  margin: 0 auto;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -119,11 +125,7 @@
    CONTENT AREA
    ═══════════════════════════════════════ */
 
-.content {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--sp-8);
-}
+/* .content uses .container class in markup */
 
 /* ─── Slate Sections ─── */
 
@@ -536,22 +538,22 @@
     white-space: normal;
   }
 
-  .header {
-    padding: var(--sp-4) var(--sp-6) 0;
+  .container {
+    padding: 0 var(--sp-6);
   }
 
-  .content {
-    padding: 0 var(--sp-6);
+  .header {
+    padding-top: var(--sp-4);
   }
 }
 
 @media (max-width: 640px) {
-  .header {
-    padding: var(--sp-4) var(--sp-4) 0;
+  .container {
+    padding: 0 var(--sp-4);
   }
 
-  .content {
-    padding: 0 var(--sp-4);
+  .header {
+    padding-top: var(--sp-4);
   }
 
   .cardGrid {
