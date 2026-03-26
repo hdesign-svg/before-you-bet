@@ -21,7 +21,7 @@ export type Game = {
 
 export const WEEK = {
   number: 12,
-  dateRange: "Nov 19–25, 2024",
+  dateRange: "Nov 19–25",
   lastUpdated: "Sat, Nov 23 · 6:15 PM ET",
 };
 
