@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
+import { Clock, ChevronDown, Zap, Calendar, Trophy, Users, Info } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -36,6 +37,15 @@ function parseTime(raw: string) {
   return { time: match[1], period: match[2] };
 }
 
+/* ─── Slate icon mapping ─── */
+const slateIcon: Record<string, string> = {
+  "Thursday": "THU",
+  "Sunday Early": "SUN",
+  "Sunday Late": "SUN",
+  "Sunday Night": "SNF",
+  "Monday Night": "MNF",
+};
+
 /* ─── Main Page ─── */
 
 export default function Page() {
@@ -51,7 +61,7 @@ export default function Page() {
     <main className={s.page}>
       <a href="#games" className={s.srOnly}>Skip to games</a>
 
-      {/* App Header — Midnight Strip */}
+      {/* Sticky Header */}
       <header className={s.header}>
         <div className={s.headerInner}>
           <div className={s.headerBrand}>
@@ -67,6 +77,7 @@ export default function Page() {
               aria-selected={tab === "games"}
               onClick={() => setTab("games")}
             >
+              <Trophy size={14} />
               Games
             </button>
             <button
@@ -75,6 +86,7 @@ export default function Page() {
               aria-selected={tab === "players"}
               onClick={() => setTab("players")}
             >
+              <Users size={14} />
               Players
             </button>
           </nav>
@@ -86,7 +98,10 @@ export default function Page() {
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
             <div className={s.slateHeader}>
+              <Calendar size={16} className={s.slateIcon} />
               <span className={s.slateLabel}>{slate.label}</span>
+              <span className={s.slateBadge}>{slateIcon[slate.label]}</span>
+              <span className={s.slateCount}>{slate.games.length} {slate.games.length === 1 ? "game" : "games"}</span>
             </div>
 
             <div className={s.cardGrid}>
@@ -97,52 +112,83 @@ export default function Page() {
                 const isOpen = expanded === game.slug;
 
                 return (
-                  <article
+                  <div
                     key={game.slug}
                     className={`${s.gameCard} ${isOpen ? s.gameCardExpanded : ""}`}
-                    style={{ animationDelay: `${(slateIdx * 3 + idx) * 60}ms` }}
+                    style={{
+                      animationDelay: `${(slateIdx * 3 + idx) * 50}ms`,
+                      // @ts-expect-error CSS custom properties
+                      "--away-color": a.color,
+                      "--home-color": h.color,
+                    }}
                   >
-                    {/* Card header — always visible, clickable */}
+                    {/* Team color gradient header zone */}
+                    <div className={s.cardColorZone}>
+                      <div className={s.cardColorBg} />
+                      <div className={s.cardMatchup}>
+                        <div className={s.cardTeam}>
+                          <div className={s.cardLogoBg}>
+                            <Image src={a.logo} alt="" width={52} height={52} className={s.cardLogo} unoptimized />
+                          </div>
+                          <span className={s.cardAbbr}>{a.abbr}</span>
+                          <span className={s.cardCity}>{a.city}</span>
+                        </div>
+                        <div className={s.cardMid}>
+                          <span className={s.cardVs}>VS</span>
+                          <div className={s.cardTimeBlock}>
+                            <Clock size={10} className={s.cardClockIcon} />
+                            <span className={s.cardTime}>{time}</span>
+                          </div>
+                          <span className={s.cardPeriod}>{period}</span>
+                        </div>
+                        <div className={s.cardTeam}>
+                          <div className={s.cardLogoBg}>
+                            <Image src={h.logo} alt="" width={52} height={52} className={s.cardLogo} unoptimized />
+                          </div>
+                          <span className={s.cardAbbr}>{h.abbr}</span>
+                          <span className={s.cardCity}>{h.city}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card body — clickable */}
                     <button
-                      className={s.cardTrigger}
+                      className={s.cardBody}
                       onClick={() => toggle(game.slug)}
                       aria-expanded={isOpen}
                       aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}, ${game.time}`}
                     >
-                      <div className={s.cardMatchup}>
-                        <div className={s.cardTeam}>
-                          <Image src={a.logo} alt="" width={40} height={40} className={s.cardLogo} unoptimized />
-                          <span className={s.cardAbbr}>{a.abbr}</span>
-                        </div>
-                        <div className={s.cardMid}>
-                          <span className={s.cardTime}>{time}</span>
-                          <span className={s.cardPeriod}>{period}</span>
-                        </div>
-                        <div className={s.cardTeam}>
-                          <Image src={h.logo} alt="" width={40} height={40} className={s.cardLogo} unoptimized />
-                          <span className={s.cardAbbr}>{h.abbr}</span>
-                        </div>
-                      </div>
                       <p className={s.cardHeadline}>{game.headline}</p>
+                      <span className={s.cardCta}>
+                        <Zap size={12} className={s.ctaIcon} />
+                        {isOpen ? "Close" : "Quick Take"}
+                        <ChevronDown size={12} className={`${s.cardChevron} ${isOpen ? s.cardChevronOpen : ""}`} />
+                      </span>
                     </button>
 
-                    {/* Expanded intel — slides open */}
+                    {/* Expanded intel — absolute overlay */}
                     {isOpen && (
                       <div className={s.cardIntel}>
-                        <div className={s.intelLabel}>Quick Take</div>
-                        <ul className={s.intelBullets}>
-                          {game.rundown.map((b, i) => (
-                            <li key={i} className={s.intelBullet}>
-                              <span>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <div className={s.intelFooter}>
-                          <span>Updated {game.lastUpdated}</span>
+                        <div className={s.intelInner}>
+                          <div className={s.intelHeader}>
+                            <Zap size={14} className={s.intelIcon} />
+                            <span className={s.intelLabel}>Quick Take</span>
+                          </div>
+                          <ul className={s.intelBullets}>
+                            {game.rundown.map((b, i) => (
+                              <li key={i} className={s.intelBullet}>
+                                {b}
+                              </li>
+                            ))}
+                          </ul>
+                          <div className={s.intelFooter}>
+                            <Info size={10} className={s.intelFooterIcon} />
+                            <span>Updated {game.lastUpdated}</span>
+                          </div>
                         </div>
                       </div>
                     )}
-                  </article>
+                  </div>
                 );
               })}
             </div>

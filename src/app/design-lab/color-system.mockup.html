@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Before You Bet — Color System v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --font-display: "Big Shoulders Display", sans-serif;
+    --font-body: "Outfit", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f1f3f6;
+    font-family: var(--font-body);
+    color: #0f1729;
+    padding: 48px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+    color: #0f1729;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: #7a8293;
+    margin-bottom: 48px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0f1729;
+    margin-bottom: 24px;
+    margin-top: 56px;
+  }
+
+  h2:first-of-type { margin-top: 0; }
+
+  .scale-label {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5c6478;
+    margin-bottom: 12px;
+    margin-top: 32px;
+  }
+
+  .scale-label:first-of-type { margin-top: 0; }
+
+  /* ─── Swatch row ─── */
+  .swatch-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+
+  .swatch {
+    flex: 1;
+    aspect-ratio: 1.2;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    position: relative;
+    min-width: 0;
+  }
+
+  .swatch-step {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  .swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  .light-text { color: #ffffff; }
+  .dark-text { color: #0f1729; }
+
+  /* ─── Gradient strips ─── */
+  .gradient-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .gradient-card {
+    height: 100px;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .gradient-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .gradient-css {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    opacity: 0.6;
+    margin-top: 4px;
+  }
+
+  /* ─── Semantic colors ─── */
+  .semantic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .semantic-card {
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .semantic-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .semantic-label {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .semantic-usage {
+    font-size: 12px;
+    color: #5c6478;
+  }
+
+  /* ─── Token table ─── */
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+
+  .token-table th {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a3aab9;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid #e4e7ed;
+  }
+
+  .token-table td {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f3f6;
+    color: #434b5e;
+  }
+
+  .token-table td:first-child {
+    font-weight: 600;
+    color: #0f1729;
+  }
+
+  .color-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 8px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+</style>
+</head>
+<body>
+
+<h1>Color System</h1>
+<p class="page-subtitle">Before You Bet &mdash; Full color scales (50&ndash;900), gradients, and semantic tokens</p>
+
+<!-- ═══ BRAND: MIDNIGHT NAVY ═══ -->
+<h2>Midnight Navy</h2>
+<p class="scale-label">Primary brand &mdash; headers, authority, text</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#f0f2f8"><span class="swatch-step">50</span><span class="swatch-hex">#f0f2f8</span></div>
+  <div class="swatch dark-text" style="background:#dce1ef"><span class="swatch-step">100</span><span class="swatch-hex">#dce1ef</span></div>
+  <div class="swatch dark-text" style="background:#b8c3df"><span class="swatch-step">200</span><span class="swatch-hex">#b8c3df</span></div>
+  <div class="swatch dark-text" style="background:#8a9bc8"><span class="swatch-step">300</span><span class="swatch-hex">#8a9bc8</span></div>
+  <div class="swatch light-text" style="background:#6178b0"><span class="swatch-step">400</span><span class="swatch-hex">#6178b0</span></div>
+  <div class="swatch light-text" style="background:#3d5590"><span class="swatch-step">500</span><span class="swatch-hex">#3d5590</span></div>
+  <div class="swatch light-text" style="background:#2d4177"><span class="swatch-step">600</span><span class="swatch-hex">#2d4177</span></div>
+  <div class="swatch light-text" style="background:#1f305e"><span class="swatch-step">700</span><span class="swatch-hex">#1f305e</span></div>
+  <div class="swatch light-text" style="background:#152048"><span class="swatch-step">800</span><span class="swatch-hex">#152048</span></div>
+  <div class="swatch light-text" style="background:#0f1729"><span class="swatch-step">900</span><span class="swatch-hex">#0f1729</span></div>
+</div>
+
+<!-- ═══ BRAND: CORAL ═══ -->
+<h2>Coral</h2>
+<p class="scale-label">Accent &mdash; CTAs, active states, insight highlights</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#fff5f4"><span class="swatch-step">50</span><span class="swatch-hex">#fff5f4</span></div>
+  <div class="swatch dark-text" style="background:#ffe5e2"><span class="swatch-step">100</span><span class="swatch-hex">#ffe5e2</span></div>
+  <div class="swatch dark-text" style="background:#ffc9c3"><span class="swatch-step">200</span><span class="swatch-hex">#ffc9c3</span></div>
+  <div class="swatch dark-text" style="background:#ffa69c"><span class="swatch-step">300</span><span class="swatch-hex">#ffa69c</span></div>
+  <div class="swatch dark-text" style="background:#ff8a7a"><span class="swatch-step">400</span><span class="swatch-hex">#ff8a7a</span></div>
+  <div class="swatch light-text" style="background:#FF6B5A"><span class="swatch-step">500</span><span class="swatch-hex">#FF6B5A</span></div>
+  <div class="swatch light-text" style="background:#e5503f"><span class="swatch-step">600</span><span class="swatch-hex">#e5503f</span></div>
+  <div class="swatch light-text" style="background:#c03a2c"><span class="swatch-step">700</span><span class="swatch-hex">#c03a2c</span></div>
+  <div class="swatch light-text" style="background:#992e23"><span class="swatch-step">800</span><span class="swatch-hex">#992e23</span></div>
+  <div class="swatch light-text" style="background:#73221a"><span class="swatch-step">900</span><span class="swatch-hex">#73221a</span></div>
+</div>
+
+<!-- ═══ NEUTRAL ═══ -->
+<h2>Neutral</h2>
+<p class="scale-label">Cool gray &mdash; backgrounds, borders, secondary text</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#f8f9fb"><span class="swatch-step">50</span><span class="swatch-hex">#f8f9fb</span></div>
+  <div class="swatch dark-text" style="background:#f1f3f6"><span class="swatch-step">100</span><span class="swatch-hex">#f1f3f6</span></div>
+  <div class="swatch dark-text" style="background:#e4e7ed"><span class="swatch-step">200</span><span class="swatch-hex">#e4e7ed</span></div>
+  <div class="swatch dark-text" style="background:#cdd2dc"><span class="swatch-step">300</span><span class="swatch-hex">#cdd2dc</span></div>
+  <div class="swatch dark-text" style="background:#a3aab9"><span class="swatch-step">400</span><span class="swatch-hex">#a3aab9</span></div>
+  <div class="swatch light-text" style="background:#7a8293"><span class="swatch-step">500</span><span class="swatch-hex">#7a8293</span></div>
+  <div class="swatch light-text" style="background:#5c6478"><span class="swatch-step">600</span><span class="swatch-hex">#5c6478</span></div>
+  <div class="swatch light-text" style="background:#434b5e"><span class="swatch-step">700</span><span class="swatch-hex">#434b5e</span></div>
+  <div class="swatch light-text" style="background:#2c3347"><span class="swatch-step">800</span><span class="swatch-hex">#2c3347</span></div>
+  <div class="swatch light-text" style="background:#1a1f2e"><span class="swatch-step">900</span><span class="swatch-hex">#1a1f2e</span></div>
+</div>
+
+<!-- ═══ SEMANTIC: GREEN ═══ -->
+<h2>Green (Success)</h2>
+<p class="scale-label">Live indicators, positive trends, confidence</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#ecfdf5"><span class="swatch-step">50</span><span class="swatch-hex">#ecfdf5</span></div>
+  <div class="swatch dark-text" style="background:#d1fae5"><span class="swatch-step">100</span><span class="swatch-hex">#d1fae5</span></div>
+  <div class="swatch dark-text" style="background:#a7f3d0"><span class="swatch-step">200</span><span class="swatch-hex">#a7f3d0</span></div>
+  <div class="swatch dark-text" style="background:#6ee7b7"><span class="swatch-step">300</span><span class="swatch-hex">#6ee7b7</span></div>
+  <div class="swatch dark-text" style="background:#34d399"><span class="swatch-step">400</span><span class="swatch-hex">#34d399</span></div>
+  <div class="swatch light-text" style="background:#10b981"><span class="swatch-step">500</span><span class="swatch-hex">#10b981</span></div>
+  <div class="swatch light-text" style="background:#059669"><span class="swatch-step">600</span><span class="swatch-hex">#059669</span></div>
+  <div class="swatch light-text" style="background:#047857"><span class="swatch-step">700</span><span class="swatch-hex">#047857</span></div>
+  <div class="swatch light-text" style="background:#065f46"><span class="swatch-step">800</span><span class="swatch-hex">#065f46</span></div>
+  <div class="swatch light-text" style="background:#064e3b"><span class="swatch-step">900</span><span class="swatch-hex">#064e3b</span></div>
+</div>
+
+<!-- ═══ SEMANTIC: AMBER ═══ -->
+<h2>Amber (Warning)</h2>
+<p class="scale-label">Caution, injury flags, line movement</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#fffbeb"><span class="swatch-step">50</span><span class="swatch-hex">#fffbeb</span></div>
+  <div class="swatch dark-text" style="background:#fef3c7"><span class="swatch-step">100</span><span class="swatch-hex">#fef3c7</span></div>
+  <div class="swatch dark-text" style="background:#fde68a"><span class="swatch-step">200</span><span class="swatch-hex">#fde68a</span></div>
+  <div class="swatch dark-text" style="background:#fcd34d"><span class="swatch-step">300</span><span class="swatch-hex">#fcd34d</span></div>
+  <div class="swatch dark-text" style="background:#fbbf24"><span class="swatch-step">400</span><span class="swatch-hex">#fbbf24</span></div>
+  <div class="swatch dark-text" style="background:#f59e0b"><span class="swatch-step">500</span><span class="swatch-hex">#f59e0b</span></div>
+  <div class="swatch light-text" style="background:#d97706"><span class="swatch-step">600</span><span class="swatch-hex">#d97706</span></div>
+  <div class="swatch light-text" style="background:#b45309"><span class="swatch-step">700</span><span class="swatch-hex">#b45309</span></div>
+  <div class="swatch light-text" style="background:#92400e"><span class="swatch-step">800</span><span class="swatch-hex">#92400e</span></div>
+  <div class="swatch light-text" style="background:#78350f"><span class="swatch-step">900</span><span class="swatch-hex">#78350f</span></div>
+</div>
+
+<!-- ═══ SEMANTIC: RED ═══ -->
+<h2>Red (Error)</h2>
+<p class="scale-label">Errors, critical alerts, negative trends</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#fef2f2"><span class="swatch-step">50</span><span class="swatch-hex">#fef2f2</span></div>
+  <div class="swatch dark-text" style="background:#fee2e2"><span class="swatch-step">100</span><span class="swatch-hex">#fee2e2</span></div>
+  <div class="swatch dark-text" style="background:#fecaca"><span class="swatch-step">200</span><span class="swatch-hex">#fecaca</span></div>
+  <div class="swatch dark-text" style="background:#fca5a5"><span class="swatch-step">300</span><span class="swatch-hex">#fca5a5</span></div>
+  <div class="swatch dark-text" style="background:#f87171"><span class="swatch-step">400</span><span class="swatch-hex">#f87171</span></div>
+  <div class="swatch light-text" style="background:#ef4444"><span class="swatch-step">500</span><span class="swatch-hex">#ef4444</span></div>
+  <div class="swatch light-text" style="background:#dc2626"><span class="swatch-step">600</span><span class="swatch-hex">#dc2626</span></div>
+  <div class="swatch light-text" style="background:#b91c1c"><span class="swatch-step">700</span><span class="swatch-hex">#b91c1c</span></div>
+  <div class="swatch light-text" style="background:#991b1b"><span class="swatch-step">800</span><span class="swatch-hex">#991b1b</span></div>
+  <div class="swatch light-text" style="background:#7f1d1d"><span class="swatch-step">900</span><span class="swatch-hex">#7f1d1d</span></div>
+</div>
+
+<!-- ═══ SEMANTIC: BLUE ═══ -->
+<h2>Blue (Info)</h2>
+<p class="scale-label">Information, links, neutral callouts</p>
+<div class="swatch-row">
+  <div class="swatch dark-text" style="background:#eff6ff"><span class="swatch-step">50</span><span class="swatch-hex">#eff6ff</span></div>
+  <div class="swatch dark-text" style="background:#dbeafe"><span class="swatch-step">100</span><span class="swatch-hex">#dbeafe</span></div>
+  <div class="swatch dark-text" style="background:#bfdbfe"><span class="swatch-step">200</span><span class="swatch-hex">#bfdbfe</span></div>
+  <div class="swatch dark-text" style="background:#93c5fd"><span class="swatch-step">300</span><span class="swatch-hex">#93c5fd</span></div>
+  <div class="swatch dark-text" style="background:#60a5fa"><span class="swatch-step">400</span><span class="swatch-hex">#60a5fa</span></div>
+  <div class="swatch light-text" style="background:#3b82f6"><span class="swatch-step">500</span><span class="swatch-hex">#3b82f6</span></div>
+  <div class="swatch light-text" style="background:#2563eb"><span class="swatch-step">600</span><span class="swatch-hex">#2563eb</span></div>
+  <div class="swatch light-text" style="background:#1d4ed8"><span class="swatch-step">700</span><span class="swatch-hex">#1d4ed8</span></div>
+  <div class="swatch light-text" style="background:#1e40af"><span class="swatch-step">800</span><span class="swatch-hex">#1e40af</span></div>
+  <div class="swatch light-text" style="background:#1e3a8a"><span class="swatch-step">900</span><span class="swatch-hex">#1e3a8a</span></div>
+</div>
+
+<!-- ═══ GRADIENTS ═══ -->
+<h2>Gradients</h2>
+<div class="gradient-grid">
+  <div class="gradient-card light-text" style="background:linear-gradient(135deg, #152048, #0f1729)">
+    <span class="gradient-name">Midnight</span>
+    <span class="gradient-css">--grad-midnight</span>
+  </div>
+  <div class="gradient-card light-text" style="background:linear-gradient(135deg, #ff8a7a, #e5503f)">
+    <span class="gradient-name">Coral</span>
+    <span class="gradient-css">--grad-coral</span>
+  </div>
+  <div class="gradient-card dark-text" style="background:linear-gradient(135deg, #fff5f4, #ffe5e2)">
+    <span class="gradient-name">Coral Soft</span>
+    <span class="gradient-css">--grad-coral-soft</span>
+  </div>
+  <div class="gradient-card light-text" style="background:linear-gradient(135deg, #FF6B5A, #f59e0b)">
+    <span class="gradient-name">Warm</span>
+    <span class="gradient-css">--grad-warm</span>
+  </div>
+  <div class="gradient-card light-text" style="background:linear-gradient(135deg, #2d4177, #1d4ed8)">
+    <span class="gradient-name">Cool</span>
+    <span class="gradient-css">--grad-cool</span>
+  </div>
+  <div class="gradient-card dark-text" style="background:linear-gradient(180deg, #f8f9fb, #f1f3f6)">
+    <span class="gradient-name">Surface</span>
+    <span class="gradient-css">--grad-surface</span>
+  </div>
+  <div class="gradient-card light-text" style="background:linear-gradient(135deg, #0f1729 0%, #1f305e 50%, #2d4177 100%)">
+    <span class="gradient-name">Hero</span>
+    <span class="gradient-css">--grad-hero</span>
+  </div>
+</div>
+
+<!-- ═══ SEMANTIC USAGE ═══ -->
+<h2>Semantic Usage</h2>
+<div class="semantic-grid">
+  <div class="semantic-card" style="background:#ecfdf5">
+    <div class="semantic-dot" style="background:#059669"></div>
+    <span class="semantic-label" style="color:#059669">Success</span>
+    <span class="semantic-usage">Live indicators, positive trends, high confidence picks</span>
+  </div>
+  <div class="semantic-card" style="background:#fffbeb">
+    <div class="semantic-dot" style="background:#d97706"></div>
+    <span class="semantic-label" style="color:#d97706">Warning</span>
+    <span class="semantic-usage">Injury flags, line movement alerts, uncertain picks</span>
+  </div>
+  <div class="semantic-card" style="background:#fef2f2">
+    <div class="semantic-dot" style="background:#dc2626"></div>
+    <span class="semantic-label" style="color:#dc2626">Error</span>
+    <span class="semantic-usage">Critical alerts, negative trends, avoid picks</span>
+  </div>
+  <div class="semantic-card" style="background:#eff6ff">
+    <div class="semantic-dot" style="background:#2563eb"></div>
+    <span class="semantic-label" style="color:#2563eb">Info</span>
+    <span class="semantic-usage">Neutral callouts, tooltips, supplementary data</span>
+  </div>
+</div>
+
+<!-- ═══ TOKEN REFERENCE ═══ -->
+<h2>Light Theme Tokens</h2>
+<table class="token-table">
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>--bg</td><td><span class="color-dot" style="background:#f1f3f6"></span>#f1f3f6 (neutral-100)</td><td>Page background</td></tr>
+    <tr><td>--bg-elevated</td><td><span class="color-dot" style="background:#ffffff"></span>#ffffff</td><td>Cards, elevated surfaces</td></tr>
+    <tr><td>--canvas</td><td><span class="color-dot" style="background:#f8f9fb"></span>#f8f9fb (neutral-50)</td><td>Subtle background variant</td></tr>
+    <tr><td>--surface</td><td><span class="color-dot" style="background:#f1f3f6"></span>neutral-100</td><td>Inset surfaces, wells</td></tr>
+    <tr><td>--ink</td><td><span class="color-dot" style="background:#0f1729"></span>midnight-900</td><td>Primary text</td></tr>
+    <tr><td>--ink-secondary</td><td><span class="color-dot" style="background:#5c6478"></span>neutral-600</td><td>Secondary text</td></tr>
+    <tr><td>--ink-tertiary</td><td><span class="color-dot" style="background:#a3aab9"></span>neutral-400</td><td>Muted text, placeholders</td></tr>
+    <tr><td>--rule</td><td><span class="color-dot" style="background:#e4e7ed"></span>neutral-200</td><td>Borders, dividers</td></tr>
+    <tr><td>--rule-strong</td><td><span class="color-dot" style="background:#cdd2dc"></span>neutral-300</td><td>Prominent dividers</td></tr>
+  </tbody>
+</table>
+
+</body>
+</html>

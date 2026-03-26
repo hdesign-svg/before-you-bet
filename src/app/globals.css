@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════
-   BEFORE YOU BET — Design Tokens v2
-   Light-mode first · Midnight Navy + Coral
-   Sports broadcast intelligence
+   BEFORE YOU BET — Design Tokens v3
+   Full color system · Light-mode first
    ═══════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap');
@@ -35,7 +34,7 @@
   --sp-12: 48px;
   --sp-16: 64px;
 
-  /* ── Radii — confident but approachable ── */
+  /* ── Radii ── */
   --r-sm: 6px;
   --r-md: 10px;
   --r-lg: 14px;
@@ -51,21 +50,106 @@
   --duration-normal: 250ms;
   --duration-slow: 400ms;
 
-  /* ── Brand Colors (constant across themes) ── */
-  --midnight: #0f1729;
-  --midnight-rich: #1a2744;
-  --midnight-soft: #2a3a5c;
-  --coral: #FF6B5A;
-  --coral-hover: #FF8A7A;
-  --coral-deep: #E5503F;
+  /* ══════════════════════════════════════
+     COLOR SYSTEM — Full scales (50-900)
+     ══════════════════════════════════════ */
 
-  /* ── Semantic Status ── */
-  --live: #059669;
-  --live-dim: rgba(5, 150, 105, 0.1);
-  --caution: #d97706;
-  --caution-dim: rgba(217, 119, 6, 0.1);
-  --error: #dc2626;
-  --error-dim: rgba(220, 38, 38, 0.1);
+  /* ── Midnight Navy ── */
+  --midnight-50: #f0f2f8;
+  --midnight-100: #dce1ef;
+  --midnight-200: #b8c3df;
+  --midnight-300: #8a9bc8;
+  --midnight-400: #6178b0;
+  --midnight-500: #3d5590;
+  --midnight-600: #2d4177;
+  --midnight-700: #1f305e;
+  --midnight-800: #152048;
+  --midnight-900: #0f1729;
+
+  /* ── Coral ── */
+  --coral-50: #fff5f4;
+  --coral-100: #ffe5e2;
+  --coral-200: #ffc9c3;
+  --coral-300: #ffa69c;
+  --coral-400: #ff8a7a;
+  --coral-500: #FF6B5A;
+  --coral-600: #e5503f;
+  --coral-700: #c03a2c;
+  --coral-800: #992e23;
+  --coral-900: #73221a;
+
+  /* ── Neutral (cool gray) ── */
+  --neutral-50: #f8f9fb;
+  --neutral-100: #f1f3f6;
+  --neutral-200: #e4e7ed;
+  --neutral-300: #cdd2dc;
+  --neutral-400: #a3aab9;
+  --neutral-500: #7a8293;
+  --neutral-600: #5c6478;
+  --neutral-700: #434b5e;
+  --neutral-800: #2c3347;
+  --neutral-900: #1a1f2e;
+
+  /* ── Success / Green ── */
+  --green-50: #ecfdf5;
+  --green-100: #d1fae5;
+  --green-200: #a7f3d0;
+  --green-300: #6ee7b7;
+  --green-400: #34d399;
+  --green-500: #10b981;
+  --green-600: #059669;
+  --green-700: #047857;
+  --green-800: #065f46;
+  --green-900: #064e3b;
+
+  /* ── Warning / Amber ── */
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-300: #fcd34d;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
+
+  /* ── Error / Red ── */
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-900: #7f1d1d;
+
+  /* ── Info / Blue ── */
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
+
+  /* ── Gradients ── */
+  --grad-midnight: linear-gradient(135deg, var(--midnight-800), var(--midnight-900));
+  --grad-coral: linear-gradient(135deg, var(--coral-400), var(--coral-600));
+  --grad-coral-soft: linear-gradient(135deg, var(--coral-50), var(--coral-100));
+  --grad-warm: linear-gradient(135deg, var(--coral-500), var(--amber-500));
+  --grad-cool: linear-gradient(135deg, var(--midnight-600), var(--blue-700));
+  --grad-surface: linear-gradient(180deg, var(--neutral-50), var(--neutral-100));
+  --grad-hero: linear-gradient(135deg, var(--midnight-900) 0%, var(--midnight-700) 50%, var(--midnight-600) 100%);
+
+  /* ── Shortcuts (semantic aliases) ── */
+  --midnight: var(--midnight-900);
+  --coral: var(--coral-500);
 
   /* ── Shadows ── */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -77,56 +161,55 @@
 /* ═══ Light theme (default) ═══ */
 :root,
 [data-theme="light"] {
-  --bg: #f4f5f7;
+  --bg: var(--neutral-100);
   --bg-elevated: #ffffff;
-  --surface: rgba(0, 0, 0, 0.03);
-  --surface-hover: rgba(0, 0, 0, 0.06);
-  --ink: #0f1729;
-  --ink-secondary: rgba(15, 23, 41, 0.6);
-  --ink-tertiary: rgba(15, 23, 41, 0.4);
-  --ink-ghost: rgba(15, 23, 41, 0.12);
+  --canvas: var(--neutral-50);
+  --surface: var(--neutral-100);
+  --surface-hover: var(--neutral-200);
+  --ink: var(--midnight-900);
+  --ink-secondary: var(--neutral-600);
+  --ink-tertiary: var(--neutral-400);
+  --ink-ghost: var(--neutral-300);
   --ink-inverse: #ffffff;
-  --rule: rgba(15, 23, 41, 0.08);
-  --rule-strong: rgba(15, 23, 41, 0.15);
-  --final: rgba(0, 0, 0, 0.35);
+  --rule: var(--neutral-200);
+  --rule-strong: var(--neutral-300);
 
-  /* Brand surfaces — how midnight + coral appear in light mode */
-  --brand-surface: var(--midnight);
-  --brand-on: #ffffff;
-  --accent-surface: var(--coral);
-  --accent-on: #ffffff;
-  --accent-dim: rgba(255, 107, 90, 0.08);
+  /* Semantic */
+  --success: var(--green-600);
+  --success-bg: var(--green-50);
+  --warning: var(--amber-600);
+  --warning-bg: var(--amber-50);
+  --error: var(--red-600);
+  --error-bg: var(--red-50);
+  --info: var(--blue-600);
+  --info-bg: var(--blue-50);
 
   color-scheme: light;
 }
 
 /* ═══ Dark theme (opt-in) ═══ */
 [data-theme="dark"] {
-  --bg: #0f1729;
-  --bg-elevated: #162040;
+  --bg: var(--midnight-900);
+  --bg-elevated: var(--midnight-800);
+  --canvas: var(--midnight-900);
   --surface: rgba(255, 255, 255, 0.04);
   --surface-hover: rgba(255, 255, 255, 0.07);
   --ink: #f0f0f0;
-  --ink-secondary: rgba(240, 240, 240, 0.55);
-  --ink-tertiary: rgba(240, 240, 240, 0.3);
-  --ink-ghost: rgba(240, 240, 240, 0.12);
-  --ink-inverse: #0f1729;
-  --rule: rgba(255, 255, 255, 0.06);
-  --rule-strong: rgba(255, 255, 255, 0.1);
-  --final: rgba(255, 255, 255, 0.3);
+  --ink-secondary: var(--neutral-400);
+  --ink-tertiary: var(--neutral-500);
+  --ink-ghost: var(--neutral-700);
+  --ink-inverse: var(--midnight-900);
+  --rule: var(--neutral-800);
+  --rule-strong: var(--neutral-700);
 
-  --brand-surface: var(--midnight);
-  --brand-on: #ffffff;
-  --accent-surface: var(--coral);
-  --accent-on: #ffffff;
-  --accent-dim: rgba(255, 107, 90, 0.12);
-
-  --live: #34d399;
-  --live-dim: rgba(52, 211, 153, 0.12);
-  --caution: #fbbf24;
-  --caution-dim: rgba(251, 191, 36, 0.12);
-  --error: #f87171;
-  --error-dim: rgba(248, 113, 113, 0.12);
+  --success: var(--green-400);
+  --success-bg: rgba(52, 211, 153, 0.12);
+  --warning: var(--amber-400);
+  --warning-bg: rgba(251, 191, 36, 0.12);
+  --error: var(--red-400);
+  --error-bg: rgba(248, 113, 113, 0.12);
+  --info: var(--blue-400);
+  --info-bg: rgba(96, 165, 250, 0.12);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -182,13 +265,13 @@ img {
 }
 
 ::selection {
-  background: var(--accent-dim);
+  background: var(--coral-100);
   color: var(--ink);
 }
 
 /* ═══ Focus ring ═══ */
 :focus-visible {
-  outline: 2px solid var(--coral);
+  outline: 2px solid var(--coral-500);
   outline-offset: 2px;
   border-radius: var(--r-sm);
 }
@@ -203,12 +286,12 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--rule-strong);
+  background: var(--neutral-300);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-tertiary);
+  background: var(--neutral-400);
 }
 
 /* ═══ Reduced motion ═══ */

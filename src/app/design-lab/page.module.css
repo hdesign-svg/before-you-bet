@@ -5,7 +5,7 @@
 }
 
 .header {
-  background: var(--midnight);
+  background: var(--midnight-900);
   margin: 0 calc(-1 * var(--sp-6));
   padding: var(--sp-8) var(--sp-6) var(--sp-6);
   margin-bottom: var(--sp-8);
@@ -22,7 +22,7 @@
 
 .subtitle {
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--midnight-400);
   margin-top: var(--sp-1);
 }
 
@@ -32,75 +32,38 @@
 
 .sectionLabel {
   font-family: var(--font-display);
-  font-size: var(--text-sm);
+  font-size: var(--text-xl);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--coral);
+  letter-spacing: 0.04em;
+  color: var(--midnight-900);
   margin-bottom: var(--sp-5);
   padding-bottom: var(--sp-3);
   border-bottom: 1px solid var(--rule);
 }
 
-.stack {
+.placeholder {
+  font-size: var(--text-sm);
+  color: var(--ink-secondary);
+  margin-bottom: var(--sp-4);
+}
+
+.list {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
 }
 
-.cardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--sp-4);
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-}
-
-.tabBody {
-  padding: var(--sp-5) 0;
-}
-
-.placeholder {
+.list li {
   font-size: var(--text-sm);
-  color: var(--ink-tertiary);
-}
-
-.tipTarget {
-  font-size: var(--text-sm);
-  font-weight: 600;
   color: var(--ink-secondary);
-  background: var(--bg-elevated);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--r-sm);
-  padding: var(--sp-2) var(--sp-4);
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-underline-offset: 3px;
-  text-decoration-color: var(--ink-tertiary);
+  line-height: 1.5;
 }
 
-.openBtn {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #ffffff;
-  background: var(--coral);
-  border-radius: var(--r-sm);
-  padding: var(--sp-3) var(--sp-5);
-  cursor: pointer;
-  box-shadow: var(--shadow-md);
-  transition: background var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out);
-}
-
-.openBtn:hover {
-  background: var(--coral-hover);
-  box-shadow: var(--shadow-lg);
+.list li strong {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink);
 }

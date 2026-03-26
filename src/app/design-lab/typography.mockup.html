@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Before You Bet — Typography v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --font-display: "Big Shoulders Display", sans-serif;
+    --font-body: "Outfit", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f1f3f6;
+    font-family: var(--font-body);
+    color: #0f1729;
+    padding: 48px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: #7a8293;
+    margin-bottom: 56px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0f1729;
+    margin-bottom: 24px;
+    margin-top: 56px;
+  }
+
+  h2:first-of-type { margin-top: 0; }
+
+  /* ─── Font Family Cards ─── */
+  .font-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+
+  .font-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .font-card-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #a3aab9;
+    margin-bottom: 16px;
+  }
+
+  .font-card-specimen {
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .font-card-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #7a8293;
+    line-height: 1.8;
+  }
+
+  /* ─── Type Scale ─── */
+  .scale-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+  }
+
+  .scale-row {
+    border-bottom: 1px solid #e4e7ed;
+  }
+
+  .scale-row td {
+    padding: 16px 12px;
+    vertical-align: baseline;
+  }
+
+  .scale-token {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: #5c6478;
+    width: 120px;
+  }
+
+  .scale-size {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #a3aab9;
+    width: 60px;
+  }
+
+  .scale-specimen {
+    color: #0f1729;
+  }
+
+  /* ─── Weight Grid ─── */
+  .weight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .weight-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .weight-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #a3aab9;
+    margin-bottom: 8px;
+  }
+
+  /* ─── Usage Patterns ─── */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .pattern-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .pattern-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #FF6B5A;
+    margin-bottom: 16px;
+  }
+
+  .pattern-example {
+    margin-bottom: 16px;
+  }
+
+  .pattern-note {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #a3aab9;
+    line-height: 1.6;
+  }
+
+  /* Midnight pattern cards */
+  .pattern-card-dark {
+    background: #0f1729;
+    color: #ffffff;
+  }
+
+  .pattern-card-dark .pattern-label {
+    color: #ff8a7a;
+  }
+
+  .pattern-card-dark .pattern-note {
+    color: #6178b0;
+  }
+</style>
+</head>
+<body>
+
+<h1>Typography</h1>
+<p class="page-subtitle">Before You Bet &mdash; Three-font system: Display, Body, Mono</p>
+
+<!-- ═══ FONT FAMILIES ═══ -->
+<h2>Font Families</h2>
+<div class="font-grid">
+  <div class="font-card">
+    <div class="font-card-label">Display</div>
+    <div class="font-card-specimen" style="font-family:var(--font-display); font-size:40px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em">
+      BIG SHOULDERS
+    </div>
+    <div class="font-card-meta">
+      Big Shoulders Display<br>
+      Weights: 700, 800, 900<br>
+      Usage: Headlines, labels, team names, CTAs<br>
+      Always uppercase + tracked
+    </div>
+  </div>
+  <div class="font-card">
+    <div class="font-card-label">Body</div>
+    <div class="font-card-specimen" style="font-family:var(--font-body); font-size:28px; font-weight:400; line-height:1.4">
+      Outfit Regular
+    </div>
+    <div class="font-card-meta">
+      Outfit<br>
+      Weights: 300&ndash;700<br>
+      Usage: Body text, descriptions, UI copy<br>
+      Sentence case, natural reading
+    </div>
+  </div>
+  <div class="font-card">
+    <div class="font-card-label">Mono</div>
+    <div class="font-card-specimen" style="font-family:var(--font-mono); font-size:24px; font-weight:600; font-variant-numeric:tabular-nums">
+      JetBrains 0123
+    </div>
+    <div class="font-card-meta">
+      JetBrains Mono<br>
+      Weights: 400, 600<br>
+      Usage: Times, stats, projections, data<br>
+      Tabular nums for alignment
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TYPE SCALE ═══ -->
+<h2>Type Scale</h2>
+<table class="scale-table">
+  <tr class="scale-row">
+    <td class="scale-token">--text-5xl</td>
+    <td class="scale-size">56px</td>
+    <td class="scale-specimen" style="font-family:var(--font-display); font-size:56px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em; line-height:1">HERO DISPLAY</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-4xl</td>
+    <td class="scale-size">40px</td>
+    <td class="scale-specimen" style="font-family:var(--font-display); font-size:40px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em; line-height:1">PAGE TITLE</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-3xl</td>
+    <td class="scale-size">32px</td>
+    <td class="scale-specimen" style="font-family:var(--font-display); font-size:32px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em; line-height:1.1">SECTION HEAD</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-2xl</td>
+    <td class="scale-size">24px</td>
+    <td class="scale-specimen" style="font-family:var(--font-display); font-size:24px; font-weight:900; text-transform:uppercase; letter-spacing:0.02em; line-height:1.15">CARD HEADLINE</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-xl</td>
+    <td class="scale-size">20px</td>
+    <td class="scale-specimen" style="font-family:var(--font-display); font-size:20px; font-weight:800; text-transform:uppercase; letter-spacing:0.02em; line-height:1.2">TEAM ABBREVIATION</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-lg</td>
+    <td class="scale-size">17px</td>
+    <td class="scale-specimen" style="font-family:var(--font-body); font-size:17px; font-weight:600; line-height:1.4">Subheading or emphasis</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-base</td>
+    <td class="scale-size">15px</td>
+    <td class="scale-specimen" style="font-family:var(--font-body); font-size:15px; font-weight:400; line-height:1.6">Base body text for reading — the default size for all running copy and descriptions in the UI.</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-sm</td>
+    <td class="scale-size">13px</td>
+    <td class="scale-specimen" style="font-family:var(--font-body); font-size:13px; font-weight:400; line-height:1.5; color:#5c6478">Secondary text, card descriptions, supporting copy</td>
+  </tr>
+  <tr class="scale-row">
+    <td class="scale-token">--text-xs</td>
+    <td class="scale-size">11px</td>
+    <td class="scale-specimen" style="font-family:var(--font-body); font-size:11px; font-weight:500; line-height:1.4; color:#a3aab9; text-transform:uppercase; letter-spacing:0.06em">META LABELS &middot; TIMESTAMPS &middot; FINE PRINT</td>
+  </tr>
+</table>
+
+<!-- ═══ DISPLAY WEIGHTS ═══ -->
+<h2>Display Weights</h2>
+<div class="weight-grid">
+  <div class="weight-card">
+    <div class="weight-label">700 Bold</div>
+    <div style="font-family:var(--font-display); font-size:32px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em">BOLD DISPLAY</div>
+  </div>
+  <div class="weight-card">
+    <div class="weight-label">800 Extra Bold</div>
+    <div style="font-family:var(--font-display); font-size:32px; font-weight:800; text-transform:uppercase; letter-spacing:0.02em">EXTRA BOLD</div>
+  </div>
+  <div class="weight-card">
+    <div class="weight-label">900 Black</div>
+    <div style="font-family:var(--font-display); font-size:32px; font-weight:900; text-transform:uppercase; letter-spacing:0.02em">BLACK DISPLAY</div>
+  </div>
+</div>
+
+<!-- ═══ BODY WEIGHTS ═══ -->
+<h2>Body Weights</h2>
+<div class="weight-grid">
+  <div class="weight-card">
+    <div class="weight-label">300 Light</div>
+    <div style="font-family:var(--font-body); font-size:20px; font-weight:300">Light body text</div>
+  </div>
+  <div class="weight-card">
+    <div class="weight-label">400 Regular</div>
+    <div style="font-family:var(--font-body); font-size:20px; font-weight:400">Regular body text</div>
+  </div>
+  <div class="weight-card">
+    <div class="weight-label">500 Medium</div>
+    <div style="font-family:var(--font-body); font-size:20px; font-weight:500">Medium body text</div>
+  </div>
+  <div class="weight-card">
+    <div class="weight-label">600 Semibold</div>
+    <div style="font-family:var(--font-body); font-size:20px; font-weight:600">Semibold body text</div>
+  </div>
+  <div class="weight-card">
+    <div class="weight-label">700 Bold</div>
+    <div style="font-family:var(--font-body); font-size:20px; font-weight:700">Bold body text</div>
+  </div>
+</div>
+
+<!-- ═══ USAGE PATTERNS ═══ -->
+<h2>Usage Patterns</h2>
+<div class="pattern-grid">
+  <div class="pattern-card">
+    <div class="pattern-label">Game Card</div>
+    <div class="pattern-example">
+      <div style="font-family:var(--font-display); font-size:20px; font-weight:900; text-transform:uppercase; letter-spacing:0.02em; color:#0f1729; margin-bottom:4px">KC @ BUF</div>
+      <div style="font-family:var(--font-body); font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:#a3aab9; margin-bottom:12px">KANSAS CITY &middot; BUFFALO</div>
+      <div style="font-family:var(--font-body); font-size:13px; font-weight:400; color:#5c6478; line-height:1.5">Game of the week &mdash; a coin flip between the two best teams in football.</div>
+    </div>
+    <div class="pattern-note">Display 900 for teams &middot; Body 400 for description &middot; XS mono for meta</div>
+  </div>
+  <div class="pattern-card">
+    <div class="pattern-label">Intel Panel</div>
+    <div class="pattern-example">
+      <div style="font-family:var(--font-display); font-size:13px; font-weight:900; text-transform:uppercase; letter-spacing:0.08em; color:#e5503f; margin-bottom:8px">QUICK TAKE</div>
+      <div style="font-family:var(--font-body); font-size:13px; font-weight:400; color:#5c6478; line-height:1.6">Pittsburgh has been winning with defense all season &mdash; they're 8-2 and very hard to score against.</div>
+    </div>
+    <div class="pattern-note">Display 900 for label &middot; Body 400 for content &middot; Coral-600 for accent</div>
+  </div>
+  <div class="pattern-card-dark pattern-card">
+    <div class="pattern-label">Header</div>
+    <div class="pattern-example">
+      <div style="font-family:var(--font-display); font-size:36px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em; color:#ffffff; margin-bottom:4px">BEFORE YOU BET</div>
+      <div style="font-family:var(--font-body); font-size:11px; font-weight:400; color:#6178b0">Plain-English game intelligence for people who don&rsquo;t speak betting.</div>
+    </div>
+    <div class="pattern-note">Display 900 wordmark &middot; Body 400 tagline &middot; midnight-400 for muted on dark</div>
+  </div>
+  <div class="pattern-card">
+    <div class="pattern-label">Data Display</div>
+    <div class="pattern-example">
+      <div style="font-family:var(--font-mono); font-size:11px; font-weight:600; color:#0f1729; font-variant-numeric:tabular-nums; margin-bottom:4px">4:25 PM ET</div>
+      <div style="font-family:var(--font-mono); font-size:13px; font-weight:600; color:#0f1729; font-variant-numeric:tabular-nums; margin-bottom:4px">~245 Pass Yds</div>
+      <div style="font-family:var(--font-mono); font-size:11px; font-weight:400; color:#a3aab9; font-variant-numeric:tabular-nums">Updated Nov 23 &middot; 6:15 PM</div>
+    </div>
+    <div class="pattern-note">Mono 600 for values &middot; Mono 400 for metadata &middot; tabular-nums always</div>
+  </div>
+</div>
+
+</body>
+</html>
