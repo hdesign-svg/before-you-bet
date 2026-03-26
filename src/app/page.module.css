@@ -265,7 +265,7 @@
 
 .cardCity {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-400);
   text-transform: uppercase;
@@ -297,7 +297,7 @@
 }
 
 .cardPeriod {
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-400);
   text-transform: uppercase;
