@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Trophy, Users, Info, Activity } from "lucide-react";
+import { ChevronDown, Zap, Trophy, Users, Info } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -70,31 +70,34 @@ export default function Page() {
               Plain-English game intelligence for people who don{'\u2019'}t speak betting.
             </p>
           </div>
-          <nav className={s.headerTabs} role="tablist">
-            <button
-              className={`${s.headerTab} ${tab === "games" ? s.headerTabActive : ""}`}
-              role="tab"
-              aria-selected={tab === "games"}
-              onClick={() => setTab("games")}
-            >
-              <Trophy size={14} />
-              Games
-            </button>
-            <button
-              className={`${s.headerTab} ${tab === "players" ? s.headerTabActive : ""}`}
-              role="tab"
-              aria-selected={tab === "players"}
-              onClick={() => setTab("players")}
-            >
-              <Users size={14} />
-              Players
-            </button>
-          </nav>
+          <div className={s.headerMeta}>
+            <span className={s.headerUpdated}>Updated {WEEK.lastUpdated}</span>
+          </div>
         </div>
       </header>
 
-      {/* Game Card Grid */}
+      {/* Content Tabs + Card Grid */}
       <div className={s.container}>
+        <nav className={s.contentTabs} role="tablist">
+          <button
+            className={`${s.contentTab} ${tab === "games" ? s.contentTabActive : ""}`}
+            role="tab"
+            aria-selected={tab === "games"}
+            onClick={() => setTab("games")}
+          >
+            <Trophy size={14} />
+            Games
+          </button>
+          <button
+            className={`${s.contentTab} ${tab === "players" ? s.contentTabActive : ""}`}
+            role="tab"
+            aria-selected={tab === "players"}
+            onClick={() => setTab("players")}
+          >
+            <Users size={14} />
+            Players
+          </button>
+        </nav>
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
             <div className={s.slateHeader}>
@@ -188,10 +191,6 @@ export default function Page() {
       <footer className={s.pageFooter}>
         <div className={`${s.container} ${s.footerInner}`}>
           <p className={s.footerDisclaimer}>Not a sportsbook. Informational only.</p>
-          <div className={s.footerStatus}>
-            <Activity size={12} className={s.footerStatusIcon} />
-            <span>Updated {WEEK.lastUpdated}</span>
-          </div>
         </div>
       </footer>
     </main>
