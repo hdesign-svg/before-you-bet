@@ -42,8 +42,8 @@
   --r-xl: 20px;
 
   /* ── Containment ── */
-  --max-w: 880px;
-  --max-w-content: 640px;
+  --max-w: 1320px;
+  --max-w-content: 880px;
 
   /* ── Timing ── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

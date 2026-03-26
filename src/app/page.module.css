@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════
-   BEFORE YOU BET — Main Page v2
-   Light mode · Midnight + Coral
+   BEFORE YOU BET — Main Page v3
+   Card grid · Expand in-place
    ═══════════════════════════════════════ */
 
 /* ─── Utility ─── */
@@ -37,9 +37,9 @@
   text-decoration: none;
 }
 
-/* ─── GRID VIEW (Strip List) ─── */
+/* ─── Page Shell ─── */
 
-.gridView {
+.page {
   min-height: 100dvh;
 }
 
@@ -104,8 +104,7 @@
   border-radius: var(--r-sm);
   min-height: 44px;
   cursor: pointer;
-  transition: color var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out);
+  transition: color var(--duration-fast) var(--ease-out);
   position: relative;
 }
 
@@ -128,19 +127,25 @@
   border-radius: 3px 3px 0 0;
 }
 
-/* ─── Slate Sections ─── */
+/* ─── Content Area ─── */
 
-.stripSection {
+.content {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 var(--sp-6);
+  padding: 0 var(--sp-8);
+}
+
+/* ─── Slate Sections ─── */
+
+.slateSection {
+  margin-bottom: var(--sp-2);
 }
 
 .slateHeader {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  padding: var(--sp-6) 0 var(--sp-3);
+  padding: var(--sp-6) 0 var(--sp-4);
 }
 
 .slateLabel {
@@ -152,44 +157,37 @@
   color: var(--midnight);
 }
 
-/* ─── Game Strip ─── */
+/* ─── Card Grid ─── */
 
-.strip {
-  display: flex;
-  align-items: center;
-  width: 100%;
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+/* ─── Game Card ─── */
+
+.gameCard {
   background: var(--bg-elevated);
-  border-radius: var(--r-md);
+  border-radius: var(--r-lg);
   box-shadow: var(--shadow-md);
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  touch-action: manipulation;
-  margin-bottom: var(--sp-3);
-  transition: box-shadow var(--duration-fast) var(--ease-out),
-              transform var(--duration-fast) var(--ease-out);
-  animation: stripEnter var(--duration-normal) var(--ease-out) backwards;
+  overflow: hidden;
+  transition: box-shadow var(--duration-fast) var(--ease-out);
+  animation: cardEnter var(--duration-normal) var(--ease-out) backwards;
 }
 
-.strip:hover {
+.gameCard:hover {
   box-shadow: var(--shadow-lg);
-  transform: translateY(-1px);
 }
 
-.strip:active {
-  transform: translateY(0);
+.gameCardExpanded {
+  box-shadow: var(--shadow-xl);
 }
 
-.strip:focus-visible {
-  outline: 2px solid var(--coral);
-  outline-offset: 2px;
-}
-
-@keyframes stripEnter {
+@keyframes cardEnter {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -197,27 +195,66 @@
   }
 }
 
-.stripContent {
-  flex: 1;
+/* ─── Card Trigger (clickable area) ─── */
+
+.cardTrigger {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  touch-action: manipulation;
+  gap: var(--sp-3);
+}
+
+.cardTrigger:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: -2px;
+  border-radius: var(--r-lg);
+}
+
+/* ─── Card Matchup ─── */
+
+.cardMatchup {
   display: flex;
   align-items: center;
-  padding: var(--sp-4) var(--sp-5);
+  justify-content: center;
   gap: var(--sp-4);
 }
 
-/* ─── Strip Status / Time ─── */
-
-.stripStatus {
-  width: 52px;
-  flex-shrink: 0;
+.cardTeam {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.cardLogo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.cardAbbr {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.cardMid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 2px;
 }
 
-.statusTime {
+.cardTime {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-weight: 600;
@@ -225,7 +262,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.statusPeriod {
+.cardPeriod {
   font-size: 9px;
   font-weight: 500;
   color: var(--ink-tertiary);
@@ -233,314 +270,74 @@
   letter-spacing: 0.05em;
 }
 
-/* ─── Strip content elements ─── */
+/* ─── Card Headline ─── */
 
-.stripLogos {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-1);
-  flex-shrink: 0;
-}
-
-.stripLogo {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.stripTeams {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-  min-width: 120px;
-  flex-shrink: 0;
-}
-
-.stripHeadline {
+.cardHeadline {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: 1.5;
   color: var(--ink-secondary);
-  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-align: left;
 }
 
-.stripArrow {
-  color: var(--ink-ghost);
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: transform var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out);
-}
+/* ─── Expanded Intel Panel ─── */
 
-.strip:hover .stripArrow {
-  transform: translateX(2px);
-  color: var(--coral);
-}
-
-/* ─── Grid Footer ─── */
-
-.gridFooter {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: var(--sp-8) var(--sp-6) var(--sp-12);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.gridFooter p {
-  font-size: var(--text-xs);
-  color: var(--ink-tertiary);
-}
-
-/* ═══════════════════════════════════════
-   MODAL OVERLAY
-   ═══════════════════════════════════════ */
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(15, 23, 41, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  animation: overlayIn 280ms var(--ease-out);
-}
-
-.overlayClosing {
-  animation: overlayOut 280ms var(--ease-out) forwards;
-}
-
-@keyframes overlayIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes overlayOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-.modal {
-  position: relative;
-  width: 100%;
-  max-width: 680px;
-  max-height: 92dvh;
-  background: var(--canvas);
-  border-radius: var(--r-xl) var(--r-xl) 0 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  box-shadow: 0 -8px 40px rgba(15, 23, 41, 0.25);
-  animation: modalIn 320ms var(--ease-out);
-}
-
-.modalClosing {
-  animation: modalOut 280ms var(--ease-out) forwards;
-}
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes modalOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(60%);
-  }
-}
-
-/* ─── Close Button ─── */
-
-.closeBtn {
-  position: sticky;
-  top: var(--sp-4);
-  float: right;
-  margin: var(--sp-4) var(--sp-4) 0 0;
-  z-index: 10;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--bg-elevated);
-  box-shadow: var(--shadow-md);
-  color: var(--ink-secondary);
-  cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out),
-              transform var(--duration-fast) var(--ease-out);
-}
-
-.closeBtn:hover {
-  background: var(--midnight);
-  color: #fff;
-  transform: scale(1.05);
-}
-
-.closeBtn:focus-visible {
-  outline: 2px solid var(--coral);
-  outline-offset: 2px;
-}
-
-/* ─── Hero Matchup ─── */
-
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(28px, 6vw, 72px);
-  max-width: var(--max-w-content);
-  margin: 0 auto;
-  padding: var(--sp-10) var(--sp-6) var(--sp-8);
-}
-
-.heroTeam {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.heroLogo {
-  width: 72px;
-  height: 72px;
-  object-fit: contain;
-  margin-bottom: var(--sp-2);
-  animation: logoReveal var(--duration-slow) var(--ease-out) backwards;
-}
-
-.heroTeam:first-of-type .heroLogo { animation-delay: 50ms; }
-.heroTeam:last-of-type .heroLogo { animation-delay: 150ms; }
-
-@keyframes logoReveal {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.heroCity {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--ink-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.heroName {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-}
-
-.heroMid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.heroAt {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--ink-tertiary);
-  text-transform: uppercase;
-}
-
-.heroTime {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--ink-tertiary);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ─── Detail Content ─── */
-
-.detailContent {
-  max-width: var(--max-w-content);
-  margin: 0 auto;
-  padding: 0 var(--sp-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-6);
-}
-
-/* Insight Card — Coral */
-.insightCard {
+.cardIntel {
+  border-top: 1px solid var(--rule);
   background: var(--coral);
-  border-radius: var(--r-lg);
-  padding: var(--sp-6) var(--sp-8);
-  box-shadow: var(--shadow-lg);
-  animation: cardSlideUp var(--duration-slow) var(--ease-out) backwards;
-  animation-delay: 100ms;
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+  animation: intelReveal var(--duration-normal) var(--ease-out);
 }
 
-.insightLabel {
+@keyframes intelReveal {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 600px;
+    padding-top: var(--sp-5);
+    padding-bottom: var(--sp-4);
+  }
+}
+
+.intelLabel {
   font-family: var(--font-display);
   font-size: var(--text-xs);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.7);
-  margin-bottom: var(--sp-2);
+  margin-bottom: var(--sp-3);
 }
 
-.cardHeadline {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1.15;
-  color: #ffffff;
-  margin-bottom: var(--sp-4);
-}
-
-.bullets {
+.intelBullets {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-1);
 }
 
-.bullet {
+.intelBullet {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85);
-  padding: var(--sp-3) 0;
+  color: rgba(255, 255, 255, 0.9);
+  padding: var(--sp-2) 0;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: flex-start;
   gap: var(--sp-3);
 }
 
-.bullet::before {
+.intelBullet::before {
   content: "★";
   flex-shrink: 0;
   font-size: 10px;
@@ -548,132 +345,27 @@
   opacity: 0.5;
 }
 
-/* White content card */
-.card {
-  background: var(--bg-elevated);
-  border-radius: var(--r-lg);
-  padding: var(--sp-6) var(--sp-8);
-  box-shadow: var(--shadow-md);
-  animation: cardSlideUp var(--duration-slow) var(--ease-out) backwards;
-  animation-delay: 250ms;
-}
-
-@keyframes cardSlideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.cardTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  margin-bottom: var(--sp-6);
-}
-
-/* ─── Players Grid ─── */
-
-.playerGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--sp-8);
-}
-
-.teamCol {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-}
-
-.teamLabel {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-tertiary);
-  padding-bottom: var(--sp-2);
-  border-bottom: 1px solid var(--rule);
-}
-
-/* ─── Player Card (inline) ─── */
-
-.playerCard {
-  background: var(--surface);
-  border-radius: var(--r-md);
-  padding: var(--sp-4);
-}
-
-.playerHead {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-3);
-}
-
-.headshot {
-  width: 48px;
-  height: 36px;
-  object-fit: cover;
-  object-position: top;
-  border-radius: var(--r-sm);
-  background: var(--bg-elevated);
-  flex-shrink: 0;
-}
-
-.playerName {
-  font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-  line-height: 1.2;
-}
-
-.posBadge {
-  display: inline-block;
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--ink-inverse);
-  background: var(--midnight);
-  padding: 2px var(--sp-2);
-  border-radius: var(--r-sm);
-  margin-top: var(--sp-1);
-}
-
-.verdict {
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  color: var(--ink-secondary);
-  margin-bottom: var(--sp-3);
-}
-
-.projection {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--ink);
+.intelFooter {
+  margin-top: var(--sp-3);
   padding-top: var(--sp-3);
-  border-top: 1px solid var(--rule);
-  font-variant-numeric: tabular-nums;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ─── Detail Footer ─── */
-
-.detailFooter {
-  max-width: var(--max-w-content);
-  margin: var(--sp-12) auto 0;
-  padding: 0 var(--sp-6) var(--sp-12);
-  text-align: center;
+.intelFooter span {
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.detailFooter span {
+/* ─── Page Footer ─── */
+
+.pageFooter {
+  padding: var(--sp-8) 0 var(--sp-12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pageFooter p {
   font-size: var(--text-xs);
   color: var(--ink-tertiary);
 }
@@ -681,6 +373,12 @@
 /* ═══════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════ */
+
+@media (max-width: 1100px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (max-width: 900px) {
   .headerInner {
@@ -702,22 +400,8 @@
     padding: var(--sp-6) var(--sp-6) var(--sp-5);
   }
 
-  .stripContent {
-    gap: var(--sp-3);
-  }
-
-  .stripTeams {
-    min-width: 100px;
-    font-size: var(--text-lg);
-  }
-
-  .hero {
-    gap: var(--sp-8);
-  }
-
-  .heroLogo {
-    width: 56px;
-    height: 56px;
+  .content {
+    padding: 0 var(--sp-6);
   }
 }
 
@@ -726,72 +410,20 @@
     padding: var(--sp-6) var(--sp-4) var(--sp-4);
   }
 
-  .stripSection {
+  .content {
     padding: 0 var(--sp-4);
   }
 
-  .stripContent {
-    padding: var(--sp-3);
-    gap: var(--sp-3);
-  }
-
-  .stripStatus {
-    width: 44px;
-  }
-
-  .stripLogos {
-    display: none;
-  }
-
-  .stripTeams {
-    min-width: auto;
-    font-size: var(--text-base);
-  }
-
-  .stripHeadline {
-    font-size: var(--text-xs);
-  }
-
-  .stripArrow {
-    display: none;
-  }
-
-  .gridFooter {
-    padding: var(--sp-6) var(--sp-4) var(--sp-10);
-  }
-
-  /* Modal */
-  .modal {
-    max-height: 95dvh;
-    border-radius: var(--r-lg) var(--r-lg) 0 0;
-  }
-
-  .hero {
-    gap: var(--sp-5);
-    padding: var(--sp-6) var(--sp-4) var(--sp-6);
-  }
-
-  .heroLogo {
-    width: 48px;
-    height: 48px;
-  }
-
-  .heroName {
-    font-size: var(--text-xl);
-  }
-
-  .insightCard,
-  .card {
-    padding: var(--sp-5) var(--sp-4);
-    border-radius: var(--r-md);
-  }
-
-  .cardHeadline {
-    font-size: var(--text-xl);
-  }
-
-  .playerGrid {
+  .cardGrid {
     grid-template-columns: 1fr;
-    gap: var(--sp-6);
+  }
+
+  .cardLogo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pageFooter {
+    padding: var(--sp-6) 0 var(--sp-10);
   }
 }
