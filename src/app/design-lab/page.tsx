@@ -19,6 +19,7 @@ export default function DesignLab() {
           <li><strong>radii.mockup.html</strong> &mdash; Border radius token scale and usage</li>
           <li><strong>borders.mockup.html</strong> &mdash; Border colors, widths, divider patterns</li>
           <li><strong>shadows.mockup.html</strong> &mdash; Elevation scale for light and dark themes</li>
+          <li><strong>spacing.mockup.html</strong> &mdash; 4px-base spacing scale and vertical rhythm</li>
           <li><strong>components.mockup.html</strong> &mdash; Active UI patterns and component specimens</li>
         </ul>
       </section>

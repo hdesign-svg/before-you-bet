@@ -98,7 +98,7 @@
   display: flex;
   align-items: last baseline;
   justify-content: space-between;
-  padding-top: var(--sp-6);
+  padding-top: var(--sp-8);
   border-bottom: 1px solid var(--neutral-200);
 }
 
@@ -154,14 +154,14 @@
 /* ─── Slate Sections ─── */
 
 .slateSection {
-  margin-bottom: var(--sp-2);
+  margin-bottom: var(--sp-1);
 }
 
 .slateHeader {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  padding: var(--sp-6) 0 var(--sp-4);
+  padding: var(--sp-6) 0 var(--sp-3);
 }
 
 .slateLabel {
@@ -216,7 +216,7 @@
 /* ─── Card Matchup Zone ─── */
 
 .cardMatchupZone {
-  padding: var(--sp-5) var(--sp-5) var(--sp-3);
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
 }
 
 /* ─── Card Matchup ─── */
@@ -276,7 +276,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--sp-1);
   flex-shrink: 0;
 }
 
@@ -310,7 +310,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: var(--sp-3) var(--sp-5) var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -459,7 +459,7 @@
 }
 
 .intelFooter {
-  margin-top: var(--sp-2);
+  margin-top: var(--sp-3);
   padding-top: var(--sp-3);
   border-top: 1px solid var(--neutral-100);
   display: flex;
