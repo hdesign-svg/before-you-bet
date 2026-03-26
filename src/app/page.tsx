@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Calendar, Trophy, Users, Info } from "lucide-react";
+import { ChevronDown, Zap, Trophy, Users, Info } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -97,11 +97,9 @@ export default function Page() {
       <div className={s.container}>
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
+            {slateIdx > 0 && <hr className={s.slateDivider} />}
             <div className={s.slateHeader}>
-              <Calendar size={16} className={s.slateIcon} />
               <span className={s.slateLabel}>{slate.label}</span>
-              <span className={s.slateBadge}>{slateIcon[slate.label]}</span>
-              <span className={s.slateCount}>{slate.games.length} {slate.games.length === 1 ? "game" : "games"}</span>
             </div>
 
             <div className={s.cardGrid}>
