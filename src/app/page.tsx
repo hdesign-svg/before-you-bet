@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { Clock, ChevronDown, Zap, Calendar, Trophy, Users, Info } from "lucide-react";
+import { ChevronDown, Zap, Calendar, Trophy, Users, Info } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -129,10 +129,7 @@ export default function Page() {
                         </div>
                         <div className={s.cardMid}>
                           <span className={s.cardVs}>VS</span>
-                          <div className={s.cardTimeBlock}>
-                            <Clock size={10} className={s.cardClockIcon} />
-                            <span className={s.cardTime}>{time}</span>
-                          </div>
+                          <span className={s.cardTime}>{time}</span>
                           <span className={s.cardPeriod}>{period}</span>
                         </div>
                         <div className={s.cardTeam}>

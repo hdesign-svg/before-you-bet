@@ -300,16 +300,6 @@
   letter-spacing: 0.04em;
 }
 
-.cardTimeBlock {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.cardClockIcon {
-  color: var(--neutral-400);
-}
-
 .cardTime {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
