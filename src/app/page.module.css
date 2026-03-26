@@ -467,11 +467,17 @@
 
 .footerInner {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  border-top: 1px solid var(--neutral-200);
-  padding-top: var(--sp-8);
+  padding-top: 0;
   padding-bottom: var(--sp-8);
+}
+
+.footerDivider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--neutral-200);
+  margin-bottom: var(--sp-8);
 }
 
 .footerDisclaimer {

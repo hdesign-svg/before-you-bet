@@ -190,6 +190,7 @@ export default function Page() {
 
       <footer className={s.pageFooter}>
         <div className={`${s.container} ${s.footerInner}`}>
+          <hr className={s.footerDivider} />
           <p className={s.footerDisclaimer}>Not a sportsbook. Informational only.</p>
         </div>
       </footer>
