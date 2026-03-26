@@ -136,14 +136,14 @@
 .slateDivider {
   border: none;
   border-top: 1px solid var(--neutral-200);
-  margin: var(--sp-4) 0 0;
+  margin: var(--sp-6) 0 0;
 }
 
 .slateHeader {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  padding: var(--sp-8) 0 var(--sp-4);
+  padding: var(--sp-6) 0 var(--sp-4);
 }
 
 .slateLabel {
