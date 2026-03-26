@@ -27,7 +27,14 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t;window.addEventListener("scroll",function(){document.documentElement.classList.add("is-scrolling");clearTimeout(t);t=setTimeout(function(){document.documentElement.classList.remove("is-scrolling")},800)},{passive:true})})()`,
+          }}
+        />
+      </body>
     </html>
   );
 }

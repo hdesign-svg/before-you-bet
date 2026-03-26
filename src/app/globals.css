@@ -233,6 +233,27 @@ html {
   overscroll-behavior: none;
 }
 
+/* Auto-hide scrollbar — visible only while scrolling */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+html.is-scrolling {
+  scrollbar-color: var(--neutral-400) transparent;
+}
+
+/* WebKit (Chrome/Safari) */
+html::-webkit-scrollbar { width: 6px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+html.is-scrolling::-webkit-scrollbar-thumb {
+  background: var(--neutral-400);
+}
+
 body {
   min-height: 100%;
   background: var(--bg);
