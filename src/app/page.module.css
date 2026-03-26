@@ -174,25 +174,14 @@
   position: relative;
   background: var(--bg-elevated);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   overflow: visible;
-  transition: box-shadow var(--duration-fast) var(--ease-out),
-              transform var(--duration-fast) var(--ease-out);
   animation: cardEnter var(--duration-normal) var(--ease-out) backwards;
-}
-
-.gameCard:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
 }
 
 .gameCardExpanded {
   box-shadow: var(--shadow-lg);
   z-index: 10;
-}
-
-.gameCardExpanded:hover {
-  transform: none;
 }
 
 @keyframes cardEnter {
