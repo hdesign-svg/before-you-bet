@@ -97,7 +97,6 @@ export default function Page() {
       <div className={s.container}>
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
-            {slateIdx > 0 && <hr className={s.slateDivider} />}
             <div className={s.slateHeader}>
               <span className={s.slateLabel}>{slate.label}</span>
             </div>

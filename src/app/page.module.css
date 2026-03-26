@@ -133,12 +133,6 @@
   margin-bottom: var(--sp-2);
 }
 
-.slateDivider {
-  border: none;
-  border-top: 1px solid var(--neutral-200);
-  margin: var(--sp-6) 0 0;
-}
-
 .slateHeader {
   display: flex;
   align-items: center;
