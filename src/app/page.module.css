@@ -549,26 +549,16 @@
 }
 
 @media (max-width: 900px) {
-  .headerInner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-  }
-
-  .headerBrand {
-    padding-bottom: var(--sp-3);
-  }
-
-  .subtitle {
-    white-space: normal;
-  }
-
   .container {
     padding: 0 var(--sp-6);
   }
 
   .header {
     padding-top: var(--sp-4);
+  }
+
+  .subtitle {
+    white-space: normal;
   }
 }
 
