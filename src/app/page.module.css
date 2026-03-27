@@ -63,6 +63,8 @@
 }
 
 .wordmark {
+  display: inline-flex;
+  align-items: flex-end;
   font-family: var(--font-display);
   font-size: clamp(28px, 4vw, 36px);
   font-weight: 900;
@@ -76,6 +78,7 @@
 .wordmarkMark {
   font-size: 0.75em;
   margin-left: 0.2em;
+  line-height: 1;
 }
 
 .subtitle {
