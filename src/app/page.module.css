@@ -514,21 +514,21 @@
   font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 400;
-  color: var(--midnight-400);
+  color: var(--midnight-500);
 }
 
 .footerDivider {
   width: 1px;
   height: 14px;
   border: none;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .footerLink {
   font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: 500;
-  color: var(--midnight-400);
+  color: var(--midnight-300);
   text-decoration: none;
   transition: color 0.15s ease;
 }
