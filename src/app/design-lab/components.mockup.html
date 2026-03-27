@@ -365,18 +365,19 @@
   <div style="padding:24px 24px 12px">
     <div class="component-label">Page Footer — Three Elements</div>
   </div>
-  <div style="border-top:1px solid var(--neutral-200); padding:24px 32px; display:flex; align-items:center; justify-content:center; gap:12px; background:white">
-    <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400)">Not a sportsbook. Informational only.</span>
-    <span style="color:var(--neutral-300); font-size:12px">·</span>
-    <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-500)">
-      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green-500); animation:freshPulse 2s ease-in-out infinite"></span>
-      Updated Nov 23
-    </span>
-    <span style="color:var(--neutral-300); font-size:12px">·</span>
-    <a style="font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--neutral-500); text-decoration:none" href="#">About</a>
+  <div style="border-top:1px solid var(--neutral-200); padding:24px 32px; display:flex; flex-direction:column; align-items:center; gap:8px; background:white">
+    <div style="display:flex; align-items:center; gap:12px">
+      <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-500)">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green-500); animation:freshPulse 2s ease-in-out infinite"></span>
+        Updated Nov 23
+      </span>
+      <span style="color:var(--neutral-300); font-size:12px">·</span>
+      <a style="font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--neutral-500); text-decoration:none" href="#">About</a>
+    </div>
+    <span style="font-family:var(--font-body); font-size:11px; font-weight:400; color:var(--neutral-300)">Not a sportsbook. Informational only.</span>
   </div>
   <div style="padding:12px 24px 24px">
-    <div class="component-note">Minimal footer — no background fill, just a neutral-200 border-top. Single centered row with dot dividers. Disclaimer at neutral-400 (recedes), freshness + about at neutral-500. Green-500 pulse dot. Lightest possible footprint. Wraps on mobile.</div>
+    <div class="component-note">Two-tier centered footer. Top row: freshness (green-500 pulse dot + neutral-500 text) · about link (weight 500, neutral-500). Bottom row: disclaimer recedes at 11px / neutral-300. Border-top only, no background. Gives hierarchy — useful content first, legal noise second.</div>
   </div>
 </div>
 

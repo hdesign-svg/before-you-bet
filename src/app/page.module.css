@@ -504,17 +504,23 @@
 
 .footerInner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
   padding: var(--sp-6) 0;
+}
+
+.footerPrimary {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
 }
 
 .footerDisclaimer {
   font-family: var(--font-body);
-  font-size: var(--text-xs);
+  font-size: 11px;
   font-weight: 400;
-  color: var(--neutral-400);
+  color: var(--neutral-300);
 }
 
 .footerDot {
@@ -628,7 +634,6 @@
   }
 
   .footerInner {
-    flex-wrap: wrap;
     padding: var(--sp-4) 0;
   }
 
