@@ -359,6 +359,40 @@
   </div>
 </div>
 
+<!-- ═══ TEXT LINK VARIANTS ═══ -->
+<h2>Text Links</h2>
+
+<div class="pill-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:24px">
+  <!-- Inline Link -->
+  <div class="pill-card">
+    <div class="component-label">Inline Link</div>
+    <div style="padding:16px 20px; background:white; border-radius:var(--r-sm)">
+      <span style="font-family:var(--font-body); font-size:14px; color:var(--neutral-700)">
+        Data sourced from <a style="color:var(--neutral-700); text-decoration:underline; text-underline-offset:2px" href="#">public APIs</a> and updated daily.
+      </span>
+    </div>
+    <div class="component-note">Same color as surrounding text. Underline with 2px offset. For links within body copy. Hover: underline darkens.</div>
+  </div>
+
+  <!-- Text Button -->
+  <div class="pill-card">
+    <div class="component-label">Text Button</div>
+    <div style="padding:16px 20px; background:linear-gradient(100deg, var(--midnight-900), var(--midnight-800)); border-radius:var(--r-sm)">
+      <a style="font-family:var(--font-body); font-size:12px; font-weight:600; color:var(--midnight-300); text-decoration:none" href="#">About Before You Bet</a>
+    </div>
+    <div class="component-note">Standalone actionable text. Weight 600 differentiates from body. No underline. Hover brightens to midnight-100. Used in footer, nav, standalone CTAs.</div>
+  </div>
+
+  <!-- Subtle Link -->
+  <div class="pill-card">
+    <div class="component-label">Subtle Link</div>
+    <div style="padding:16px 20px; background:white; border-radius:var(--r-sm)">
+      <a style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400); text-decoration:none" href="#">Week 11 results</a>
+    </div>
+    <div class="component-note">Secondary navigation. Normal weight, neutral-400. Hover shifts to neutral-600. For breadcrumbs, metadata links, tertiary actions.</div>
+  </div>
+</div>
+
 <!-- ═══ FOOTER ═══ -->
 <h2>Footer</h2>
 <div class="component-card" style="padding:0; overflow:hidden">
@@ -366,12 +400,12 @@
     <div class="component-label">Page Footer — Disclaimer + About</div>
   </div>
   <div style="background:linear-gradient(100deg, var(--midnight-900), var(--midnight-800)); padding:40px 32px; display:flex; align-items:center; justify-content:center; gap:20px">
-    <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--midnight-500)">Not a sportsbook. Informational only.</span>
-    <span style="width:1px; height:14px; background:rgba(255,255,255,0.06)"></span>
-    <a style="font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--midnight-300); text-decoration:none" href="#">About Before You Bet</a>
+    <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--midnight-300)">Not a sportsbook. Informational only.</span>
+    <span style="width:1px; height:14px; background:rgba(255,255,255,0.15)"></span>
+    <a style="font-family:var(--font-body); font-size:12px; font-weight:600; color:var(--midnight-300); text-decoration:none" href="#">About Before You Bet</a>
   </div>
   <div style="padding:12px 24px 24px">
-    <div class="component-note">Dark midnight gradient footer (bookends header). Horizontal row with vertical 1px divider at 6% white opacity. Disclaimer recedes at midnight-500 (passive legal text). About link pulls forward at midnight-300 / weight 500 (actionable, hovers to midnight-200). Two brightness levels create hierarchy within a single row.</div>
+    <div class="component-note">Dark midnight gradient footer (bookends header). Both items at midnight-300 for WCAG AA (~5.5:1 on midnight-900). Disclaimer at weight 400 (recedes), about link uses Text Button variant at weight 600 (pulls forward, hovers to midnight-100). Vertical divider at 15% white opacity. Hierarchy through weight, not color.</div>
   </div>
 </div>
 
