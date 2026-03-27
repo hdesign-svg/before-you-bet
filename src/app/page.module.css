@@ -82,18 +82,30 @@
   white-space: nowrap;
 }
 
-/* ─── Header Meta (right side) ─── */
+/* ─── Header Search ─── */
 
-.headerMeta {
+.headerSearch {
   display: flex;
   align-items: center;
+  gap: var(--sp-2);
+  background: var(--midnight-800);
+  border-radius: var(--r-sm);
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  min-width: 220px;
 }
 
-.headerUpdated {
+.headerSearchIcon {
+  color: var(--midnight-400);
+  flex-shrink: 0;
+}
+
+.headerSearchPlaceholder {
   font-family: var(--font-body);
   font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--midnight-400);
+  font-weight: 400;
+  color: rgba(97, 120, 176, 0.6);
+  white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════
@@ -552,6 +564,16 @@
 
   .header {
     padding-top: var(--sp-4);
+  }
+
+  .headerSearch {
+    min-width: unset;
+    padding: var(--sp-2);
+    border-radius: var(--r-sm);
+  }
+
+  .headerSearchPlaceholder {
+    display: none;
   }
 
   .cardGrid {

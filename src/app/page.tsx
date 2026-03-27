@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Info } from "lucide-react";
+import { ChevronDown, Zap, Info, Search } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -85,8 +85,9 @@ export default function Page() {
               Don{'\u2019'}t bet blind
             </p>
           </div>
-          <div className={s.headerMeta}>
-            <span className={s.headerUpdated}>Updated {WEEK.lastUpdated}</span>
+          <div className={s.headerSearch}>
+            <Search size={14} className={s.headerSearchIcon} />
+            <span className={s.headerSearchPlaceholder}>Search games or players...</span>
           </div>
         </div>
       </header>

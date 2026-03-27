@@ -181,6 +181,76 @@
     font-weight: 500;
     color: var(--neutral-500);
   }
+
+  /* ─── Data Freshness Pills ─── */
+  .pill-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .pill-card {
+    background: var(--midnight-900);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .pill-card .component-label {
+    color: var(--coral-500);
+    align-self: flex-start;
+  }
+
+  .pill-card .component-note {
+    color: var(--midnight-400);
+    align-self: flex-start;
+  }
+
+  .pill-base {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  /* SVG icons in pills */
+  .pill-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  /* Dot indicator */
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .pill-dot-green { background: #34d399; }
+
+  .pill-dot-pulse {
+    background: #34d399;
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes glow-fade {
+    0% { box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
+    50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.15); }
+    100% { box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
+  }
 </style>
 </head>
 <body>
@@ -222,6 +292,119 @@
       <div style="font-family:var(--font-body); font-size:11px; font-weight:500; color:var(--midnight-400)">Updated Nov 23</div>
     </div>
     <div class="component-note">Wordmark + tagline left, data freshness right. Vertically centered. Midnight-900 background, sticky.</div>
+  </div>
+</div>
+
+<!-- ═══ HEADER SEARCH INPUT ═══ -->
+<h2>Header Search Input</h2>
+
+<div class="pill-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom:24px">
+
+  <!-- A: Glass fill, icon left, r-sm -->
+  <div class="pill-card" style="align-items:stretch">
+    <div class="component-label">A · Glass Fill · r-sm</div>
+    <div style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.06); border-radius:var(--r-sm); padding:8px 12px;">
+      <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--midnight-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:rgba(97,120,176,0.6)">Search games or players...</span>
+    </div>
+    <div class="component-note">Glass fill matches pill treatment. Icon left. r-sm (6px). Structured, matches card radii.</div>
+  </div>
+
+  <!-- B: Glass fill, icon left, r-md -->
+  <div class="pill-card" style="align-items:stretch">
+    <div class="component-label">B · Glass Fill · r-md</div>
+    <div style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.06); border-radius:var(--r-md); padding:8px 12px;">
+      <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--midnight-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:rgba(97,120,176,0.6)">Search games or players...</span>
+    </div>
+    <div class="component-note">Glass fill. r-md (10px). Softer corners. Same fill as A but rounder.</div>
+  </div>
+
+  <!-- C: Glass fill, icon left, r-full -->
+  <div class="pill-card" style="align-items:stretch">
+    <div class="component-label">C · Glass Fill · r-full</div>
+    <div style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.06); border-radius:var(--r-full); padding:8px 14px;">
+      <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--midnight-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:rgba(97,120,176,0.6)">Search games or players...</span>
+    </div>
+    <div class="component-note">Glass fill. Full radius. Classic search bar shape. May feel too "app-like" for the brand.</div>
+  </div>
+
+  <!-- D: Border only, icon left, r-sm -->
+  <div class="pill-card" style="align-items:stretch">
+    <div class="component-label">D · Border Only · r-sm</div>
+    <div style="display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.1); border-radius:var(--r-sm); padding:8px 12px;">
+      <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--midnight-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:rgba(97,120,176,0.6)">Search games or players...</span>
+    </div>
+    <div class="component-note">Border only, no fill. r-sm. Lightest weight. Feels native to the header without adding a new surface.</div>
+  </div>
+
+  <!-- E: Solid midnight-800 fill, r-sm -->
+  <div class="pill-card" style="align-items:stretch">
+    <div class="component-label">E · Solid Fill · r-sm</div>
+    <div style="display:flex; align-items:center; gap:8px; background:#1a2540; border-radius:var(--r-sm); padding:8px 12px;">
+      <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--midnight-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:rgba(97,120,176,0.6)">Search games or players...</span>
+    </div>
+    <div class="component-note">Solid midnight-800 fill. r-sm. More defined container. Subtle but present. The fill separates it from the header background.</div>
+  </div>
+
+  <!-- F: Icon only (compact) -->
+  <div class="pill-card" style="align-items:stretch">
+    <div class="component-label">F · Icon Only (Expandable)</div>
+    <div style="display:flex; align-items:center; justify-content:center">
+      <div style="display:flex; align-items:center; justify-content:center; width:32px; height:32px; background:rgba(255,255,255,0.06); border-radius:var(--r-sm); cursor:pointer;">
+        <svg style="width:14px; height:14px" viewBox="0 0 24 24" fill="none" stroke="var(--midnight-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+    </div>
+    <div class="component-note">Icon only. Expands into a full input on click. Most minimal. Good if the header needs to stay ultra-clean.</div>
+  </div>
+
+</div>
+
+<!-- ═══ DATA FRESHNESS PILLS — FINAL ROUND ═══ -->
+<h2>Data Freshness Indicators — Finals</h2>
+
+<div class="pill-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom:24px">
+  <!-- D: Glass fill, static green dot, r-sm -->
+  <div class="pill-card">
+    <div class="component-label">D · Glass + Static Dot · r-sm</div>
+    <span class="pill-base" style="color:var(--midnight-400); background:rgba(255,255,255,0.06); padding:6px 12px; border-radius:var(--r-sm)">
+      <span class="pill-dot pill-dot-green"></span>
+      Updated Nov 23
+    </span>
+    <div class="component-note">Static green dot. Glass fill. r-sm (6px). Structured, trustworthy. The dot signals fresh data without demanding attention.</div>
+  </div>
+
+  <!-- H: Glass fill, green check icon, r-sm -->
+  <div class="pill-card">
+    <div class="component-label">H · Glass + Check Icon · r-sm</div>
+    <span class="pill-base" style="color:var(--midnight-400); background:rgba(255,255,255,0.06); padding:6px 12px; border-radius:var(--r-sm)">
+      <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      Updated Nov 23
+    </span>
+    <div class="component-note">Green check icon. Glass fill. r-sm. Communicates "verified" — stronger trust signal than a dot. More semantic.</div>
+  </div>
+
+  <!-- J2: Border, pulse dot, r-sm -->
+  <div class="pill-card">
+    <div class="component-label">J · Border + Pulse Dot · r-sm</div>
+    <span class="pill-base" style="color:var(--midnight-400); border:1px solid rgba(255,255,255,0.1); padding:6px 12px; border-radius:var(--r-sm)">
+      <span class="pill-dot pill-dot-pulse"></span>
+      Updated Nov 23
+    </span>
+    <div class="component-note">No fill, subtle border. r-sm. Pulsing dot adds life. Lightest container weight — border only.</div>
+  </div>
+
+  <!-- L: No container, pulse dot -->
+  <div class="pill-card">
+    <div class="component-label">L · No Container + Pulse Dot</div>
+    <span class="pill-base" style="color:var(--midnight-400)">
+      <span class="pill-dot pill-dot-pulse"></span>
+      Updated Nov 23
+    </span>
+    <div class="component-note">No container at all. Just pulsing dot + text floating on the header. Most minimal, most native to current design.</div>
   </div>
 </div>
 
