@@ -207,16 +207,9 @@ export default function Page() {
 
       <footer className={s.pageFooter}>
         <div className={`${s.container} ${s.footerInner}`}>
-          <span className={s.footerFreshness}>
-            <span className={s.freshDot} />
-            Updated Nov 23
-          </span>
+          <p className={s.footerDisclaimer}>Not a sportsbook. Informational only.</p>
           <hr className={s.footerDivider} />
-          <div className={s.footerSecondary}>
-            <a className={s.footerLink} href="/about">About</a>
-            <span className={s.footerDot}>·</span>
-            <p className={s.footerDisclaimer}>Not a sportsbook. Informational only.</p>
-          </div>
+          <a className={s.footerLink} href="/about">About Before You Bet</a>
         </div>
       </footer>
     </main>
