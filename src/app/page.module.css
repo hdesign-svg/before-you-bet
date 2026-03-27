@@ -224,7 +224,7 @@
 .gameRow {
   background: var(--bg-elevated);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--neutral-200);
   overflow: hidden;
   animation: rowEnter var(--duration-normal) var(--ease-out) backwards;
 }
