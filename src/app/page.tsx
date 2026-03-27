@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ChevronDown, Zap, Info } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
@@ -51,7 +51,22 @@ const slateIcon: Record<string, string> = {
 export default function Page() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [tab, setTab] = useState<"games" | "players">("games");
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const slates = useMemo(() => groupBySlate(games), []);
+
+  useEffect(() => {
+    const threshold = 10;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 60) { setHeaderHidden(false); }
+      else if (y - lastScrollY.current > threshold) { setHeaderHidden(true); }
+      else if (lastScrollY.current - y > threshold) { setHeaderHidden(false); }
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const toggle = (slug: string) => {
     setExpanded((prev) => (prev === slug ? null : slug));
@@ -62,7 +77,7 @@ export default function Page() {
       <a href="#games" className={s.srOnly}>Skip to games</a>
 
       {/* Sticky Header */}
-      <header className={s.header}>
+      <header className={`${s.header} ${headerHidden ? s.headerHidden : ""}`}>
         <div className={`${s.container} ${s.headerInner}`}>
           <div className={s.headerBrand}>
             <h1 className={s.wordmark}>Before You Bet</h1>
