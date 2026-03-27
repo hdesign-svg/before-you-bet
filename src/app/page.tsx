@@ -126,82 +126,85 @@ export default function Page() {
               <span className={s.slateLabel}>{slate.label}</span>
             </div>
 
-            <div className={s.cardGrid}>
+            <div className={s.gameList}>
               {slate.games.map((game, idx) => {
                 const a = teams[game.awayAbbr];
                 const h = teams[game.homeAbbr];
                 const { time, period } = parseTime(game.time);
                 const isOpen = expanded === game.slug;
+                const allPlayers = [...game.awayPlayers, ...game.homePlayers];
 
                 return (
-                  <div
+                  <article
                     key={game.slug}
-                    className={`${s.gameCard} ${isOpen ? s.gameCardExpanded : ""}`}
+                    className={s.gameRow}
                     style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
                   >
-                    {/* Card matchup zone */}
-                    <div className={s.cardMatchupZone}>
-                      <div className={s.cardMatchup}>
-                        <div className={s.cardTeam}>
-                          <div className={s.cardLogoBg}>
-                            <Image src={a.logo} alt="" width={52} height={52} className={s.cardLogo} unoptimized />
+                    {/* Row main content — matchup left, insights right */}
+                    <div className={s.rowMain}>
+                      {/* Matchup column */}
+                      <div className={s.rowMatchup}>
+                        <div className={s.rowTeams}>
+                          <div className={s.rowTeam}>
+                            <div className={s.rowLogoBg}>
+                              <Image src={a.logo} alt="" width={40} height={40} className={s.rowLogo} unoptimized />
+                            </div>
+                            <span className={s.rowAbbr}>{a.abbr}</span>
                           </div>
-                          <span className={s.cardAbbr}>{a.abbr}</span>
-                          <span className={s.cardCity}>{a.city}</span>
-                        </div>
-                        <div className={s.cardMid}>
-                          <span className={s.cardVs}>VS</span>
-                          <span className={s.cardTime}>{time}</span>
-                          <span className={s.cardPeriod}>{period}</span>
-                        </div>
-                        <div className={s.cardTeam}>
-                          <div className={s.cardLogoBg}>
-                            <Image src={h.logo} alt="" width={52} height={52} className={s.cardLogo} unoptimized />
+                          <span className={s.rowAt}>@</span>
+                          <div className={s.rowTeam}>
+                            <div className={s.rowLogoBg}>
+                              <Image src={h.logo} alt="" width={40} height={40} className={s.rowLogo} unoptimized />
+                            </div>
+                            <span className={s.rowAbbr}>{h.abbr}</span>
                           </div>
-                          <span className={s.cardAbbr}>{h.abbr}</span>
-                          <span className={s.cardCity}>{h.city}</span>
+                        </div>
+                        <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
+                      </div>
+
+                      {/* Insights column */}
+                      <div className={s.rowInsights}>
+                        <p className={s.rowHeadline}>{game.headline}</p>
+                        <ul className={s.rowRundown}>
+                          {game.rundown.map((b, i) => (
+                            <li key={i} className={s.rowBullet}>{b}</li>
+                          ))}
+                        </ul>
+                        <div className={s.rowActions}>
+                          <button
+                            className={s.rowExpand}
+                            onClick={() => toggle(game.slug)}
+                            aria-expanded={isOpen}
+                            aria-label={`${isOpen ? "Hide" : "Show"} key players for ${a.city} ${a.name} at ${h.city} ${h.name}`}
+                          >
+                            <Zap size={11} className={s.rowExpandIcon} />
+                            {isOpen ? "Hide Players" : "Key Players"}
+                            <ChevronDown size={11} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
+                          </button>
+                          <span className={s.rowUpdated}>
+                            <Info size={9} className={s.rowUpdatedIcon} />
+                            {game.lastUpdated}
+                          </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Card body — clickable */}
-                    <button
-                      className={s.cardBody}
-                      onClick={() => toggle(game.slug)}
-                      aria-expanded={isOpen}
-                      aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}, ${game.time}`}
-                    >
-                      <p className={s.cardHeadline}>{game.headline}</p>
-                      <span className={s.cardCta}>
-                        <Zap size={12} className={s.ctaIcon} />
-                        {isOpen ? "Close" : "Quick Take"}
-                        <ChevronDown size={12} className={`${s.cardChevron} ${isOpen ? s.cardChevronOpen : ""}`} />
-                      </span>
-                    </button>
-
-                    {/* Expanded intel — absolute overlay */}
+                    {/* Expandable player section — inline push */}
                     {isOpen && (
-                      <div className={s.cardIntel}>
-                        <div className={s.intelInner}>
-                          <div className={s.intelHeader}>
-                            <Zap size={14} className={s.intelIcon} />
-                            <span className={s.intelLabel}>Quick Take</span>
+                      <div className={s.rowPlayers}>
+                        {allPlayers.map((p, i) => (
+                          <div key={i} className={s.playerCard}>
+                            <div className={s.playerHeader}>
+                              <span className={s.playerName}>{p.name}</span>
+                              <span className={s.playerMeta}>{p.position} · {p.team}</span>
+                            </div>
+                            <p className={s.playerVerdict}>{p.verdict}</p>
+                            <p className={s.playerProjection}>{p.projection}</p>
                           </div>
-                          <ul className={s.intelBullets}>
-                            {game.rundown.map((b, i) => (
-                              <li key={i} className={s.intelBullet}>
-                                {b}
-                              </li>
-                            ))}
-                          </ul>
-                          <div className={s.intelFooter}>
-                            <Info size={10} className={s.intelFooterIcon} />
-                            <span>Updated {game.lastUpdated}</span>
-                          </div>
-                        </div>
+                        ))}
                       </div>
                     )}
-                  </div>
+                  </article>
                 );
               })}
             </div>
