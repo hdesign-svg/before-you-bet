@@ -82,7 +82,7 @@ export default function Page() {
           <div className={s.headerBrand}>
             <h1 className={s.wordmark}>Before You Bet</h1>
             <p className={s.subtitle}>
-              Don{'\u2019'}t bet blind.
+              Don{'\u2019'}t bet blind
             </p>
           </div>
           <div className={s.headerMeta}>
