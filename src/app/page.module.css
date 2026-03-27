@@ -73,6 +73,12 @@
   white-space: nowrap;
 }
 
+.wordmarkMark {
+  color: var(--coral-500);
+  letter-spacing: -0.08em;
+  margin-right: 0.15em;
+}
+
 .subtitle {
   font-family: var(--font-body);
   font-size: var(--text-xs);

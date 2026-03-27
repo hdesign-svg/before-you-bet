@@ -80,7 +80,7 @@ export default function Page() {
       <header className={`${s.header} ${headerHidden ? s.headerHidden : ""}`}>
         <div className={`${s.container} ${s.headerInner}`}>
           <div className={s.headerBrand}>
-            <h1 className={s.wordmark}>Before You Bet</h1>
+            <h1 className={s.wordmark}><span className={s.wordmarkMark}>||</span> Before You Bet</h1>
             <p className={s.subtitle}>
               Don{'\u2019'}t bet blind
             </p>
