@@ -504,8 +504,8 @@
 
 .footerInner {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-5);
   padding: var(--sp-10) 0;
 }
@@ -518,9 +518,10 @@
 }
 
 .footerDivider {
-  width: 48px;
+  width: 1px;
+  height: 14px;
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .footerLink {
