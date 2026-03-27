@@ -36,7 +36,7 @@
    ═══════════════════════════════════════ */
 
 .header {
-  background: var(--grad-hero);
+  background: var(--grad-midnight);
   padding: var(--sp-5) 0;
   position: sticky;
   top: 0;
