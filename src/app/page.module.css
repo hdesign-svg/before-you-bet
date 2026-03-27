@@ -174,12 +174,6 @@
   padding-bottom: var(--sp-2);
 }
 
-.weekIcon {
-  color: var(--neutral-400);
-  flex-shrink: 0;
-  margin-right: var(--sp-1);
-}
-
 .weekLabel {
   font-weight: 600;
 }

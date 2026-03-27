@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Info, Search, Calendar, TrendingUp, RefreshCw } from "lucide-react";
+import { ChevronDown, Zap, Info, Search, Calendar, TrendingUp } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -116,7 +116,6 @@ export default function Page() {
             </button>
           </nav>
           <span className={s.contentWeek}>
-            <RefreshCw size={12} className={s.weekIcon} />
             <span className={s.weekLabel}>Week {WEEK.number}</span>
             <span className={s.weekRange}>&middot; {WEEK.dateRange}</span>
           </span>
