@@ -117,7 +117,8 @@ export default function Page() {
           </nav>
           <span className={s.contentWeek}>
             <RefreshCw size={12} className={s.weekIcon} />
-            Week {WEEK.number} &middot; {WEEK.dateRange}
+            <span className={s.weekLabel}>Week {WEEK.number}</span>
+            <span className={s.weekRange}>&middot; {WEEK.dateRange}</span>
           </span>
         </div>
         {slates.map((slate, slateIdx) => (
