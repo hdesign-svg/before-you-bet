@@ -118,6 +118,9 @@
   }
 
   .tab-bar-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-family: var(--font-display);
     font-size: 14px;
     font-weight: 800;
@@ -182,7 +185,7 @@
     color: var(--neutral-500);
   }
 
-  /* ─── Data Freshness Pills ─── */
+  /* ─── Dark card grid (used for search, text links) ─── */
   .pill-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -208,54 +211,6 @@
     color: var(--midnight-400);
     align-self: flex-start;
   }
-
-  .pill-base {
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-
-  /* SVG icons in pills */
-  .pill-icon {
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-  }
-
-  /* Dot indicator */
-  .pill-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .pill-dot-green { background: #34d399; }
-
-  .pill-dot-pulse {
-    background: #34d399;
-    animation: dot-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes dot-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  @keyframes freshPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  @keyframes glow-fade {
-    0% { box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
-    50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.15); }
-    100% { box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
-  }
 </style>
 </head>
 <body>
@@ -269,12 +224,12 @@
   <div class="component-label">Tabs + Week Context</div>
   <div class="tab-bar">
     <div class="tab-bar-tabs">
-      <button class="tab-bar-tab tab-bar-tab-active">Games</button>
-      <button class="tab-bar-tab">Players</button>
+      <button class="tab-bar-tab tab-bar-tab-active"><svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> Games</button>
+      <button class="tab-bar-tab"><svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Players</button>
     </div>
-    <span class="tab-bar-context">Week 12 · Nov 19–25</span>
+    <span class="tab-bar-context"><span style="font-weight:600">Week 12</span> <span style="font-weight:400">&middot; Nov 19–25</span></span>
   </div>
-  <div class="component-note">Underline tabs (Display font) left, week context (Body font, text-xs, 500 weight, neutral-500) right. Coral accent bar on active. Border-bottom track spans full content width.</div>
+  <div class="component-note">Underline tabs (Display font) with Calendar/TrendingUp icons left, week context right. Week label at weight 600, date range at weight 400. Coral accent bar on active. Border-bottom track spans full content width.</div>
 </div>
 
 <!-- ═══ SECTION LABELS ═══ -->
@@ -292,11 +247,14 @@
     <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 0">
       <div>
         <div style="font-family:var(--font-display); font-size:28px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em; color:#fff; line-height:1">BEFORE YOU BET</div>
-        <div style="font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--midnight-400); margin-top:4px">Don't bet blind</div>
+        <div style="font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--coral-500); margin-top:4px">Don't bet blind</div>
       </div>
-      <div style="font-family:var(--font-body); font-size:11px; font-weight:500; color:var(--midnight-400)">Updated Nov 23</div>
+      <div style="display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.2); border-radius:var(--r-sm); padding:8px 12px;">
+        <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--coral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400)">Search...</span>
+      </div>
     </div>
-    <div class="component-note">Wordmark + tagline left, data freshness right. Vertically centered. Midnight-900 background, sticky.</div>
+    <div class="component-note">Wordmark + coral tagline left, search input right. Midnight gradient background, sticky. Search has coral icon, neutral placeholder, white border at 20% opacity.</div>
   </div>
 </div>
 
@@ -311,51 +269,6 @@
       <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400)">Search games or players...</span>
     </div>
     <div class="component-note">White border (20% opacity) for definition. Coral icon draws the eye. Neutral-400 placeholder stays secondary. r-sm. Collapses to icon-only on mobile.</div>
-  </div>
-</div>
-
-<!-- ═══ DATA FRESHNESS PILLS — FINAL ROUND ═══ -->
-<h2>Data Freshness Indicators — Finals</h2>
-
-<div class="pill-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom:24px">
-  <!-- D: Glass fill, static green dot, r-sm -->
-  <div class="pill-card">
-    <div class="component-label">D · Glass + Static Dot · r-sm</div>
-    <span class="pill-base" style="color:var(--midnight-400); background:rgba(255,255,255,0.06); padding:6px 12px; border-radius:var(--r-sm)">
-      <span class="pill-dot pill-dot-green"></span>
-      Updated Nov 23
-    </span>
-    <div class="component-note">Static green dot. Glass fill. r-sm (6px). Structured, trustworthy. The dot signals fresh data without demanding attention.</div>
-  </div>
-
-  <!-- H: Glass fill, green check icon, r-sm -->
-  <div class="pill-card">
-    <div class="component-label">H · Glass + Check Icon · r-sm</div>
-    <span class="pill-base" style="color:var(--midnight-400); background:rgba(255,255,255,0.06); padding:6px 12px; border-radius:var(--r-sm)">
-      <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-      Updated Nov 23
-    </span>
-    <div class="component-note">Green check icon. Glass fill. r-sm. Communicates "verified" — stronger trust signal than a dot. More semantic.</div>
-  </div>
-
-  <!-- J2: Border, pulse dot, r-sm -->
-  <div class="pill-card">
-    <div class="component-label">J · Border + Pulse Dot · r-sm</div>
-    <span class="pill-base" style="color:var(--midnight-400); border:1px solid rgba(255,255,255,0.1); padding:6px 12px; border-radius:var(--r-sm)">
-      <span class="pill-dot pill-dot-pulse"></span>
-      Updated Nov 23
-    </span>
-    <div class="component-note">No fill, subtle border. r-sm. Pulsing dot adds life. Lightest container weight — border only.</div>
-  </div>
-
-  <!-- L: No container, pulse dot -->
-  <div class="pill-card">
-    <div class="component-label">L · No Container + Pulse Dot</div>
-    <span class="pill-base" style="color:var(--midnight-400)">
-      <span class="pill-dot pill-dot-pulse"></span>
-      Updated Nov 23
-    </span>
-    <div class="component-note">No container at all. Just pulsing dot + text floating on the header. Most minimal, most native to current design.</div>
   </div>
 </div>
 
