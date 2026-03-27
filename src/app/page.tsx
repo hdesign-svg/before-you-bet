@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Info, Search } from "lucide-react";
+import { ChevronDown, Zap, Info, Search, Trophy, Users } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -102,6 +102,7 @@ export default function Page() {
               aria-selected={tab === "games"}
               onClick={() => setTab("games")}
             >
+              <Trophy size={14} className={s.tabIcon} />
               Games
             </button>
             <button
@@ -110,6 +111,7 @@ export default function Page() {
               aria-selected={tab === "players"}
               onClick={() => setTab("players")}
             >
+              <Users size={14} className={s.tabIcon} />
               Players
             </button>
           </nav>
