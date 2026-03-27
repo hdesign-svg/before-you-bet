@@ -74,9 +74,7 @@
 }
 
 .wordmarkMark {
-  color: var(--coral-500);
-  letter-spacing: -0.08em;
-  margin-right: 0.15em;
+  margin-left: 0.15em;
 }
 
 .subtitle {
