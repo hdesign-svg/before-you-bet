@@ -12,6 +12,10 @@ export type Game = {
   homeAbbr: string;
   date: string;
   time: string;
+  verdict: string;
+  confidence: "lock" | "lean" | "toss-up";
+  pick: "away" | "home" | "toss-up";
+  factors: string[];
   headline: string;
   rundown: string[];
   awayPlayers: PlayerSpotlight[];
@@ -33,6 +37,10 @@ export const games: Game[] = [
     homeAbbr: "CLE",
     date: "Thu, Nov 21",
     time: "8:15 PM ET",
+    verdict: "Pittsburgh grinds it out",
+    confidence: "lean",
+    pick: "away",
+    factors: ["Elite defense", "8-2 vs 2-8", "Thursday slop", "Low scoring"],
     headline: "Pittsburgh is the better team and this should be a low-scoring, ugly game.",
     rundown: [
       "Pittsburgh has been winning with defense all season — they're 8-2 and very hard to score against.",
@@ -58,6 +66,10 @@ export const games: Game[] = [
     homeAbbr: "WAS",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Washington rolls",
+    confidence: "lock",
+    pick: "home",
+    factors: ["Backup QB", "5-game skid", "Rookie star", "Home favorite"],
     headline: "Washington should win this easily — Dallas has lost five straight and looks like they've given up.",
     rundown: [
       "Dallas is starting a backup quarterback, which is the biggest reason everyone expects them to lose.",
@@ -81,6 +93,10 @@ export const games: Game[] = [
     homeAbbr: "CHI",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Minnesota smothers Chicago",
+    confidence: "lean",
+    pick: "away",
+    factors: ["Top-5 defense", "Rookie struggles", "8-2 record", "Low scoring"],
     headline: "Minnesota's defense is one of the best in football and Chicago's young quarterback isn't ready for it.",
     rundown: [
       "Minnesota is 8-2 with a defense that's been shutting down young quarterbacks all year.",
@@ -104,6 +120,10 @@ export const games: Game[] = [
     homeAbbr: "HOU",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Houston handles business",
+    confidence: "lock",
+    pick: "home",
+    factors: ["Division leader", "Rebuilding opponent", "Home field", "Star QB edge"],
     headline: "Houston is a legitimate contender playing at home against a rebuilding team — this should be straightforward.",
     rundown: [
       "Houston is 7-4 and has established themselves as the best team in their division.",
@@ -127,6 +147,10 @@ export const games: Game[] = [
     homeAbbr: "MIA",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Miami's speed wins easy",
+    confidence: "lock",
+    pick: "home",
+    factors: ["Tua healthy", "Rebuild vs contender", "Speed mismatch", "Home field"],
     headline: "Miami's offense is back to full strength and New England simply doesn't have the talent to keep up.",
     rundown: [
       "Miami's star quarterback Tua is healthy again and their offense is one of the most explosive in football.",
@@ -149,6 +173,10 @@ export const games: Game[] = [
     homeAbbr: "NYG",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Tampa Bay cruises",
+    confidence: "lock",
+    pick: "away",
+    factors: ["Career-year QB", "Worst in league", "Offense clicking", "Talent gap"],
     headline: "Tampa Bay's offense is clicking and the Giants are one of the weakest teams in the league.",
     rundown: [
       "Baker Mayfield is having a career year for Tampa Bay and their offense has been tough to stop.",
@@ -171,6 +199,10 @@ export const games: Game[] = [
     homeAbbr: "KC",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Chiefs coast to a win",
+    confidence: "lock",
+    pick: "home",
+    factors: ["9-1 vs 2-8", "Mahomes factor", "Home field", "Huge talent gap"],
     headline: "Kansas City is the best team in football hosting one of the worst — there's a huge talent gap here.",
     rundown: [
       "The Chiefs are 9-1 and have the best quarterback in football in Patrick Mahomes.",
@@ -193,6 +225,10 @@ export const games: Game[] = [
     homeAbbr: "DET",
     date: "Sun, Nov 24",
     time: "1:00 PM ET",
+    verdict: "Detroit pulls away late",
+    confidence: "lean",
+    pick: "home",
+    factors: ["9-1 at home", "Explosive offense", "Scoring 30+", "Firepower gap"],
     headline: "Detroit might be the best team in football right now — Indianapolis will compete but probably can't keep up.",
     rundown: [
       "Detroit is 9-1 and their offense has been putting up huge numbers at home.",
@@ -217,6 +253,10 @@ export const games: Game[] = [
     homeAbbr: "BUF",
     date: "Sun, Nov 24",
     time: "4:25 PM ET",
+    verdict: "True coin flip",
+    confidence: "toss-up",
+    pick: "toss-up",
+    factors: ["9-1 vs 9-2", "MVP duel", "Home edge", "Bet small"],
     headline: "This is the game of the week — two of the best teams in football in a game that could decide who gets home-field advantage later.",
     rundown: [
       "Both teams are among the best in football — Kansas City is 9-1 and Buffalo is 9-2.",
@@ -240,6 +280,10 @@ export const games: Game[] = [
     homeAbbr: "SF",
     date: "Sun, Nov 24",
     time: "4:25 PM ET",
+    verdict: "Slight edge to SF at home",
+    confidence: "toss-up",
+    pick: "toss-up",
+    factors: ["Playoff rematch", "Both explosive", "Injury watch", "High scoring"],
     headline: "A rematch of last year's playoffs — both teams need this win badly and it could genuinely go either way.",
     rundown: [
       "This is basically a 50/50 game — San Francisco has a tiny home-field edge.",
@@ -263,6 +307,10 @@ export const games: Game[] = [
     homeAbbr: "LV",
     date: "Sun, Nov 24",
     time: "4:05 PM ET",
+    verdict: "Denver's defense decides it",
+    confidence: "lean",
+    pick: "away",
+    factors: ["Strong defense", "Smart rookie QB", "2-8 opponent", "Low scoring"],
     headline: "Denver's defense and solid rookie quarterback should be enough to handle a Raiders team going nowhere.",
     rundown: [
       "Denver has a strong defense and their rookie QB Bo Nix has been surprisingly good — smart and steady.",
@@ -284,6 +332,10 @@ export const games: Game[] = [
     homeAbbr: "ARI",
     date: "Sun, Nov 24",
     time: "4:05 PM ET",
+    verdict: "Anyone's game",
+    confidence: "toss-up",
+    pick: "toss-up",
+    factors: ["Both inconsistent", "Dual-threat QBs", "Tiny home edge", "Bet small"],
     headline: "A true coin flip between two inconsistent teams — hard to feel confident picking either side.",
     rundown: [
       "Both teams are around .500 and fighting for a playoff spot, but neither has been consistent.",
@@ -306,6 +358,10 @@ export const games: Game[] = [
     homeAbbr: "LAC",
     date: "Sun, Nov 24",
     time: "4:25 PM ET",
+    verdict: "Baltimore's firepower edges it",
+    confidence: "lean",
+    pick: "away",
+    factors: ["MVP candidate", "Run game dominant", "Both elite", "High scoring"],
     headline: "Baltimore's offense has been nearly unstoppable, but the Chargers at home are no pushover — expect a close, high-scoring game.",
     rundown: [
       "Baltimore has one of the most dangerous offenses in football with Lamar Jackson and Derrick Henry.",
@@ -330,6 +386,10 @@ export const games: Game[] = [
     homeAbbr: "LAR",
     date: "Sun, Nov 24",
     time: "8:20 PM ET",
+    verdict: "Philly runs all over LA",
+    confidence: "lock",
+    pick: "away",
+    factors: ["7-game streak", "Historic run game", "Injured D-line", "Clear favorite"],
     headline: "Philadelphia's running game has been dominant all season, and the Rams' defense doesn't have the bodies to stop it.",
     rundown: [
       "Philadelphia has won 7 straight games and their running back Saquon Barkley is having a historic season.",
@@ -355,6 +415,10 @@ export const games: Game[] = [
     homeAbbr: "CIN",
     date: "Mon, Nov 25",
     time: "8:15 PM ET",
+    verdict: "Baltimore's run game tips it",
+    confidence: "lean",
+    pick: "away",
+    factors: ["Historic rushing", "Elite passing game", "Primetime", "High scoring"],
     headline: "Two of the most talented offenses in football going head-to-head — this should be the most entertaining game of the week.",
     rundown: [
       "Baltimore has Lamar Jackson and Derrick Henry — their running game has been historically good.",

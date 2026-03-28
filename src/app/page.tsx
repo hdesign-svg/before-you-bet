@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronDown, Zap, Info, Search, Calendar, TrendingUp } from "lucide-react";
+import { ChevronDown, Search, Calendar, TrendingUp, Shield, ArrowRight } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -133,6 +133,9 @@ export default function Page() {
                 const { time, period } = parseTime(game.time);
                 const isOpen = expanded === game.slug;
                 const allPlayers = [...game.awayPlayers, ...game.homePlayers];
+                const pickLabel =
+                  game.pick === "away" ? a.abbr :
+                  game.pick === "home" ? h.abbr : null;
 
                 return (
                   <article
@@ -140,56 +143,60 @@ export default function Page() {
                     className={s.gameRow}
                     style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
                   >
-                    {/* Row main content — matchup left, insights right */}
                     <div className={s.rowMain}>
-                      {/* Matchup column */}
+                      {/* Matchup */}
                       <div className={s.rowMatchup}>
                         <div className={s.rowTeams}>
                           <div className={s.rowTeam}>
-                            <div className={s.rowLogoBg}>
-                              <Image src={a.logo} alt="" width={40} height={40} className={s.rowLogo} unoptimized />
-                            </div>
+                            <Image src={a.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
                             <span className={s.rowAbbr}>{a.abbr}</span>
                           </div>
                           <span className={s.rowAt}>@</span>
                           <div className={s.rowTeam}>
-                            <div className={s.rowLogoBg}>
-                              <Image src={h.logo} alt="" width={40} height={40} className={s.rowLogo} unoptimized />
-                            </div>
+                            <Image src={h.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
                             <span className={s.rowAbbr}>{h.abbr}</span>
                           </div>
                         </div>
                         <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
                       </div>
 
-                      {/* Insights column */}
-                      <div className={s.rowInsights}>
-                        <p className={s.rowHeadline}>{game.headline}</p>
-                        <ul className={s.rowRundown}>
-                          {game.rundown.map((b, i) => (
-                            <li key={i} className={s.rowBullet}>{b}</li>
-                          ))}
-                        </ul>
-                        <div className={s.rowActions}>
-                          <button
-                            className={s.rowExpand}
-                            onClick={() => toggle(game.slug)}
-                            aria-expanded={isOpen}
-                            aria-label={`${isOpen ? "Hide" : "Show"} key players for ${a.city} ${a.name} at ${h.city} ${h.name}`}
-                          >
-                            <Zap size={11} className={s.rowExpandIcon} />
-                            {isOpen ? "Hide Players" : "Key Players"}
-                            <ChevronDown size={11} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
-                          </button>
-                          <span className={s.rowUpdated}>
-                            <Info size={9} className={s.rowUpdatedIcon} />
-                            {game.lastUpdated}
+                      {/* Verdict + confidence */}
+                      <div className={s.rowVerdict}>
+                        <span className={s.verdictText}>{game.verdict}</span>
+                        <span className={`${s.confidenceBadge} ${s[`confidence_${game.confidence.replace("-", "")}`]}`}>
+                          <Shield size={10} />
+                          {game.confidence === "lock" ? "Lock" : game.confidence === "lean" ? "Lean" : "Toss-Up"}
+                        </span>
+                      </div>
+
+                      {/* Factor tags */}
+                      <div className={s.rowFactors}>
+                        {game.factors.map((f, i) => (
+                          <span key={i} className={s.factorTag}>{f}</span>
+                        ))}
+                      </div>
+
+                      {/* Pick + expand */}
+                      <div className={s.rowEnd}>
+                        {pickLabel && (
+                          <span className={s.pickBadge}>
+                            <ArrowRight size={10} />
+                            {pickLabel}
                           </span>
-                        </div>
+                        )}
+                        <button
+                          className={s.rowExpand}
+                          onClick={() => toggle(game.slug)}
+                          aria-expanded={isOpen}
+                          aria-label={`${isOpen ? "Hide" : "Show"} key players`}
+                        >
+                          Players
+                          <ChevronDown size={10} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
+                        </button>
                       </div>
                     </div>
 
-                    {/* Expandable player section — inline push */}
+                    {/* Expandable player section */}
                     {isOpen && (
                       <div className={s.rowPlayers}>
                         {allPlayers.map((p, i) => (
