@@ -210,20 +210,20 @@
 }
 
 /* ═══════════════════════════════════════
-   GAME LIST — Full-width compact rows
+   GAME LIST — Full-width rows
    ═══════════════════════════════════════ */
 
 .gameList {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
 /* ─── Game Row ─── */
 
 .gameRow {
   background: var(--bg-elevated);
-  border-radius: var(--r-md);
+  border-radius: var(--r-lg);
   overflow: hidden;
   animation: rowEnter var(--duration-normal) var(--ease-out) backwards;
 }
@@ -231,7 +231,7 @@
 @keyframes rowEnter {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -239,30 +239,32 @@
   }
 }
 
-/* ─── Row Main — horizontal scan line ─── */
+/* ─── Row Main — three zone layout ─── */
 
 .rowMain {
   display: flex;
-  align-items: center;
-  gap: var(--sp-5);
-  padding: var(--sp-4) var(--sp-5);
+  gap: 0;
+  min-height: 0;
 }
 
-/* ─── Matchup ─── */
+/* ─── Zone 1: Matchup ─── */
 
 .rowMatchup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-1);
+  justify-content: center;
+  gap: var(--sp-2);
   flex-shrink: 0;
-  min-width: 140px;
+  width: 180px;
+  padding: var(--sp-5) var(--sp-4);
+  background: var(--neutral-100);
 }
 
 .rowTeams {
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
 .rowTeam {
@@ -271,9 +273,14 @@
   gap: var(--sp-2);
 }
 
+.teamInfo {
+  display: flex;
+  flex-direction: column;
+}
+
 .rowLogo {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -285,6 +292,16 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   color: var(--ink);
+  line-height: 1;
+}
+
+.rowRecord {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--neutral-400);
+  line-height: 1;
+  margin-top: 2px;
 }
 
 .rowAt {
@@ -299,7 +316,7 @@
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 500;
-  color: var(--neutral-400);
+  color: var(--neutral-500);
   font-variant-numeric: tabular-nums;
 }
 
@@ -308,61 +325,38 @@
   color: var(--neutral-400);
 }
 
-/* ─── Verdict + Confidence ─── */
+/* ─── Zone 2: Narrative ─── */
 
-.rowVerdict {
+.rowNarrative {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-1);
-  flex-shrink: 0;
-  min-width: 160px;
+  gap: var(--sp-2);
+  padding: var(--sp-5) var(--sp-5);
 }
 
-.verdictText {
+.rowTakeaway {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 600;
+  line-height: 1.4;
   color: var(--ink);
-  line-height: 1.3;
 }
 
-.confidenceBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 2px 8px;
-  border-radius: var(--r-full);
-  width: fit-content;
+.rowStory {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--neutral-500);
 }
-
-.confidence_lock {
-  background: var(--green-100);
-  color: var(--green-700);
-}
-
-.confidence_lean {
-  background: var(--blue-100);
-  color: var(--blue-700);
-}
-
-.confidence_tossup {
-  background: var(--amber-100);
-  color: var(--amber-700);
-}
-
-/* ─── Factor Tags ─── */
 
 .rowFactors {
-  flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-1);
-  min-width: 0;
+  margin-top: var(--sp-1);
 }
 
 .factorTag {
@@ -376,25 +370,106 @@
   white-space: nowrap;
 }
 
-/* ─── Row End — pick + expand ─── */
+/* ─── Zone 3: Signals ─── */
 
-.rowEnd {
+.rowSignals {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--sp-3);
   flex-shrink: 0;
+  width: 200px;
+  padding: var(--sp-5) var(--sp-5);
+  border-left: 1px solid var(--neutral-100);
 }
 
-.pickBadge {
-  display: inline-flex;
-  align-items: center;
+.signal {
+  display: flex;
+  flex-direction: column;
   gap: 4px;
+}
+
+.signalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signalLabel {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  color: var(--neutral-400);
+}
+
+.signalValue {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Confidence bar */
+.barTrack {
+  height: 6px;
+  background: var(--neutral-100);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--r-full);
+  transition: width 0.6s var(--ease-out);
+}
+
+/* Scoring dots */
+.scoringDots {
+  display: flex;
+  gap: 4px;
+}
+
+.scoringDot {
+  width: 18px;
+  height: 6px;
+  border-radius: var(--r-full);
+  background: var(--neutral-100);
+}
+
+.scoringDotActive {
+  background: var(--coral-400);
+}
+
+/* Pick indicator */
+.pickIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pickLabel {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--neutral-400);
+}
+
+.pickTeam {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--coral-600);
+}
+
+.pickTossup {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--amber-600);
 }
 
 .rowExpand {
@@ -409,6 +484,7 @@
   color: var(--neutral-400);
   cursor: pointer;
   padding: var(--sp-1) 0;
+  margin-top: auto;
   transition: color var(--duration-fast) var(--ease-out);
 }
 
@@ -438,9 +514,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--sp-2);
-  padding: 0 var(--sp-5) var(--sp-4);
+  padding: 0 var(--sp-5) var(--sp-5);
   border-top: 1px solid var(--neutral-100);
-  padding-top: var(--sp-3);
+  padding-top: var(--sp-4);
   animation: playersIn var(--duration-normal) var(--ease-out);
 }
 
@@ -579,26 +655,39 @@
     display: none;
   }
 
-  /* Row wraps on mobile */
+  /* Row stacks on mobile */
   .rowMain {
-    flex-wrap: wrap;
-    gap: var(--sp-3);
-    padding: var(--sp-3) var(--sp-4);
+    flex-direction: column;
   }
 
   .rowMatchup {
     flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--sp-3) var(--sp-4);
+  }
+
+  .rowNarrative {
+    padding: 0 var(--sp-4) var(--sp-3);
+  }
+
+  .rowSignals {
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: var(--sp-3);
-    min-width: unset;
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--neutral-100);
+    padding: var(--sp-3) var(--sp-4);
   }
 
-  .rowVerdict {
-    min-width: unset;
+  .signal {
     flex: 1;
+    min-width: 100px;
   }
 
-  .rowFactors {
-    flex-basis: 100%;
+  .pickIndicator {
+    flex: 0;
   }
 
   .rowPlayers {

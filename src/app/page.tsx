@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronDown, Search, Calendar, TrendingUp, Shield, ArrowRight } from "lucide-react";
+import { ChevronDown, Search, Calendar, TrendingUp } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -133,9 +133,21 @@ export default function Page() {
                 const { time, period } = parseTime(game.time);
                 const isOpen = expanded === game.slug;
                 const allPlayers = [...game.awayPlayers, ...game.homePlayers];
-                const pickLabel =
-                  game.pick === "away" ? a.abbr :
-                  game.pick === "home" ? h.abbr : null;
+                const pickTeam =
+                  game.pick === "away" ? a :
+                  game.pick === "home" ? h : null;
+                const confidenceColor =
+                  game.confidence >= 80 ? "var(--green-600)" :
+                  game.confidence >= 60 ? "var(--blue-600)" :
+                  "var(--amber-600)";
+                const confidenceLabel =
+                  game.confidence >= 80 ? "High" :
+                  game.confidence >= 60 ? "Moderate" :
+                  "Low";
+                const scoringLabel =
+                  game.scoring === "high" ? "Expect lots of points" :
+                  game.scoring === "low" ? "Expect a defensive battle" :
+                  "Moderate scoring expected";
 
                 return (
                   <article
@@ -144,46 +156,83 @@ export default function Page() {
                     style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
                   >
                     <div className={s.rowMain}>
-                      {/* Matchup */}
+                      {/* Matchup zone */}
                       <div className={s.rowMatchup}>
                         <div className={s.rowTeams}>
                           <div className={s.rowTeam}>
-                            <Image src={a.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
-                            <span className={s.rowAbbr}>{a.abbr}</span>
+                            <Image src={a.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
+                            <div className={s.teamInfo}>
+                              <span className={s.rowAbbr}>{a.abbr}</span>
+                              <span className={s.rowRecord}>{a.record}</span>
+                            </div>
                           </div>
                           <span className={s.rowAt}>@</span>
                           <div className={s.rowTeam}>
-                            <Image src={h.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
-                            <span className={s.rowAbbr}>{h.abbr}</span>
+                            <Image src={h.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
+                            <div className={s.teamInfo}>
+                              <span className={s.rowAbbr}>{h.abbr}</span>
+                              <span className={s.rowRecord}>{h.record}</span>
+                            </div>
                           </div>
                         </div>
                         <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
                       </div>
 
-                      {/* Verdict + confidence */}
-                      <div className={s.rowVerdict}>
-                        <span className={s.verdictText}>{game.verdict}</span>
-                        <span className={`${s.confidenceBadge} ${s[`confidence_${game.confidence.replace("-", "")}`]}`}>
-                          <Shield size={10} />
-                          {game.confidence === "lock" ? "Lock" : game.confidence === "lean" ? "Lean" : "Toss-Up"}
-                        </span>
-                      </div>
-
-                      {/* Factor tags */}
-                      <div className={s.rowFactors}>
-                        {game.factors.map((f, i) => (
-                          <span key={i} className={s.factorTag}>{f}</span>
-                        ))}
-                      </div>
-
-                      {/* Pick + expand */}
-                      <div className={s.rowEnd}>
-                        {pickLabel && (
-                          <span className={s.pickBadge}>
-                            <ArrowRight size={10} />
-                            {pickLabel}
-                          </span>
+                      {/* Narrative zone */}
+                      <div className={s.rowNarrative}>
+                        <p className={s.rowTakeaway}>{game.takeaway}</p>
+                        <p className={s.rowStory}>{game.story}</p>
+                        {game.factors.length > 0 && (
+                          <div className={s.rowFactors}>
+                            {game.factors.map((f, i) => (
+                              <span key={i} className={s.factorTag}>{f}</span>
+                            ))}
+                          </div>
                         )}
+                      </div>
+
+                      {/* Signals zone — bars + indicators */}
+                      <div className={s.rowSignals}>
+                        {/* Confidence bar */}
+                        <div className={s.signal}>
+                          <div className={s.signalHeader}>
+                            <span className={s.signalLabel}>Confidence</span>
+                            <span className={s.signalValue} style={{ color: confidenceColor }}>{confidenceLabel}</span>
+                          </div>
+                          <div className={s.barTrack}>
+                            <div
+                              className={s.barFill}
+                              style={{ width: `${game.confidence}%`, background: confidenceColor }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Scoring expectation */}
+                        <div className={s.signal}>
+                          <div className={s.signalHeader}>
+                            <span className={s.signalLabel}>Scoring</span>
+                            <span className={s.signalValue}>{game.scoring === "high" ? "High" : game.scoring === "low" ? "Low" : "Mid"}</span>
+                          </div>
+                          <div className={s.scoringDots}>
+                            <span className={`${s.scoringDot} ${game.scoring !== "low" ? "" : s.scoringDotActive}`} />
+                            <span className={`${s.scoringDot} ${game.scoring !== "moderate" ? "" : s.scoringDotActive}`} />
+                            <span className={`${s.scoringDot} ${game.scoring !== "high" ? "" : s.scoringDotActive}`} />
+                          </div>
+                        </div>
+
+                        {/* Pick indicator */}
+                        {pickTeam ? (
+                          <div className={s.pickIndicator}>
+                            <span className={s.pickLabel}>Leaning</span>
+                            <span className={s.pickTeam}>{pickTeam.abbr}</span>
+                          </div>
+                        ) : (
+                          <div className={s.pickIndicator}>
+                            <span className={s.pickLabel}>Verdict</span>
+                            <span className={s.pickTossup}>Toss-up</span>
+                          </div>
+                        )}
+
                         <button
                           className={s.rowExpand}
                           onClick={() => toggle(game.slug)}

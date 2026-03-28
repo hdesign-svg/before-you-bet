@@ -21,10 +21,9 @@ graph LR
     <b>Attributes</b>
     – matchup
     – date / time
-    – spread
-    – over/under
-    – moneyline
     – venue
+    – confidence (0–100)
+    – scoring expectation
     – last updated
     ─────────────
     <b>CTAs</b>
@@ -33,8 +32,8 @@ graph LR
     ─────────────
     <b>Local Content</b>
     – The Story
-    – Odds Translation
     – The Takeaway
+    – Key Factors
     ─────────────
     <b>Surface</b>
     – Matchups tab → Detail page"]
