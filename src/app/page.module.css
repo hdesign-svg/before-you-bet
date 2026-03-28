@@ -239,25 +239,13 @@
   }
 }
 
-/* ─── Row Main — three zone layout ─── */
+/* ─── Row Header — matchup + time ─── */
 
-.rowMain {
+.rowHeader {
   display: flex;
-  gap: 0;
-  min-height: 0;
-}
-
-/* ─── Zone 1: Matchup ─── */
-
-.rowMatchup {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--sp-2);
-  flex-shrink: 0;
-  width: 180px;
-  padding: var(--sp-5) var(--sp-4);
+  justify-content: space-between;
+  padding: var(--sp-4) var(--sp-5);
   background: var(--neutral-100);
 }
 
@@ -279,8 +267,8 @@
 }
 
 .rowLogo {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -325,15 +313,13 @@
   color: var(--neutral-400);
 }
 
-/* ─── Zone 2: Narrative ─── */
+/* ─── Narrative ─── */
 
 .rowNarrative {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
-  padding: var(--sp-5) var(--sp-5);
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-5);
 }
 
 .rowTakeaway {
@@ -346,130 +332,110 @@
 
 .rowStory {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 400;
   line-height: 1.6;
   color: var(--neutral-500);
 }
 
-.rowFactors {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-1);
-  margin-top: var(--sp-1);
-}
-
-.factorTag {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--neutral-500);
-  background: var(--neutral-100);
-  padding: 2px 10px;
-  border-radius: var(--r-full);
-  white-space: nowrap;
-}
-
-/* ─── Zone 3: Signals ─── */
+/* ─── Signals — horizontal row ─── */
 
 .rowSignals {
   display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  flex-shrink: 0;
-  width: 200px;
-  padding: var(--sp-5) var(--sp-5);
-  border-left: 1px solid var(--neutral-100);
-}
-
-.signal {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.signalHeader {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-3) var(--sp-5) var(--sp-4);
+  border-top: 1px solid var(--neutral-100);
 }
 
-.signalLabel {
+/* ─── Edge Meter — tug of war ─── */
+
+.edgeMeter {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.edgeLabel {
   font-family: var(--font-display);
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--neutral-400);
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
 }
 
-.signalValue {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-}
-
-/* Confidence bar */
-.barTrack {
-  height: 6px;
-  background: var(--neutral-100);
+.edgeTrack {
+  flex: 1;
+  display: flex;
+  height: 8px;
   border-radius: var(--r-full);
   overflow: hidden;
+  gap: 2px;
 }
 
-.barFill {
+.edgeFillAway {
   height: 100%;
-  border-radius: var(--r-full);
+  background: var(--coral-400);
+  border-radius: var(--r-full) 0 0 var(--r-full);
   transition: width 0.6s var(--ease-out);
 }
 
-/* Scoring dots */
-.scoringDots {
+.edgeFillHome {
+  height: 100%;
+  background: var(--midnight-300);
+  border-radius: 0 var(--r-full) var(--r-full) 0;
+  transition: width 0.6s var(--ease-out);
+}
+
+/* ─── Predicted Score ─── */
+
+.predictedScore {
   display: flex;
-  gap: 4px;
-}
-
-.scoringDot {
-  width: 18px;
-  height: 6px;
-  border-radius: var(--r-full);
-  background: var(--neutral-100);
-}
-
-.scoringDotActive {
-  background: var(--coral-400);
-}
-
-/* Pick indicator */
-.pickIndicator {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 2px;
+  flex-shrink: 0;
 }
 
-.pickLabel {
+.scoreLabel {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--neutral-400);
+  color: var(--neutral-300);
 }
 
-.pickTeam {
+.scoreNumbers {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.scoreTeam {
   font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 900;
+  font-size: var(--text-xs);
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  color: var(--coral-600);
+  color: var(--neutral-400);
+  white-space: nowrap;
 }
 
-.pickTossup {
+.scoreWinner {
+  color: var(--ink);
+}
+
+.scoreDash {
   font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--amber-600);
+  font-size: var(--text-xs);
+  color: var(--neutral-300);
 }
 
 .rowExpand {
@@ -655,39 +621,34 @@
     display: none;
   }
 
-  /* Row stacks on mobile */
-  .rowMain {
-    flex-direction: column;
+  .rowHeader {
+    padding: var(--sp-3) var(--sp-4);
   }
 
-  .rowMatchup {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    padding: var(--sp-3) var(--sp-4);
+  .rowLogo {
+    width: 28px;
+    height: 28px;
   }
 
   .rowNarrative {
-    padding: 0 var(--sp-4) var(--sp-3);
-  }
-
-  .rowSignals {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--sp-3);
-    width: 100%;
-    border-left: none;
-    border-top: 1px solid var(--neutral-100);
     padding: var(--sp-3) var(--sp-4);
   }
 
-  .signal {
-    flex: 1;
-    min-width: 100px;
+  .rowSignals {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
   }
 
-  .pickIndicator {
-    flex: 0;
+  .edgeMeter {
+    width: 100%;
+  }
+
+  .predictedScore {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--sp-2);
   }
 
   .rowPlayers {

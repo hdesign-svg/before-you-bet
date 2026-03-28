@@ -133,21 +133,9 @@ export default function Page() {
                 const { time, period } = parseTime(game.time);
                 const isOpen = expanded === game.slug;
                 const allPlayers = [...game.awayPlayers, ...game.homePlayers];
-                const pickTeam =
-                  game.pick === "away" ? a :
-                  game.pick === "home" ? h : null;
-                const confidenceColor =
-                  game.confidence >= 80 ? "var(--green-600)" :
-                  game.confidence >= 60 ? "var(--blue-600)" :
-                  "var(--amber-600)";
-                const confidenceLabel =
-                  game.confidence >= 80 ? "High" :
-                  game.confidence >= 60 ? "Moderate" :
-                  "Low";
-                const scoringLabel =
-                  game.scoring === "high" ? "Expect lots of points" :
-                  game.scoring === "low" ? "Expect a defensive battle" :
-                  "Moderate scoring expected";
+
+                const awayEdge = game.pick === "away" ? game.edge : 100 - game.edge;
+                const homeEdge = 100 - awayEdge;
 
                 return (
                   <article
@@ -155,94 +143,76 @@ export default function Page() {
                     className={s.gameRow}
                     style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
                   >
-                    <div className={s.rowMain}>
-                      {/* Matchup zone */}
-                      <div className={s.rowMatchup}>
-                        <div className={s.rowTeams}>
-                          <div className={s.rowTeam}>
-                            <Image src={a.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
-                            <div className={s.teamInfo}>
-                              <span className={s.rowAbbr}>{a.abbr}</span>
-                              <span className={s.rowRecord}>{a.record}</span>
-                            </div>
-                          </div>
-                          <span className={s.rowAt}>@</span>
-                          <div className={s.rowTeam}>
-                            <Image src={h.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
-                            <div className={s.teamInfo}>
-                              <span className={s.rowAbbr}>{h.abbr}</span>
-                              <span className={s.rowRecord}>{h.record}</span>
-                            </div>
+                    {/* Top: matchup + time */}
+                    <div className={s.rowHeader}>
+                      <div className={s.rowTeams}>
+                        <div className={s.rowTeam}>
+                          <Image src={a.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
+                          <div className={s.teamInfo}>
+                            <span className={s.rowAbbr}>{a.abbr}</span>
+                            <span className={s.rowRecord}>{a.record}</span>
                           </div>
                         </div>
-                        <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
-                      </div>
-
-                      {/* Narrative zone */}
-                      <div className={s.rowNarrative}>
-                        <p className={s.rowTakeaway}>{game.takeaway}</p>
-                        <p className={s.rowStory}>{game.story}</p>
-                        {game.factors.length > 0 && (
-                          <div className={s.rowFactors}>
-                            {game.factors.map((f, i) => (
-                              <span key={i} className={s.factorTag}>{f}</span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Signals zone — bars + indicators */}
-                      <div className={s.rowSignals}>
-                        {/* Confidence bar */}
-                        <div className={s.signal}>
-                          <div className={s.signalHeader}>
-                            <span className={s.signalLabel}>Confidence</span>
-                            <span className={s.signalValue} style={{ color: confidenceColor }}>{confidenceLabel}</span>
-                          </div>
-                          <div className={s.barTrack}>
-                            <div
-                              className={s.barFill}
-                              style={{ width: `${game.confidence}%`, background: confidenceColor }}
-                            />
+                        <span className={s.rowAt}>@</span>
+                        <div className={s.rowTeam}>
+                          <Image src={h.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
+                          <div className={s.teamInfo}>
+                            <span className={s.rowAbbr}>{h.abbr}</span>
+                            <span className={s.rowRecord}>{h.record}</span>
                           </div>
                         </div>
-
-                        {/* Scoring expectation */}
-                        <div className={s.signal}>
-                          <div className={s.signalHeader}>
-                            <span className={s.signalLabel}>Scoring</span>
-                            <span className={s.signalValue}>{game.scoring === "high" ? "High" : game.scoring === "low" ? "Low" : "Mid"}</span>
-                          </div>
-                          <div className={s.scoringDots}>
-                            <span className={`${s.scoringDot} ${game.scoring !== "low" ? "" : s.scoringDotActive}`} />
-                            <span className={`${s.scoringDot} ${game.scoring !== "moderate" ? "" : s.scoringDotActive}`} />
-                            <span className={`${s.scoringDot} ${game.scoring !== "high" ? "" : s.scoringDotActive}`} />
-                          </div>
-                        </div>
-
-                        {/* Pick indicator */}
-                        {pickTeam ? (
-                          <div className={s.pickIndicator}>
-                            <span className={s.pickLabel}>Leaning</span>
-                            <span className={s.pickTeam}>{pickTeam.abbr}</span>
-                          </div>
-                        ) : (
-                          <div className={s.pickIndicator}>
-                            <span className={s.pickLabel}>Verdict</span>
-                            <span className={s.pickTossup}>Toss-up</span>
-                          </div>
-                        )}
-
-                        <button
-                          className={s.rowExpand}
-                          onClick={() => toggle(game.slug)}
-                          aria-expanded={isOpen}
-                          aria-label={`${isOpen ? "Hide" : "Show"} key players`}
-                        >
-                          Players
-                          <ChevronDown size={10} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
-                        </button>
                       </div>
+                      <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
+                    </div>
+
+                    {/* Middle: takeaway + story */}
+                    <div className={s.rowNarrative}>
+                      <p className={s.rowTakeaway}>{game.takeaway}</p>
+                      <p className={s.rowStory}>{game.story}</p>
+                    </div>
+
+                    {/* Bottom: visual signals — horizontal row */}
+                    <div className={s.rowSignals}>
+                      {/* Edge meter — tug of war */}
+                      <div className={s.edgeMeter}>
+                        <span className={s.edgeLabel}>{a.abbr}</span>
+                        <div className={s.edgeTrack}>
+                          <div
+                            className={s.edgeFillAway}
+                            style={{ width: `${awayEdge}%` }}
+                          />
+                          <div
+                            className={s.edgeFillHome}
+                            style={{ width: `${homeEdge}%` }}
+                          />
+                        </div>
+                        <span className={s.edgeLabel}>{h.abbr}</span>
+                      </div>
+
+                      {/* Predicted score */}
+                      <div className={s.predictedScore}>
+                        <span className={s.scoreLabel}>Predicted</span>
+                        <div className={s.scoreNumbers}>
+                          <span className={`${s.scoreTeam} ${game.predictedScore.away > game.predictedScore.home ? s.scoreWinner : ""}`}>
+                            {a.abbr} {game.predictedScore.away}
+                          </span>
+                          <span className={s.scoreDash}>–</span>
+                          <span className={`${s.scoreTeam} ${game.predictedScore.home > game.predictedScore.away ? s.scoreWinner : ""}`}>
+                            {game.predictedScore.home} {h.abbr}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Players expand */}
+                      <button
+                        className={s.rowExpand}
+                        onClick={() => toggle(game.slug)}
+                        aria-expanded={isOpen}
+                        aria-label={`${isOpen ? "Hide" : "Show"} key players`}
+                      >
+                        Players
+                        <ChevronDown size={10} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
+                      </button>
                     </div>
 
                     {/* Expandable player section */}
