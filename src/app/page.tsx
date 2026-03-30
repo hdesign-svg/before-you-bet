@@ -369,9 +369,14 @@ export default function Page() {
                     {allPlayers.map((p, i) => (
                       <div key={i} className={s.modalPlayerCard}>
                         <div className={s.playerAvatar}>
-                          <span className={s.playerInitials}>
-                            {p.name.split(" ").map(n => n[0]).join("")}
-                          </span>
+                          <Image
+                            src={p.headshotUrl}
+                            alt={p.name}
+                            width={36}
+                            height={36}
+                            className={s.playerHeadshot}
+                            unoptimized
+                          />
                         </div>
                         <div className={s.playerInfo}>
                           <div className={s.playerHeader}>
