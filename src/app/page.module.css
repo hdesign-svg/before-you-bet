@@ -204,10 +204,10 @@
 
 .slateLabel {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--neutral-500);
 }
 
@@ -229,7 +229,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 3px rgba(15, 23, 41, 0.04), 0 1px 2px rgba(15, 23, 41, 0.02);
+  box-shadow: var(--shadow-sm);
   animation: cardIn var(--duration-normal) var(--ease-out) backwards;
 }
 
@@ -283,30 +283,30 @@
 
 .cardRecord {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-400);
   line-height: 1;
-  margin-top: 3px;
+  margin-top: var(--sp-1);
 }
 
 .cardVs {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--sp-1);
 }
 
 .cardAt {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-300);
 }
 
 .cardTime {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-400);
   font-variant-numeric: tabular-nums;
@@ -364,7 +364,7 @@
   padding: var(--sp-2) var(--sp-4);
   border-radius: var(--r-md);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: #fff;
   background: var(--midnight-800);
@@ -513,15 +513,15 @@
 
 .modalTeamName {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 400;
   color: var(--neutral-500);
-  margin-top: 3px;
+  margin-top: var(--sp-1);
 }
 
 .modalRecord {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--neutral-400);
 }
@@ -530,20 +530,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--sp-1);
   flex-shrink: 0;
 }
 
 .modalAt {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 800;
   color: var(--neutral-300);
 }
 
 .modalTime {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-400);
   font-variant-numeric: tabular-nums;
@@ -602,7 +602,7 @@
 
 .modalLabel {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -622,7 +622,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--sp-1);
   flex-shrink: 0;
   min-width: 44px;
 }
@@ -657,7 +657,7 @@
 
 .edgePickLabel {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -679,7 +679,7 @@
 
 .edgeAbbr {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -749,7 +749,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--sp-1);
   padding: var(--sp-3) var(--sp-4);
   background: var(--neutral-100);
 }
@@ -760,7 +760,7 @@
 
 .modalScoreAbbr {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -813,13 +813,12 @@
 
 .quickHitNum {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 900;
   color: var(--coral-500);
   width: 18px;
   flex-shrink: 0;
   text-align: center;
-  margin-top: 1px;
 }
 
 /* ─── Player Cards (with Avatar) ─── */
@@ -858,7 +857,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--sp-1);
   min-width: 0;
 }
 
@@ -870,14 +869,14 @@
 
 .playerName {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--ink);
 }
 
 .playerBadge {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--neutral-500);
   background: var(--neutral-100);
@@ -897,7 +896,7 @@
 
 .playerProjection {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--neutral-400);
   font-style: italic;
@@ -906,7 +905,7 @@
 .modalFooter {
   padding: var(--sp-4) var(--sp-6) var(--sp-5);
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 400;
   color: var(--neutral-300);
   text-align: center;
@@ -947,7 +946,7 @@
   font-weight: 500;
   color: var(--neutral-400);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .footerLink:hover {
