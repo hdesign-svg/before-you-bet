@@ -128,12 +128,14 @@
 
 .contentTabs {
   display: flex;
-  gap: var(--sp-8);
+  width: 100%;
 }
 
 .contentTab {
+  flex: 1;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-2);
   font-family: var(--font-display);
   font-size: var(--text-sm);
