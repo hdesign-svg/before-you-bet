@@ -222,6 +222,7 @@
 /* ─── Game Row ─── */
 
 .gameRow {
+  display: flex;
   background: var(--bg-elevated);
   border-radius: var(--r-lg);
   overflow: hidden;
@@ -239,87 +240,103 @@
   }
 }
 
-/* ─── Row Header — matchup + time ─── */
-
-.rowHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--sp-4) var(--sp-5);
-  background: var(--neutral-100);
-}
-
-.rowTeams {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-}
-
-.rowTeam {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.teamInfo {
+.rowMatchup {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 88px;
+}
+
+.teamBlock {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: var(--sp-3) var(--sp-2);
+}
+
+.teamBlock:first-child {
+  border-radius: var(--r-lg) 0 0 0;
+}
+
+.teamBlock:last-child {
+  border-radius: 0 0 0 var(--r-lg);
 }
 
 .rowLogo {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
   flex-shrink: 0;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
 }
 
-.rowAbbr {
+.teamAbbr {
   font-family: var(--font-display);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--ink);
+  letter-spacing: 0.04em;
+  color: #fff;
   line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.rowRecord {
+.teamRecord {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 500;
-  color: var(--neutral-400);
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1;
-  margin-top: 2px;
 }
 
 .rowAt {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--neutral-300);
-  flex-shrink: 0;
-}
-
-.rowTime {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--neutral-500);
-  font-variant-numeric: tabular-nums;
-}
-
-.rowPeriod {
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 800;
   color: var(--neutral-400);
+  background: var(--bg-elevated);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  margin: -10px 0;
+  box-shadow: 0 0 0 3px var(--bg-elevated);
 }
 
-/* ─── Narrative ─── */
+/* ─── Right content area ─── */
+
+.rowContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Narrative row ─── */
 
 .rowNarrative {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+.narrativeText {
+  display: flex;
   flex-direction: column;
   gap: var(--sp-1);
-  padding: var(--sp-4) var(--sp-5);
+  flex: 1;
+  min-width: 0;
 }
 
 .rowTakeaway {
@@ -338,104 +355,173 @@
   color: var(--neutral-500);
 }
 
+.rowTime {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-500);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rowPeriod {
+  font-weight: 400;
+  color: var(--neutral-400);
+}
+
 /* ─── Signals — horizontal row ─── */
 
 .rowSignals {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--sp-5);
-  padding: var(--sp-3) var(--sp-5) var(--sp-4);
-  border-top: 1px solid var(--neutral-100);
+  padding: 0 var(--sp-5) var(--sp-4);
 }
 
-/* ─── Edge Meter — tug of war ─── */
-
-.edgeMeter {
+.signalBlock {
   display: flex;
-  align-items: center;
-  gap: var(--sp-2);
+  flex-direction: column;
+  gap: 6px;
+}
+
+.signalLabel {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--neutral-400);
+}
+
+/* ─── Edge Meter — team-color tug of war ─── */
+
+.signalBlock:first-child {
   flex: 1;
   min-width: 0;
 }
 
-.edgeLabel {
+.edgeMeter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edgeTeam {
   font-family: var(--font-display);
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--neutral-400);
+  color: var(--neutral-500);
   flex-shrink: 0;
-  width: 28px;
+  width: 26px;
   text-align: center;
 }
 
 .edgeTrack {
   flex: 1;
   display: flex;
-  height: 8px;
+  height: 10px;
   border-radius: var(--r-full);
   overflow: hidden;
-  gap: 2px;
+  position: relative;
+  background: var(--neutral-100);
 }
 
-.edgeFillAway {
+.edgeFill {
   height: 100%;
-  background: var(--coral-400);
-  border-radius: var(--r-full) 0 0 var(--r-full);
   transition: width 0.6s var(--ease-out);
 }
 
-.edgeFillHome {
-  height: 100%;
-  background: var(--midnight-300);
-  border-radius: 0 var(--r-full) var(--r-full) 0;
-  transition: width 0.6s var(--ease-out);
+.edgeNeedle {
+  position: absolute;
+  top: -2px;
+  width: 3px;
+  height: 14px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 
-/* ─── Predicted Score ─── */
+/* ─── Scoreboard ─── */
 
-.predictedScore {
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+
+.scoreCell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  flex-shrink: 0;
+  gap: 1px;
+  padding: 6px 12px;
+  background: var(--neutral-100);
 }
 
-.scoreLabel {
+.scoreCellWin {
+  background: var(--grad-cool);
+}
+
+.scoreAbbr {
   font-family: var(--font-display);
   font-size: 9px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--neutral-300);
-}
-
-.scoreNumbers {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.scoreTeam {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
   color: var(--neutral-400);
-  white-space: nowrap;
 }
 
-.scoreWinner {
+.scoreCellWin .scoreAbbr {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.scoreNum {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 900;
   color: var(--ink);
+  line-height: 1;
 }
 
-.scoreDash {
+.scoreCellWin .scoreNum {
+  color: #fff;
+}
+
+.scoreDivider {
+  width: 2px;
+  height: 100%;
+  background: var(--bg-elevated);
+  align-self: stretch;
+}
+
+/* ─── Game Pace / Tempo ─── */
+
+.tempoDisplay {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.tempoTotal {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.tempoSuffix {
   font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--neutral-300);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--neutral-400);
 }
 
 .rowExpand {
@@ -621,8 +707,32 @@
     display: none;
   }
 
-  .rowHeader {
+  .gameRow {
+    flex-direction: column;
+  }
+
+  .rowMatchup {
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+  }
+
+  .teamBlock {
+    flex-direction: row;
+    gap: var(--sp-2);
     padding: var(--sp-3) var(--sp-4);
+  }
+
+  .teamBlock:first-child {
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+
+  .teamBlock:last-child {
+    border-radius: 0;
+  }
+
+  .rowAt {
+    margin: 0 -12px;
   }
 
   .rowLogo {
@@ -631,24 +741,19 @@
   }
 
   .rowNarrative {
+    flex-direction: column;
+    gap: var(--sp-2);
     padding: var(--sp-3) var(--sp-4);
   }
 
   .rowSignals {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
     gap: var(--sp-3);
-    padding: var(--sp-3) var(--sp-4);
+    padding: 0 var(--sp-4) var(--sp-3);
   }
 
-  .edgeMeter {
+  .signalBlock:first-child {
     width: 100%;
-  }
-
-  .predictedScore {
-    flex-direction: row;
-    justify-content: center;
-    gap: var(--sp-2);
   }
 
   .rowPlayers {

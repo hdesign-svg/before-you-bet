@@ -22,8 +22,9 @@ graph LR
     – matchup
     – date / time
     – venue
-    – confidence (0–100)
-    – scoring expectation
+    – edge (0–100)
+    – pick (away / home / toss-up)
+    – predicted score
     – last updated
     ─────────────
     <b>CTAs</b>
@@ -31,9 +32,8 @@ graph LR
     – Share game
     ─────────────
     <b>Local Content</b>
-    – The Story
     – The Takeaway
-    – Key Factors
+    – The Story
     ─────────────
     <b>Surface</b>
     – Matchups tab → Detail page"]

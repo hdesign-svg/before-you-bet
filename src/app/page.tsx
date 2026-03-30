@@ -137,82 +137,106 @@ export default function Page() {
                 const awayEdge = game.pick === "away" ? game.edge : 100 - game.edge;
                 const homeEdge = 100 - awayEdge;
 
+                const totalScore = game.predictedScore.away + game.predictedScore.home;
+                const scoreDiff = Math.abs(game.predictedScore.away - game.predictedScore.home);
+                const edgePct = game.pick === "toss-up" ? 50 : game.edge;
+
                 return (
                   <article
                     key={game.slug}
                     className={s.gameRow}
                     style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
                   >
-                    {/* Top: matchup + time */}
-                    <div className={s.rowHeader}>
-                      <div className={s.rowTeams}>
-                        <div className={s.rowTeam}>
-                          <Image src={a.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
-                          <div className={s.teamInfo}>
-                            <span className={s.rowAbbr}>{a.abbr}</span>
-                            <span className={s.rowRecord}>{a.record}</span>
-                          </div>
-                        </div>
-                        <span className={s.rowAt}>@</span>
-                        <div className={s.rowTeam}>
-                          <Image src={h.logo} alt="" width={32} height={32} className={s.rowLogo} unoptimized />
-                          <div className={s.teamInfo}>
-                            <span className={s.rowAbbr}>{h.abbr}</span>
-                            <span className={s.rowRecord}>{h.record}</span>
-                          </div>
-                        </div>
+                    {/* Left: team matchup with team colors */}
+                    <div className={s.rowMatchup}>
+                      <div className={s.teamBlock} style={{ background: a.color }}>
+                        <Image src={a.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
+                        <span className={s.teamAbbr}>{a.abbr}</span>
+                        <span className={s.teamRecord}>{a.record}</span>
                       </div>
-                      <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
+                      <span className={s.rowAt}>@</span>
+                      <div className={s.teamBlock} style={{ background: h.color }}>
+                        <Image src={h.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
+                        <span className={s.teamAbbr}>{h.abbr}</span>
+                        <span className={s.teamRecord}>{h.record}</span>
+                      </div>
                     </div>
 
-                    {/* Middle: takeaway + story */}
-                    <div className={s.rowNarrative}>
-                      <p className={s.rowTakeaway}>{game.takeaway}</p>
-                      <p className={s.rowStory}>{game.story}</p>
-                    </div>
-
-                    {/* Bottom: visual signals — horizontal row */}
-                    <div className={s.rowSignals}>
-                      {/* Edge meter — tug of war */}
-                      <div className={s.edgeMeter}>
-                        <span className={s.edgeLabel}>{a.abbr}</span>
-                        <div className={s.edgeTrack}>
-                          <div
-                            className={s.edgeFillAway}
-                            style={{ width: `${awayEdge}%` }}
-                          />
-                          <div
-                            className={s.edgeFillHome}
-                            style={{ width: `${homeEdge}%` }}
-                          />
+                    {/* Right: content */}
+                    <div className={s.rowContent}>
+                      {/* Top row: narrative + time */}
+                      <div className={s.rowNarrative}>
+                        <div className={s.narrativeText}>
+                          <p className={s.rowTakeaway}>{game.takeaway}</p>
+                          <p className={s.rowStory}>{game.story}</p>
                         </div>
-                        <span className={s.edgeLabel}>{h.abbr}</span>
+                        <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
                       </div>
 
-                      {/* Predicted score */}
-                      <div className={s.predictedScore}>
-                        <span className={s.scoreLabel}>Predicted</span>
-                        <div className={s.scoreNumbers}>
-                          <span className={`${s.scoreTeam} ${game.predictedScore.away > game.predictedScore.home ? s.scoreWinner : ""}`}>
-                            {a.abbr} {game.predictedScore.away}
-                          </span>
-                          <span className={s.scoreDash}>–</span>
-                          <span className={`${s.scoreTeam} ${game.predictedScore.home > game.predictedScore.away ? s.scoreWinner : ""}`}>
-                            {game.predictedScore.home} {h.abbr}
-                          </span>
+                      {/* Bottom: visual signals — horizontal */}
+                      <div className={s.rowSignals}>
+                        {/* Edge meter */}
+                        <div className={s.signalBlock}>
+                          <span className={s.signalLabel}>Edge</span>
+                          <div className={s.edgeMeter}>
+                            <span className={s.edgeTeam}>{a.abbr}</span>
+                            <div className={s.edgeTrack}>
+                              <div
+                                className={s.edgeFill}
+                                style={{
+                                  width: `${awayEdge}%`,
+                                  background: `linear-gradient(90deg, ${a.color}, ${a.color}dd)`,
+                                }}
+                              />
+                              <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
+                              <div
+                                className={s.edgeFill}
+                                style={{
+                                  width: `${homeEdge}%`,
+                                  background: `linear-gradient(90deg, ${h.color}dd, ${h.color})`,
+                                }}
+                              />
+                            </div>
+                            <span className={s.edgeTeam}>{h.abbr}</span>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Players expand */}
-                      <button
-                        className={s.rowExpand}
-                        onClick={() => toggle(game.slug)}
-                        aria-expanded={isOpen}
-                        aria-label={`${isOpen ? "Hide" : "Show"} key players`}
-                      >
-                        Players
-                        <ChevronDown size={10} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
-                      </button>
+                        {/* Predicted score */}
+                        <div className={s.signalBlock}>
+                          <span className={s.signalLabel}>Predicted Score</span>
+                          <div className={s.scoreboard}>
+                            <div className={`${s.scoreCell} ${game.predictedScore.away > game.predictedScore.home ? s.scoreCellWin : ""}`}>
+                              <span className={s.scoreAbbr}>{a.abbr}</span>
+                              <span className={s.scoreNum}>{game.predictedScore.away}</span>
+                            </div>
+                            <span className={s.scoreDivider} />
+                            <div className={`${s.scoreCell} ${game.predictedScore.home > game.predictedScore.away ? s.scoreCellWin : ""}`}>
+                              <span className={s.scoreAbbr}>{h.abbr}</span>
+                              <span className={s.scoreNum}>{game.predictedScore.home}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Game tempo / total */}
+                        <div className={s.signalBlock}>
+                          <span className={s.signalLabel}>Game Pace</span>
+                          <div className={s.tempoDisplay}>
+                            <span className={s.tempoTotal}>{totalScore}</span>
+                            <span className={s.tempoSuffix}>pts</span>
+                          </div>
+                        </div>
+
+                        {/* Players expand */}
+                        <button
+                          className={s.rowExpand}
+                          onClick={() => toggle(game.slug)}
+                          aria-expanded={isOpen}
+                          aria-label={`${isOpen ? "Hide" : "Show"} key players`}
+                        >
+                          Players
+                          <ChevronDown size={14} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
+                        </button>
+                      </div>
                     </div>
 
                     {/* Expandable player section */}
