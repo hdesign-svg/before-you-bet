@@ -783,7 +783,7 @@
 
 .playerAvatar {
   width: 40px;
-  height: 48px;
+  height: 40px;
   border-radius: var(--r-sm);
   background: var(--neutral-200);
   flex-shrink: 0;
