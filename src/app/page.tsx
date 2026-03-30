@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { ChevronDown, Search, Calendar, TrendingUp } from "lucide-react";
+import { Search, Calendar, TrendingUp, Zap, X } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
@@ -37,22 +37,16 @@ function parseTime(raw: string) {
   return { time: match[1], period: match[2] };
 }
 
-/* ─── Slate icon mapping ─── */
-const slateIcon: Record<string, string> = {
-  "Thursday": "THU",
-  "Sunday Early": "SUN",
-  "Sunday Late": "SUN",
-  "Sunday Night": "SNF",
-  "Monday Night": "MNF",
-};
-
 /* ─── Main Page ─── */
 
 export default function Page() {
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [activeGame, setActiveGame] = useState<Game | null>(null);
+  const [modalRect, setModalRect] = useState<DOMRect | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const [tab, setTab] = useState<"games" | "players">("games");
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const cardRefs = useRef<Record<string, HTMLElement | null>>({});
   const slates = useMemo(() => groupBySlate(games), []);
 
   useEffect(() => {
@@ -68,9 +62,34 @@ export default function Page() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggle = (slug: string) => {
-    setExpanded((prev) => (prev === slug ? null : slug));
-  };
+  const openModal = useCallback((game: Game, slug: string) => {
+    const el = cardRefs.current[slug];
+    if (el) {
+      setModalRect(el.getBoundingClientRect());
+    }
+    setActiveGame(game);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setModalOpen(true));
+    });
+    document.body.style.overflow = "hidden";
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setModalOpen(false);
+    setTimeout(() => {
+      setActiveGame(null);
+      setModalRect(null);
+      document.body.style.overflow = "";
+    }, 350);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && activeGame) closeModal();
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [activeGame, closeModal]);
 
   return (
     <main className={s.page}>
@@ -120,147 +139,74 @@ export default function Page() {
             <span className={s.weekRange}>&middot; {WEEK.dateRange}</span>
           </span>
         </div>
+
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
             <div className={s.slateHeader}>
               <span className={s.slateLabel}>{slate.label}</span>
             </div>
 
-            <div className={s.gameList}>
+            <div className={s.cardGrid}>
               {slate.games.map((game, idx) => {
                 const a = teams[game.awayAbbr];
                 const h = teams[game.homeAbbr];
                 const { time, period } = parseTime(game.time);
-                const isOpen = expanded === game.slug;
-                const allPlayers = [...game.awayPlayers, ...game.homePlayers];
-
-                const awayEdge = game.pick === "away" ? game.edge : 100 - game.edge;
-                const homeEdge = 100 - awayEdge;
-
-                const totalScore = game.predictedScore.away + game.predictedScore.home;
-                const scoreDiff = Math.abs(game.predictedScore.away - game.predictedScore.home);
-                const edgePct = game.pick === "toss-up" ? 50 : game.edge;
 
                 return (
                   <article
                     key={game.slug}
-                    className={s.gameRow}
-                    style={{ animationDelay: `${(slateIdx * 3 + idx) * 50}ms` }}
+                    className={s.card}
+                    ref={(el) => { cardRefs.current[game.slug] = el; }}
+                    style={{ animationDelay: `${(slateIdx * 3 + idx) * 60}ms` }}
                   >
-                    {/* Left: team matchup with team colors */}
-                    <div className={s.rowMatchup}>
-                      <div className={s.teamBlock} style={{ background: a.color }}>
-                        <Image src={a.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
-                        <span className={s.teamAbbr}>{a.abbr}</span>
-                        <span className={s.teamRecord}>{a.record}</span>
+                    {/* Team matchup — horizontal */}
+                    <div className={s.cardMatchup}>
+                      <div className={s.cardTeam}>
+                        <Image src={a.logo} alt="" width={40} height={40} className={s.cardLogo} unoptimized />
+                        <div className={s.cardTeamInfo}>
+                          <span className={s.cardAbbr}>{a.abbr}</span>
+                          <span className={s.cardRecord}>{a.record}</span>
+                        </div>
                       </div>
-                      <span className={s.rowAt}>@</span>
-                      <div className={s.teamBlock} style={{ background: h.color }}>
-                        <Image src={h.logo} alt="" width={36} height={36} className={s.rowLogo} unoptimized />
-                        <span className={s.teamAbbr}>{h.abbr}</span>
-                        <span className={s.teamRecord}>{h.record}</span>
+                      <div className={s.cardVs}>
+                        <span className={s.cardAt}>@</span>
+                        <span className={s.cardTime}>{time} <span className={s.cardPeriod}>{period}</span></span>
+                      </div>
+                      <div className={s.cardTeam}>
+                        <Image src={h.logo} alt="" width={40} height={40} className={s.cardLogo} unoptimized />
+                        <div className={s.cardTeamInfo}>
+                          <span className={s.cardAbbr}>{h.abbr}</span>
+                          <span className={s.cardRecord}>{h.record}</span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Right: content */}
-                    <div className={s.rowContent}>
-                      {/* Top row: narrative + time */}
-                      <div className={s.rowNarrative}>
-                        <div className={s.narrativeText}>
-                          <p className={s.rowTakeaway}>{game.takeaway}</p>
-                          <p className={s.rowStory}>{game.story}</p>
-                        </div>
-                        <span className={s.rowTime}>{time} <span className={s.rowPeriod}>{period}</span></span>
-                      </div>
-
-                      {/* Bottom: visual signals — horizontal */}
-                      <div className={s.rowSignals}>
-                        {/* Edge meter */}
-                        <div className={s.signalBlock}>
-                          <span className={s.signalLabel}>Edge</span>
-                          <div className={s.edgeMeter}>
-                            <span className={s.edgeTeam}>{a.abbr}</span>
-                            <div className={s.edgeTrack}>
-                              <div
-                                className={s.edgeFill}
-                                style={{
-                                  width: `${awayEdge}%`,
-                                  background: `linear-gradient(90deg, ${a.color}, ${a.color}dd)`,
-                                }}
-                              />
-                              <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
-                              <div
-                                className={s.edgeFill}
-                                style={{
-                                  width: `${homeEdge}%`,
-                                  background: `linear-gradient(90deg, ${h.color}dd, ${h.color})`,
-                                }}
-                              />
-                            </div>
-                            <span className={s.edgeTeam}>{h.abbr}</span>
-                          </div>
-                        </div>
-
-                        {/* Predicted score */}
-                        <div className={s.signalBlock}>
-                          <span className={s.signalLabel}>Predicted Score</span>
-                          <div className={s.scoreboard}>
-                            <div className={`${s.scoreCell} ${game.predictedScore.away > game.predictedScore.home ? s.scoreCellWin : ""}`}>
-                              <span className={s.scoreAbbr}>{a.abbr}</span>
-                              <span className={s.scoreNum}>{game.predictedScore.away}</span>
-                            </div>
-                            <span className={s.scoreDivider} />
-                            <div className={`${s.scoreCell} ${game.predictedScore.home > game.predictedScore.away ? s.scoreCellWin : ""}`}>
-                              <span className={s.scoreAbbr}>{h.abbr}</span>
-                              <span className={s.scoreNum}>{game.predictedScore.home}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Game tempo / total */}
-                        <div className={s.signalBlock}>
-                          <span className={s.signalLabel}>Game Pace</span>
-                          <div className={s.tempoDisplay}>
-                            <span className={s.tempoTotal}>{totalScore}</span>
-                            <span className={s.tempoSuffix}>pts</span>
-                          </div>
-                        </div>
-
-                        {/* Players expand */}
-                        <button
-                          className={s.rowExpand}
-                          onClick={() => toggle(game.slug)}
-                          aria-expanded={isOpen}
-                          aria-label={`${isOpen ? "Hide" : "Show"} key players`}
-                        >
-                          Players
-                          <ChevronDown size={14} className={`${s.rowChevron} ${isOpen ? s.rowChevronOpen : ""}`} />
-                        </button>
-                      </div>
+                    {/* Team color accent bar */}
+                    <div className={s.colorBar}>
+                      <div className={s.colorHalf} style={{ background: a.color }} />
+                      <div className={s.colorHalf} style={{ background: h.color }} />
                     </div>
 
-                    {/* Expandable player section */}
-                    {isOpen && (
-                      <div className={s.rowPlayers}>
-                        {allPlayers.map((p, i) => (
-                          <div key={i} className={s.playerCard}>
-                            <div className={s.playerHeader}>
-                              <span className={s.playerName}>{p.name}</span>
-                              <span className={s.playerMeta}>{p.position} · {p.team}</span>
-                            </div>
-                            <p className={s.playerVerdict}>{p.verdict}</p>
-                            <p className={s.playerProjection}>{p.projection}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    {/* Takeaway + truncated story */}
+                    <div className={s.cardBody}>
+                      <p className={s.cardTakeaway}>{game.takeaway}</p>
+                      <p className={s.cardStory}>{game.story}</p>
+                    </div>
+
+                    {/* CTA button */}
+                    <button
+                      className={s.cardCta}
+                      onClick={() => openModal(game, game.slug)}
+                    >
+                      <Zap size={14} className={s.ctaIcon} />
+                      Quick insights
+                    </button>
                   </article>
                 );
               })}
             </div>
           </section>
         ))}
-
       </div>
 
       <footer className={s.pageFooter}>
@@ -270,6 +216,154 @@ export default function Page() {
           <a className={s.footerLink} href="/about">About Before You Bet</a>
         </div>
       </footer>
+
+      {/* ═══ MODAL ═══ */}
+      {activeGame && (() => {
+        const game = activeGame;
+        const a = teams[game.awayAbbr];
+        const h = teams[game.homeAbbr];
+        const { time, period } = parseTime(game.time);
+        const awayEdge = game.pick === "away" ? game.edge : 100 - game.edge;
+        const homeEdge = 100 - awayEdge;
+        const allPlayers = [...game.awayPlayers, ...game.homePlayers];
+
+        return (
+          <>
+            <div
+              className={`${s.overlay} ${modalOpen ? s.overlayOpen : ""}`}
+              onClick={closeModal}
+            />
+            <div
+              className={`${s.modal} ${modalOpen ? s.modalOpen : ""}`}
+              style={
+                !modalOpen && modalRect
+                  ? {
+                      top: modalRect.top,
+                      left: modalRect.left,
+                      width: modalRect.width,
+                      height: modalRect.height,
+                    }
+                  : undefined
+              }
+            >
+              {/* Close */}
+              <button className={s.modalClose} onClick={closeModal} aria-label="Close">
+                <X size={20} />
+              </button>
+
+              <div className={s.modalScroll}>
+                {/* Modal header */}
+                <div className={s.modalHeader}>
+                  <div className={s.modalMatchup}>
+                    <div className={s.modalTeam}>
+                      <Image src={a.logo} alt="" width={48} height={48} className={s.modalLogo} unoptimized />
+                      <div className={s.modalTeamInfo}>
+                        <span className={s.modalAbbr}>{a.abbr}</span>
+                        <span className={s.modalTeamName}>{a.city} {a.name}</span>
+                        <span className={s.modalRecord}>{a.record}</span>
+                      </div>
+                    </div>
+                    <div className={s.modalVs}>
+                      <span className={s.modalAt}>@</span>
+                      <span className={s.modalTime}>{time} <span className={s.modalPeriod}>{period}</span></span>
+                    </div>
+                    <div className={s.modalTeam}>
+                      <Image src={h.logo} alt="" width={48} height={48} className={s.modalLogo} unoptimized />
+                      <div className={s.modalTeamInfo}>
+                        <span className={s.modalAbbr}>{h.abbr}</span>
+                        <span className={s.modalTeamName}>{h.city} {h.name}</span>
+                        <span className={s.modalRecord}>{h.record}</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Team color bar */}
+                  <div className={s.modalColorBar}>
+                    <div className={s.colorHalf} style={{ background: a.color }} />
+                    <div className={s.colorHalf} style={{ background: h.color }} />
+                  </div>
+                </div>
+
+                {/* Takeaway */}
+                <div className={s.modalSection}>
+                  <p className={s.modalTakeaway}>{game.takeaway}</p>
+                  <p className={s.modalStory}>{game.story}</p>
+                </div>
+
+                {/* Edge meter */}
+                <div className={s.modalSection}>
+                  <h3 className={s.modalLabel}>Who Has the Edge</h3>
+                  <div className={s.modalEdge}>
+                    <span className={s.edgeTeam}>{a.abbr}</span>
+                    <div className={s.edgeTrack}>
+                      <div
+                        className={s.edgeFill}
+                        style={{
+                          width: `${awayEdge}%`,
+                          background: `linear-gradient(90deg, ${a.color}, ${a.color}cc)`,
+                        }}
+                      />
+                      <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
+                      <div
+                        className={s.edgeFill}
+                        style={{
+                          width: `${homeEdge}%`,
+                          background: `linear-gradient(90deg, ${h.color}cc, ${h.color})`,
+                        }}
+                      />
+                    </div>
+                    <span className={s.edgeTeam}>{h.abbr}</span>
+                  </div>
+                </div>
+
+                {/* Predicted score */}
+                <div className={s.modalSection}>
+                  <h3 className={s.modalLabel}>Predicted Score</h3>
+                  <div className={s.modalScoreboard}>
+                    <div className={`${s.modalScoreCell} ${game.predictedScore.away > game.predictedScore.home ? s.modalScoreWin : ""}`}>
+                      <span className={s.modalScoreAbbr}>{a.abbr}</span>
+                      <span className={s.modalScoreNum}>{game.predictedScore.away}</span>
+                    </div>
+                    <span className={s.modalScoreDash} />
+                    <div className={`${s.modalScoreCell} ${game.predictedScore.home > game.predictedScore.away ? s.modalScoreWin : ""}`}>
+                      <span className={s.modalScoreAbbr}>{h.abbr}</span>
+                      <span className={s.modalScoreNum}>{game.predictedScore.home}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick hits */}
+                <div className={s.modalSection}>
+                  <h3 className={s.modalLabel}>What You Need to Know</h3>
+                  <ul className={s.quickHits}>
+                    {game.quickHits.map((hit, i) => (
+                      <li key={i} className={s.quickHit}>{hit}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Players */}
+                <div className={s.modalSection}>
+                  <h3 className={s.modalLabel}>Key Players</h3>
+                  <div className={s.modalPlayers}>
+                    {allPlayers.map((p, i) => (
+                      <div key={i} className={s.modalPlayerCard}>
+                        <div className={s.playerHeader}>
+                          <span className={s.playerName}>{p.name}</span>
+                          <span className={s.playerMeta}>{p.position} · {p.team}</span>
+                        </div>
+                        <p className={s.playerVerdict}>{p.verdict}</p>
+                        <p className={s.playerProjection}>{p.projection}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <p className={s.modalFooter}>Last updated: {game.lastUpdated}</p>
+              </div>
+            </div>
+          </>
+        );
+      })()}
     </main>
   );
 }

@@ -17,6 +17,7 @@ export type Game = {
   edge: number;
   pick: "away" | "home" | "toss-up";
   predictedScore: { away: number; home: number };
+  quickHits: string[];
   awayPlayers: PlayerSpotlight[];
   homePlayers: PlayerSpotlight[];
   lastUpdated: string;
@@ -41,6 +42,11 @@ export const games: Game[] = [
     edge: 72,
     pick: "away",
     predictedScore: { away: 20, home: 13 },
+    quickHits: [
+      "Thursday games tend to be sloppy — favors the better team",
+      "Pittsburgh's defense is top 3 in the league",
+      "Cleveland can't score consistently this year",
+    ],
     awayPlayers: [
       { name: "Russell Wilson", position: "QB", team: "PIT", verdict: "Should have a decent game but won't need to throw much.", projection: "180–220 passing yards, 1 TD" },
       { name: "Najee Harris", position: "RB", team: "PIT", verdict: "Expect him to carry the load — Pittsburgh will try to run the clock out.", projection: "22 carries, 85–100 yards, 1 TD" },
@@ -64,6 +70,11 @@ export const games: Game[] = [
     edge: 88,
     pick: "home",
     predictedScore: { away: 14, home: 28 },
+    quickHits: [
+      "Dallas is on a 5-game losing streak",
+      "Washington's rookie QB has been one of the best stories this year",
+      "One of the safest picks of the week",
+    ],
     awayPlayers: [
       { name: "Cooper Rush", position: "QB", team: "DAL", verdict: "A backup who won't make enough plays to win on the road.", projection: "180–210 yards, 1 TD, 1–2 turnovers" },
       { name: "CeeDee Lamb", position: "WR", team: "DAL", verdict: "Great player, but a backup QB limits what he can do.", projection: "5–7 catches, 55–75 yards" },
@@ -85,6 +96,11 @@ export const games: Game[] = [
     edge: 75,
     pick: "away",
     predictedScore: { away: 24, home: 14 },
+    quickHits: [
+      "Minnesota's defense feasts on rookie QBs",
+      "Chicago has struggled to protect their quarterback",
+      "Minnesota is 8-2 and playing at an elite level",
+    ],
     awayPlayers: [
       { name: "Sam Darnold", position: "QB", team: "MIN", verdict: "Having the best season of his career with great players around him.", projection: "230–260 yards, 2 TDs" },
       { name: "Justin Jefferson", position: "WR", team: "MIN", verdict: "Arguably the best receiver in football — defenses can't stop him even when they focus on him.", projection: "6–9 catches, 90–120 yards" },
@@ -106,6 +122,11 @@ export const games: Game[] = [
     edge: 85,
     pick: "home",
     predictedScore: { away: 14, home: 27 },
+    quickHits: [
+      "Houston's QB is a rising star playing at home",
+      "Tennessee's QB makes too many risky throws",
+      "Big talent gap between these two teams",
+    ],
     awayPlayers: [
       { name: "Will Levis", position: "QB", team: "TEN", verdict: "Has a big arm but makes risky decisions — not a good combo against a good defense.", projection: "200–240 yards, 1 TD, 1–2 turnovers" },
       { name: "Tony Pollard", position: "RB", team: "TEN", verdict: "Tennessee's best player on offense — he keeps them competitive.", projection: "16–20 carries, 70–85 yards" },
@@ -127,6 +148,11 @@ export const games: Game[] = [
     edge: 86,
     pick: "home",
     predictedScore: { away: 13, home: 31 },
+    quickHits: [
+      "Miami's fastest players are healthy again",
+      "New England is rebuilding — not built to win right now",
+      "Expect a lot of points from Miami's offense",
+    ],
     awayPlayers: [
       { name: "Drake Maye", position: "QB", team: "NE", verdict: "A promising rookie, but limited by the talent around him.", projection: "200–230 yards, 1 TD, 1 turnover" },
     ],
@@ -147,6 +173,11 @@ export const games: Game[] = [
     edge: 84,
     pick: "away",
     predictedScore: { away: 27, home: 16 },
+    quickHits: [
+      "Tampa's QB is having a career-best year",
+      "The Giants haven't beaten a good team all season",
+      "Tampa's offense has been clicking on all cylinders",
+    ],
     awayPlayers: [
       { name: "Baker Mayfield", position: "QB", team: "TB", verdict: "Playing with confidence and making all the right throws this season.", projection: "260–290 yards, 2 TDs" },
       { name: "Mike Evans", position: "WR", team: "TB", verdict: "Consistent veteran who should have a field day against a weak secondary.", projection: "5–7 catches, 75–100 yards, 1 TD" },
@@ -167,6 +198,11 @@ export const games: Game[] = [
     edge: 92,
     pick: "home",
     predictedScore: { away: 10, home: 31 },
+    quickHits: [
+      "This is the biggest mismatch of the week",
+      "Carolina is the worst team in the league right now",
+      "Kansas City's defense alone could win this game",
+    ],
     awayPlayers: [
       { name: "Bryce Young", position: "QB", team: "CAR", verdict: "Struggling behind a bad offensive line against one of the best defenses in the league.", projection: "170–200 yards, 0–1 TD, 1–2 turnovers" },
     ],
@@ -187,6 +223,11 @@ export const games: Game[] = [
     edge: 78,
     pick: "home",
     predictedScore: { away: 20, home: 34 },
+    quickHits: [
+      "Detroit's offense is scoring 30+ points regularly",
+      "Indianapolis can't keep up in a shootout",
+      "Detroit is dominant at home this season",
+    ],
     awayPlayers: [
       { name: "Anthony Richardson", position: "QB", team: "IND", verdict: "An incredible athlete, but still inconsistent as a passer.", projection: "200–240 yards, 1–2 TDs, 40+ rushing yards" },
     ],
@@ -209,6 +250,11 @@ export const games: Game[] = [
     edge: 52,
     pick: "toss-up",
     predictedScore: { away: 24, home: 27 },
+    quickHits: [
+      "Two of the best teams in football facing off",
+      "Both QBs are playing at an MVP level",
+      "Home field is the only real difference-maker",
+    ],
     awayPlayers: [
       { name: "Patrick Mahomes", position: "QB", team: "KC", verdict: "The best big-game quarterback alive — always dangerous even on the road.", projection: "250–280 yards, 1–2 TDs" },
       { name: "Travis Kelce", position: "TE", team: "KC", verdict: "Has been quiet this season, but always shows up in the biggest moments.", projection: "5–7 catches, 50–70 yards" },
@@ -230,6 +276,11 @@ export const games: Game[] = [
     edge: 55,
     pick: "toss-up",
     predictedScore: { away: 24, home: 27 },
+    quickHits: [
+      "Playoff rematch — both teams remember last time",
+      "Green Bay's young roster is improving fast",
+      "San Francisco has key injuries but still loaded",
+    ],
     awayPlayers: [
       { name: "Jordan Love", position: "QB", team: "GB", verdict: "Growing into a star — has the arm talent and the playmakers to keep up with anyone.", projection: "260–290 yards, 2–3 TDs" },
       { name: "Josh Jacobs", position: "RB", team: "GB", verdict: "Physical runner who wears defenses down as the game goes on.", projection: "18–22 carries, 75–95 yards" },
@@ -251,6 +302,11 @@ export const games: Game[] = [
     edge: 74,
     pick: "away",
     predictedScore: { away: 21, home: 14 },
+    quickHits: [
+      "Denver's defense has been one of the best this season",
+      "Las Vegas has no answer on offense",
+      "Denver's rookie QB plays smart, mistake-free football",
+    ],
     awayPlayers: [
       { name: "Bo Nix", position: "QB", team: "DEN", verdict: "Smart rookie who doesn't make big mistakes — perfect for a defense-first team.", projection: "220–250 yards, 1–2 TDs" },
     ],
@@ -270,6 +326,11 @@ export const games: Game[] = [
     edge: 50,
     pick: "toss-up",
     predictedScore: { away: 23, home: 24 },
+    quickHits: [
+      "Both QBs are wildly inconsistent week to week",
+      "Neither team has separated from the pack",
+      "True coin-flip game — home field is the tiebreaker",
+    ],
     awayPlayers: [
       { name: "Geno Smith", position: "QB", team: "SEA", verdict: "Can be brilliant or invisible — you never know which version shows up.", projection: "240–270 yards, 2 TDs, 1 turnover" },
     ],
@@ -290,6 +351,11 @@ export const games: Game[] = [
     edge: 65,
     pick: "away",
     predictedScore: { away: 28, home: 24 },
+    quickHits: [
+      "Baltimore has the MVP favorite at QB",
+      "Their running game has been historically good",
+      "The Chargers are tough but have fewer weapons",
+    ],
     awayPlayers: [
       { name: "Lamar Jackson", position: "QB", team: "BAL", verdict: "The favorite for MVP — he can beat you throwing and running, and right now he's doing both.", projection: "260–290 yards, 2–3 TDs, 50+ rushing yards" },
       { name: "Derrick Henry", position: "RB", team: "BAL", verdict: "Still one of the most powerful runners in football at age 30.", projection: "20–24 carries, 90–120 yards, 1 TD" },
@@ -312,6 +378,11 @@ export const games: Game[] = [
     edge: 82,
     pick: "away",
     predictedScore: { away: 30, home: 21 },
+    quickHits: [
+      "Philly has won 7 straight games",
+      "Their star running back is having a historic season",
+      "The Rams' defense is gutted by injuries",
+    ],
     awayPlayers: [
       { name: "Saquon Barkley", position: "RB", team: "PHI", verdict: "The best player in football right now — this could be his biggest game of the season.", projection: "25+ carries, 130–160 yards, 1–2 TDs" },
       { name: "Jalen Hurts", position: "QB", team: "PHI", verdict: "Doesn't need to throw much when the run game is this good — efficient and dangerous near the goal line.", projection: "200–230 yards, 1 pass TD, 1 rushing TD" },
@@ -335,6 +406,11 @@ export const games: Game[] = [
     edge: 62,
     pick: "away",
     predictedScore: { away: 31, home: 27 },
+    quickHits: [
+      "Two of the most talented offenses in the league",
+      "Baltimore's running game vs. Cincinnati's passing game",
+      "Expect a lot of points — both teams can score fast",
+    ],
     awayPlayers: [
       { name: "Lamar Jackson", position: "QB", team: "BAL", verdict: "The most dangerous player in football right now — can beat you in every way.", projection: "270–300 yards, 2–3 TDs, 50+ rushing yards" },
       { name: "Derrick Henry", position: "RB", team: "BAL", verdict: "Physical and relentless — wears down the defense as the game goes on.", projection: "20–25 carries, 100–130 yards, 1 TD" },
