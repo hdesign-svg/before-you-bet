@@ -181,12 +181,6 @@ export default function Page() {
                       </div>
                     </div>
 
-                    {/* Team color accent bar */}
-                    <div className={s.colorBar}>
-                      <div className={s.colorHalf} style={{ background: a.color }} />
-                      <div className={s.colorHalf} style={{ background: h.color }} />
-                    </div>
-
                     {/* Takeaway + truncated story */}
                     <div className={s.cardBody}>
                       <p className={s.cardTakeaway}>{game.takeaway}</p>
@@ -194,13 +188,15 @@ export default function Page() {
                     </div>
 
                     {/* CTA button */}
-                    <button
-                      className={s.cardCta}
-                      onClick={() => openModal(game, game.slug)}
-                    >
-                      <Zap size={14} className={s.ctaIcon} />
-                      Quick insights
-                    </button>
+                    <div className={s.cardFooter}>
+                      <button
+                        className={s.cardCta}
+                        onClick={() => openModal(game, game.slug)}
+                      >
+                        <Zap size={14} className={s.ctaIcon} />
+                        Quick insights
+                      </button>
+                    </div>
                   </article>
                 );
               })}
@@ -276,11 +272,6 @@ export default function Page() {
                       </div>
                     </div>
                   </div>
-                  {/* Team color bar */}
-                  <div className={s.modalColorBar}>
-                    <div className={s.colorHalf} style={{ background: a.color }} />
-                    <div className={s.colorHalf} style={{ background: h.color }} />
-                  </div>
                 </div>
 
                 {/* Takeaway */}
@@ -289,29 +280,56 @@ export default function Page() {
                   <p className={s.modalStory}>{game.story}</p>
                 </div>
 
-                {/* Edge meter */}
+                {/* Edge meter — V1+V4 blend */}
                 <div className={s.modalSection}>
-                  <h3 className={s.modalLabel}>Who Has the Edge</h3>
-                  <div className={s.modalEdge}>
-                    <span className={s.edgeTeam}>{a.abbr}</span>
-                    <div className={s.edgeTrack}>
-                      <div
-                        className={s.edgeFill}
-                        style={{
-                          width: `${awayEdge}%`,
-                          background: `linear-gradient(90deg, ${a.color}, ${a.color}cc)`,
-                        }}
-                      />
-                      <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
-                      <div
-                        className={s.edgeFill}
-                        style={{
-                          width: `${homeEdge}%`,
-                          background: `linear-gradient(90deg, ${h.color}cc, ${h.color})`,
-                        }}
-                      />
+                  <h3 className={s.modalLabel}>The Edge</h3>
+                  <div className={s.edgeBlend}>
+                    {game.pick !== "toss-up" ? (
+                      <div className={s.edgePick}>
+                        <span
+                          className={s.edgePickAbbr}
+                          style={{ color: game.pick === "away" ? a.color : h.color }}
+                        >
+                          {game.pick === "away" ? a.abbr : h.abbr}
+                        </span>
+                        <span className={s.edgePickLabel}>
+                          {game.edge >= 60 ? "Our pick" : "Slight edge"}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className={s.edgePick}>
+                        <span className={s.edgePickDash}>—</span>
+                        <span className={s.edgePickLabel}>Toss-up</span>
+                      </div>
+                    )}
+                    <div className={s.edgeDetail}>
+                      <div className={s.edgeTrackRow}>
+                        <span className={s.edgeAbbr}>{a.abbr}</span>
+                        <div className={s.edgeTrack}>
+                          <div
+                            className={s.edgeFill}
+                            style={{
+                              width: `${awayEdge}%`,
+                              background: `linear-gradient(90deg, ${a.color}, ${a.color}cc)`,
+                            }}
+                          />
+                          <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
+                          <div
+                            className={s.edgeFill}
+                            style={{
+                              width: `${homeEdge}%`,
+                              background: `linear-gradient(90deg, ${h.color}cc, ${h.color})`,
+                            }}
+                          />
+                        </div>
+                        <span className={s.edgeAbbr}>{h.abbr}</span>
+                      </div>
+                      <p className={s.edgeDesc}>
+                        {game.pick === "toss-up"
+                          ? "Genuine coin flip. We don\u2019t have a confident pick on this one."
+                          : `${game.pick === "away" ? `${a.city}` : `${h.city}`} holds a ${Math.max(awayEdge, homeEdge)}\u2013${Math.min(awayEdge, homeEdge)} edge in this matchup.`}
+                      </p>
                     </div>
-                    <span className={s.edgeTeam}>{h.abbr}</span>
                   </div>
                 </div>
 
@@ -331,28 +349,38 @@ export default function Page() {
                   </div>
                 </div>
 
-                {/* Quick hits */}
+                {/* Quick hits — numbered */}
                 <div className={s.modalSection}>
-                  <h3 className={s.modalLabel}>What You Need to Know</h3>
-                  <ul className={s.quickHits}>
+                  <h3 className={s.modalLabel}>Need to Know</h3>
+                  <ol className={s.quickHits}>
                     {game.quickHits.map((hit, i) => (
-                      <li key={i} className={s.quickHit}>{hit}</li>
+                      <li key={i} className={s.quickHit}>
+                        <span className={s.quickHitNum}>{i + 1}</span>
+                        <span>{hit}</span>
+                      </li>
                     ))}
-                  </ul>
+                  </ol>
                 </div>
 
-                {/* Players */}
+                {/* Players — with avatars */}
                 <div className={s.modalSection}>
                   <h3 className={s.modalLabel}>Key Players</h3>
                   <div className={s.modalPlayers}>
                     {allPlayers.map((p, i) => (
                       <div key={i} className={s.modalPlayerCard}>
-                        <div className={s.playerHeader}>
-                          <span className={s.playerName}>{p.name}</span>
-                          <span className={s.playerMeta}>{p.position} · {p.team}</span>
+                        <div className={s.playerAvatar}>
+                          <span className={s.playerInitials}>
+                            {p.name.split(" ").map(n => n[0]).join("")}
+                          </span>
                         </div>
-                        <p className={s.playerVerdict}>{p.verdict}</p>
-                        <p className={s.playerProjection}>{p.projection}</p>
+                        <div className={s.playerInfo}>
+                          <div className={s.playerHeader}>
+                            <span className={s.playerName}>{p.name}</span>
+                            <span className={s.playerBadge}>{p.position}</span>
+                          </div>
+                          <p className={s.playerVerdict}>{p.verdict}</p>
+                          <p className={s.playerProjection}>{p.projection}</p>
+                        </div>
                       </div>
                     ))}
                   </div>

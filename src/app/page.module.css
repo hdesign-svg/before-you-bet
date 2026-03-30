@@ -1,6 +1,9 @@
 /* ═══════════════════════════════════════
-   BEFORE YOU BET — Main Page v3
+   BEFORE YOU BET — Main Page v4
    Card grid · Overlay expand · Sticky header
+   Component system v2: shadcn-style buttons,
+   V1+V4 edge blend, numbered quick hits,
+   player avatars, no color bars
    ═══════════════════════════════════════ */
 
 /* ─── Utility ─── */
@@ -23,7 +26,6 @@
   min-height: 100dvh;
 }
 
-/* Shared containment — guarantees header + content align */
 .container {
   width: 100%;
   max-width: var(--max-w);
@@ -73,7 +75,6 @@
   white-space: nowrap;
 }
 
-
 .subtitle {
   font-family: var(--font-body);
   font-size: var(--text-xs);
@@ -89,11 +90,16 @@
   display: flex;
   align-items: center;
   gap: var(--sp-2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--r-sm);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--r-md);
   padding: var(--sp-2) var(--sp-3);
   cursor: pointer;
   min-width: 220px;
+  transition: border-color 0.15s ease;
+}
+
+.headerSearch:hover {
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .headerSearchIcon {
@@ -187,8 +193,6 @@
    CONTENT AREA
    ═══════════════════════════════════════ */
 
-/* ─── Slate Sections ─── */
-
 .slateSection {
   margin-bottom: var(--sp-1);
 }
@@ -227,12 +231,15 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--neutral-200);
   animation: cardIn var(--duration-normal) var(--ease-out) backwards;
-  transition: box-shadow var(--duration-fast) var(--ease-out);
+  transition: box-shadow var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
+  border-color: var(--neutral-300);
 }
 
 @keyframes cardIn {
@@ -252,7 +259,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--sp-4) var(--sp-5);
+  padding: var(--sp-4) var(--sp-5) var(--sp-3);
 }
 
 .cardTeam {
@@ -320,25 +327,14 @@
   color: var(--neutral-300);
 }
 
-/* ─── Team color accent bar ─── */
-
-.colorBar {
-  display: flex;
-  height: 4px;
-}
-
-.colorHalf {
-  flex: 1;
-}
-
 /* ─── Card Body ─── */
 
 .cardBody {
   flex: 1;
-  padding: var(--sp-4) var(--sp-5);
+  padding: var(--sp-2) var(--sp-5) var(--sp-3);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-1);
 }
 
 .cardTakeaway {
@@ -361,34 +357,33 @@
   overflow: hidden;
 }
 
-/* ─── CTA Button ─── */
+/* ─── Card Footer + CTA ─── */
+
+.cardFooter {
+  padding: var(--sp-3) var(--sp-5) var(--sp-4);
+  border-top: 1px solid var(--neutral-100);
+}
 
 .cardCta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
-  margin: 0 var(--sp-5) var(--sp-4);
-  padding: var(--sp-3) var(--sp-4);
-  border-radius: var(--r-sm);
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  width: 100%;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-md);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
   color: #fff;
   background: var(--grad-cool);
   cursor: pointer;
-  transition: opacity var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  transition: opacity var(--duration-fast) var(--ease-out);
+  height: 34px;
 }
 
 .cardCta:hover {
   opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.cardCta:active {
-  transform: translateY(0);
 }
 
 .ctaIcon {
@@ -448,15 +443,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--r-md);
+  background: var(--neutral-100);
   color: var(--neutral-600);
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease-out);
 }
 
 .modalClose:hover {
-  background: #fff;
+  background: var(--neutral-200);
   color: var(--ink);
 }
 
@@ -469,7 +464,7 @@
 /* ─── Modal Header ─── */
 
 .modalHeader {
-  padding: var(--sp-6) var(--sp-6) 0;
+  padding: var(--sp-6) var(--sp-6) var(--sp-4);
 }
 
 .modalMatchup {
@@ -549,14 +544,6 @@
   color: var(--neutral-300);
 }
 
-.modalColorBar {
-  display: flex;
-  height: 4px;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: var(--sp-4);
-}
-
 /* ─── Modal Sections ─── */
 
 .modalSection {
@@ -585,24 +572,71 @@
 }
 
 .modalLabel {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--neutral-400);
   margin-bottom: var(--sp-3);
 }
 
-/* ─── Modal Edge Meter ─── */
+/* ─── Edge Meter — V1+V4 Blend ─── */
 
-.modalEdge {
+.edgeBlend {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.edgePick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  min-width: 44px;
+}
+
+.edgePickAbbr {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.edgePickDash {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--neutral-400);
+  line-height: 1;
+}
+
+.edgePickLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--neutral-400);
+}
+
+.edgeDetail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.edgeTrackRow {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
 }
 
-.edgeTeam {
+.edgeAbbr {
   font-family: var(--font-display);
   font-size: 11px;
   font-weight: 800;
@@ -610,15 +644,15 @@
   letter-spacing: 0.04em;
   color: var(--neutral-500);
   flex-shrink: 0;
-  width: 30px;
+  width: 28px;
   text-align: center;
 }
 
 .edgeTrack {
   flex: 1;
   display: flex;
-  height: 12px;
-  border-radius: 6px;
+  height: 10px;
+  border-radius: 5px;
   overflow: hidden;
   position: relative;
   background: var(--neutral-100);
@@ -631,14 +665,21 @@
 
 .edgeNeedle {
   position: absolute;
-  top: -3px;
+  top: -2px;
   width: 3px;
-  height: 18px;
+  height: 14px;
   background: var(--bg-elevated);
   border-radius: 2px;
   transform: translateX(-50%);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
   z-index: 1;
+}
+
+.edgeDesc {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  line-height: 1.5;
 }
 
 /* ─── Modal Scoreboard ─── */
@@ -697,7 +738,7 @@
   background: var(--bg-elevated);
 }
 
-/* ─── Quick Hits ─── */
+/* ─── Quick Hits (Numbered) ─── */
 
 .quickHits {
   list-style: none;
@@ -705,71 +746,97 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
 .quickHit {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 400;
   line-height: 1.5;
   color: var(--neutral-600);
-  padding-left: var(--sp-4);
-  position: relative;
 }
 
-.quickHit::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--coral-400);
+.quickHitNum {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--coral-500);
+  width: 18px;
+  flex-shrink: 0;
+  text-align: center;
+  margin-top: 1px;
 }
 
-/* ─── Modal Players ─── */
+/* ─── Player Cards (with Avatar) ─── */
 
 .modalPlayers {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--sp-3);
 }
 
 .modalPlayerCard {
   background: var(--neutral-50);
-  border-radius: var(--r-sm);
-  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  padding: var(--sp-3);
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+
+.playerAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.playerInitials {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--neutral-500);
+}
+
+.playerInfo {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-1);
+  gap: 3px;
+  min-width: 0;
 }
 
 .playerHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--sp-2);
 }
 
 .playerName {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
   color: var(--ink);
 }
 
-.playerMeta {
+.playerBadge {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 600;
-  color: var(--neutral-400);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  color: var(--neutral-500);
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-200);
+  padding: 1px 6px;
+  border-radius: 9999px;
+  line-height: 1.4;
 }
 
 .playerVerdict {
@@ -825,7 +892,6 @@
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Text button — standalone actionable text link */
 .footerLink {
   font-family: var(--font-body);
   font-size: var(--text-xs);
@@ -890,11 +956,11 @@
   }
 
   .cardBody {
-    padding: var(--sp-3) var(--sp-4);
+    padding: var(--sp-2) var(--sp-4) var(--sp-3);
   }
 
-  .cardCta {
-    margin: 0 var(--sp-4) var(--sp-3);
+  .cardFooter {
+    padding: var(--sp-3) var(--sp-4);
   }
 
   .modalOpen {
@@ -908,7 +974,17 @@
   }
 
   .modalHeader {
-    padding: var(--sp-5) var(--sp-4) 0;
+    padding: var(--sp-5) var(--sp-4) var(--sp-3);
+  }
+
+  .edgeBlend {
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .edgePick {
+    flex-direction: row;
+    gap: var(--sp-2);
   }
 
   .footerInner {

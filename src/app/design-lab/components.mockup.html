@@ -3,324 +3,1412 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Before You Bet — Components</title>
+<title>Before You Bet — Component System</title>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root {
     --font-display: "Big Shoulders Display", sans-serif;
     --font-body: "Outfit", sans-serif;
 
+    --midnight-50: #f0f2f8;
+    --midnight-100: #dce1ef;
+    --midnight-200: #b8c3df;
+    --midnight-300: #8a9bc8;
     --midnight-400: #6178b0;
+    --midnight-500: #3d5590;
+    --midnight-600: #2d4177;
+    --midnight-700: #1f305e;
+    --midnight-800: #152048;
     --midnight-900: #0f1729;
-    --coral-500: #ff6b5a;
+
+    --coral-50: #fff5f4;
+    --coral-100: #ffe5e2;
+    --coral-200: #ffc9c3;
+    --coral-300: #ffa69c;
+    --coral-400: #ff8a7a;
+    --coral-500: #FF6B5A;
     --coral-600: #e5503f;
+    --coral-700: #c03a2c;
+
+    --neutral-50: #f8f9fb;
     --neutral-100: #f1f3f6;
     --neutral-200: #e4e7ed;
+    --neutral-300: #cdd2dc;
     --neutral-400: #a3aab9;
     --neutral-500: #7a8293;
-    --neutral-600: #535a6a;
+    --neutral-600: #5c6478;
+    --neutral-700: #434b5e;
+    --neutral-800: #2c3347;
+    --neutral-900: #1a1f2e;
+
+    --green-50: #ecfdf5;
+    --green-600: #059669;
+    --amber-50: #fffbeb;
+    --amber-600: #d97706;
+    --blue-700: #1d4ed8;
+
+    --grad-cool: linear-gradient(135deg, var(--midnight-600), var(--blue-700));
+    --grad-coral: linear-gradient(135deg, var(--coral-400), var(--coral-600));
 
     --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
-    --sp-6: 24px; --sp-8: 32px;
-    --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-full: 9999px;
+    --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+
+    --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.05);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #f1f3f6;
+    background: var(--neutral-100);
     font-family: var(--font-body);
     color: var(--midnight-900);
     padding: 48px;
-    max-width: 1320px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
-  h1 {
+  /* ═══ Page Layout ═══ */
+  .page-header { margin-bottom: 56px; }
+
+  .page-header h1 {
     font-family: var(--font-display);
     font-size: 48px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.01em;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
-  .page-subtitle {
-    font-size: 15px;
-    color: var(--neutral-500);
-    margin-bottom: 56px;
-  }
+  .page-subtitle { font-size: 15px; color: var(--neutral-500); }
 
-  h2 {
+  .section-title {
     font-family: var(--font-display);
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     color: var(--midnight-900);
-    margin-bottom: 24px;
-    margin-top: 56px;
+    margin: 64px 0 8px;
+    padding-top: 32px;
+    border-top: 2px solid var(--neutral-200);
   }
 
-  h2:first-of-type { margin-top: 0; }
+  .section-title:first-of-type { margin-top: 0; border-top: none; padding-top: 0; }
+  .section-desc { font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; line-height: 1.6; }
 
-  .component-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
-  }
-
-  .component-card {
-    background: #ffffff;
-    border-radius: var(--r-lg);
-    padding: 32px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-
-  .component-label {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--coral-600);
-    margin-bottom: 20px;
-  }
-
-  .component-note {
+  .tier-label {
     font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--neutral-400);
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+  .tier-label:first-child { margin-top: 0; }
+
+  .showcase { display: grid; gap: 16px; margin-bottom: 24px; }
+  .showcase-2 { grid-template-columns: 1fr 1fr; }
+  .showcase-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .showcase-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .showcase-5 { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+
+  .swatch {
+    background: #fff;
+    border-radius: var(--r-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--neutral-200);
+  }
+
+  .swatch-dark {
+    background: var(--midnight-900);
+    color: #fff;
+    border-color: var(--midnight-800);
+  }
+
+  .swatch-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--neutral-400);
+    margin-bottom: 16px;
+  }
+
+  .swatch-dark .swatch-label { color: var(--midnight-400); }
+
+  .swatch-note {
     font-size: 11px;
     color: var(--neutral-400);
     line-height: 1.6;
-    margin-top: 16px;
+    margin-top: 14px;
   }
 
-  .component-card-dark {
-    background: var(--midnight-900);
-    color: #ffffff;
-  }
+  .swatch-dark .swatch-note { color: var(--midnight-400); }
 
-  .component-card-dark .component-label { color: var(--coral-500); }
-  .component-card-dark .component-note { color: var(--midnight-400); }
-
-  /* ─── Content Tab Bar ─── */
-  .tab-bar {
+  .swatch-content {
+    flex: 1;
     display: flex;
-    align-items: last baseline;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--neutral-200);
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 44px;
   }
 
-  .tab-bar-tabs {
-    display: flex;
-    gap: 24px;
-  }
+  .swatch-content-left { justify-content: flex-start; }
+  .swatch-content-col { flex-direction: column; align-items: stretch; }
 
-  .tab-bar-tab {
+
+  /* ═══════════════════════════════════════════════════
+     ATOMS — BUTTONS (shadcn-inspired, Outfit font)
+     ═══════════════════════════════════════════════════ */
+
+  .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--neutral-400);
-    padding: 12px 4px 8px;
-    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0;
     border: none;
-    background: none;
-    position: relative;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    line-height: 1;
   }
 
-  .tab-bar-tab-active {
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* Sizes */
+  .btn-sm { font-size: 13px; padding: 8px 12px; border-radius: var(--r-md); height: 32px; }
+  .btn-md { font-size: 14px; padding: 10px 16px; border-radius: var(--r-md); height: 36px; }
+  .btn-lg { font-size: 14px; padding: 10px 20px; border-radius: var(--r-md); height: 40px; }
+
+  .btn-sm svg { width: 14px; height: 14px; }
+
+  /* Default — dark fill */
+  .btn-default {
+    background: var(--midnight-900);
+    color: #fff;
+  }
+  .btn-default:hover { background: var(--midnight-800); }
+
+  /* Secondary — muted fill */
+  .btn-secondary {
+    background: var(--neutral-100);
     color: var(--midnight-900);
   }
+  .btn-secondary:hover { background: var(--neutral-200); }
 
-  .tab-bar-tab-active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--coral-500);
-    border-radius: 3px 3px 0 0;
+  /* Outline */
+  .btn-outline {
+    background: transparent;
+    color: var(--midnight-900);
+    border: 1px solid var(--neutral-200);
   }
+  .btn-outline:hover { background: var(--neutral-50); border-color: var(--neutral-300); }
 
-  .tab-bar-context {
+  /* Ghost */
+  .btn-ghost {
+    background: transparent;
+    color: var(--midnight-900);
+  }
+  .btn-ghost:hover { background: var(--neutral-100); }
+
+  /* Link */
+  .btn-link {
+    background: transparent;
+    color: var(--midnight-900);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 0;
+    height: auto;
+  }
+  .btn-link:hover { color: var(--neutral-600); }
+
+  /* Destructive */
+  .btn-destructive {
+    background: #ef4444;
+    color: #fff;
+  }
+  .btn-destructive:hover { background: #dc2626; }
+
+  /* Brand — grad-cool (primary CTA) */
+  .btn-brand {
+    background: var(--grad-cool);
+    color: #fff;
+    font-weight: 600;
+  }
+  .btn-brand:hover { opacity: 0.9; }
+
+  /* Ghost on dark */
+  .btn-ghost-dark {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+  }
+  .btn-ghost-dark:hover { background: rgba(255,255,255,0.08); }
+
+  /* Outline on dark */
+  .btn-outline-dark {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .btn-outline-dark:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.25); }
+
+  /* Icon-only */
+  .btn-icon { width: 36px; height: 36px; padding: 0; border-radius: var(--r-md); }
+  .btn-icon-sm { width: 32px; height: 32px; padding: 0; border-radius: var(--r-md); }
+  .btn-icon-sm svg { width: 14px; height: 14px; }
+
+
+  /* ═══════════════════════════════════════════════════
+     ATOMS — BADGES (single style, Outfit font)
+     ═══════════════════════════════════════════════════ */
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    color: #7a8293;
-    padding-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    line-height: 1.4;
+    border: 1px solid var(--neutral-200);
+    background: var(--neutral-50);
+    color: var(--neutral-600);
   }
 
-  /* ─── Section Label ─── */
-  .section-label {
+  .badge-outline {
+    background: transparent;
+    border: 1px solid var(--neutral-200);
+    color: var(--neutral-600);
+  }
+
+  .badge-filled {
+    background: var(--midnight-900);
+    border-color: var(--midnight-900);
+    color: #fff;
+  }
+
+  .badge-secondary {
+    background: var(--neutral-100);
+    border-color: var(--neutral-100);
+    color: var(--neutral-600);
+  }
+
+
+  /* ═══════════════════════════════════════════════════
+     ATOMS — SECTION LABELS
+     ═══════════════════════════════════════════════════ */
+
+  .label-overline {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--neutral-400);
+  }
+
+  .label-slate {
     font-family: var(--font-display);
     font-size: 21px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--midnight-900);
-    padding: var(--sp-6) 0 var(--sp-4);
   }
 
-  /* ─── Footer ─── */
-  .footer-specimen {
+
+  /* ═══════════════════════════════════════════════════
+     MOLECULES — EDGE METER (V1+V4 blend)
+     ═══════════════════════════════════════════════════ */
+
+  .edge {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--neutral-100);
-    border-top: 1px solid var(--neutral-200);
-    border-radius: 0 0 var(--r-lg) var(--r-lg);
-    padding: 20px 24px;
-  }
-
-  .footer-disclaimer {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--neutral-500);
-  }
-
-  /* ─── Dark card grid (used for search, text links) ─── */
-  .pill-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .pill-card {
-    background: var(--midnight-900);
-    border-radius: var(--r-lg);
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
   }
 
-  .pill-card .component-label {
-    color: var(--coral-500);
-    align-self: flex-start;
+  .edge-pick {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
   }
 
-  .pill-card .component-note {
-    color: var(--midnight-400);
-    align-self: flex-start;
+  .edge-pick-abbr {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
   }
+
+  .edge-pick-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--neutral-400);
+  }
+
+  .edge-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .edge-track-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .edge-abbr {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--neutral-500);
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .edge-track {
+    flex: 1;
+    display: flex;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    background: var(--neutral-100);
+  }
+
+  .edge-fill { height: 100%; }
+
+  .edge-needle {
+    position: absolute;
+    top: -2px;
+    width: 3px;
+    height: 14px;
+    background: #fff;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 4px rgba(0,0,0,0.25);
+    z-index: 1;
+  }
+
+  .edge-desc {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--neutral-500);
+    line-height: 1.5;
+  }
+
+
+  /* ═══════════════════════════════════════════════════
+     MOLECULES — PREDICTED SCORE (V1)
+     ═══════════════════════════════════════════════════ */
+
+  .score {
+    display: flex;
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+
+  .score-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 12px 16px;
+    background: var(--neutral-100);
+  }
+
+  .score-win { background: var(--grad-cool); }
+
+  .score-abbr {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--neutral-400);
+  }
+
+  .score-win .score-abbr { color: rgba(255,255,255,0.7); }
+
+  .score-num {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--midnight-900);
+    line-height: 1;
+  }
+
+  .score-win .score-num { color: #fff; }
+
+  .score-dash {
+    width: 2px;
+    background: #fff;
+    align-self: stretch;
+  }
+
+
+  /* ═══════════════════════════════════════════════════
+     MOLECULES — QUICK HITS (V2 — numbered)
+     ═══════════════════════════════════════════════════ */
+
+  .qh {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--neutral-600);
+    line-height: 1.5;
+  }
+
+  .qh-num {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--coral-500);
+    width: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    text-align: center;
+  }
+
+
+  /* ═══════════════════════════════════════════════════
+     MOLECULES — PLAYER CARD
+     ═══════════════════════════════════════════════════ */
+
+  .player-card {
+    background: var(--neutral-50);
+    border-radius: var(--r-md);
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .player-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--neutral-200);
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .player-avatar-placeholder {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--neutral-400);
+  }
+
+  .player-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .player-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .player-name {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--midnight-900);
+  }
+
+  .player-pos {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--neutral-400);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .player-verdict {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--neutral-600);
+    line-height: 1.5;
+  }
+
+  .player-projection {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--neutral-400);
+    font-style: italic;
+  }
+
+
+  /* ═══════════════════════════════════════════════════
+     ORGANISMS — GAME CARD
+     ═══════════════════════════════════════════════════ */
+
+  .game-card {
+    background: #fff;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--neutral-200);
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    max-width: 380px;
+  }
+
+  .game-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--neutral-300);
+  }
+
+  .card-matchup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+  }
+
+  .card-team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--neutral-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--neutral-500);
+    flex-shrink: 0;
+  }
+
+  .card-team-info { display: flex; flex-direction: column; }
+
+  .card-abbr {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .card-record {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--neutral-400);
+    margin-top: 2px;
+  }
+
+  .card-vs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .card-at {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--neutral-300);
+  }
+
+  .card-time {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--neutral-400);
+  }
+
+  .card-body {
+    flex: 1;
+    padding: 0 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .card-takeaway {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--midnight-900);
+  }
+
+  .card-story {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--neutral-500);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--neutral-100);
+  }
+
 </style>
 </head>
 <body>
 
-<h1>Components</h1>
-<p class="page-subtitle">Before You Bet — Active UI patterns in the current build</p>
-
-<!-- ═══ CONTENT TAB BAR ═══ -->
-<h2>Content Tab Bar</h2>
-<div class="component-card" style="padding:24px 32px">
-  <div class="component-label">Tabs + Week Context</div>
-  <div class="tab-bar">
-    <div class="tab-bar-tabs">
-      <button class="tab-bar-tab tab-bar-tab-active"><svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> Games</button>
-      <button class="tab-bar-tab"><svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Players</button>
-    </div>
-    <span class="tab-bar-context"><span style="font-weight:600">Week 12</span> <span style="font-weight:400">&middot; Nov 19–25</span></span>
-  </div>
-  <div class="component-note">Underline tabs (Display font) with Calendar/TrendingUp icons left, week context right. Week label at weight 600, date range at weight 400. Coral accent bar on active. Border-bottom track spans full content width.</div>
+<div class="page-header">
+  <h1>Component System</h1>
+  <p class="page-subtitle">Before You Bet — Atomic design v2 · shadcn-inspired, Outfit font, clean</p>
 </div>
 
-<!-- ═══ SECTION LABELS ═══ -->
-<h2>Section Labels</h2>
-<div class="component-grid">
-  <div class="component-card">
-    <div class="component-label">Slate Header</div>
-    <div class="section-label">Sunday Early</div>
-    <div class="section-label">Sunday Late</div>
-    <div class="section-label">Monday Night</div>
-    <div class="component-note">Display 900, text-xl, uppercase. Spacing above creates separation between game groups — no divider lines needed.</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ATOMS — BUTTONS
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Atoms — Buttons</div>
+<p class="section-desc">shadcn-inspired variant system. Outfit font, medium weight. Brand gradient reserved for primary CTA.</p>
+
+<div class="tier-label">Variants (Medium Size)</div>
+<div class="showcase showcase-4">
+  <div class="swatch">
+    <div class="swatch-label">Default</div>
+    <div class="swatch-content">
+      <button class="btn btn-default btn-md">Get insights</button>
+    </div>
+    <div class="swatch-note">Primary. midnight-900 fill, white text. The default action button.</div>
   </div>
-  <div class="component-card-dark component-card">
-    <div class="component-label">Header</div>
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 0">
+  <div class="swatch">
+    <div class="swatch-label">Secondary</div>
+    <div class="swatch-content">
+      <button class="btn btn-secondary btn-md">View all</button>
+    </div>
+    <div class="swatch-note">Muted fill. For secondary actions alongside a primary.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Outline</div>
+    <div class="swatch-content">
+      <button class="btn btn-outline btn-md">View all</button>
+    </div>
+    <div class="swatch-note">Border only. For tertiary actions, filters.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Ghost</div>
+    <div class="swatch-content">
+      <button class="btn btn-ghost btn-md">Cancel</button>
+    </div>
+    <div class="swatch-note">No border, no fill. Hover reveals bg. For dismiss, back, low-priority.</div>
+  </div>
+</div>
+
+<div class="showcase showcase-4">
+  <div class="swatch">
+    <div class="swatch-label">Link</div>
+    <div class="swatch-content">
+      <button class="btn btn-link btn-md">About Before You Bet</button>
+    </div>
+    <div class="swatch-note">Underlined text. No padding. For inline navigation.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Destructive</div>
+    <div class="swatch-content">
+      <button class="btn btn-destructive btn-md">Remove</button>
+    </div>
+    <div class="swatch-note">Red fill. Reserved for delete/remove actions.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Brand (Primary CTA)</div>
+    <div class="swatch-content">
+      <button class="btn btn-brand btn-md">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Quick insights
+      </button>
+    </div>
+    <div class="swatch-note">grad-cool. The ONE gradient button. Only for the main CTA on cards and hero areas.</div>
+  </div>
+  <div class="swatch swatch-dark">
+    <div class="swatch-label">Dark Context</div>
+    <div class="swatch-content" style="gap:8px; flex-direction:column">
+      <button class="btn btn-outline-dark btn-md">Learn more</button>
+      <button class="btn btn-ghost-dark btn-md">Dismiss</button>
+    </div>
+    <div class="swatch-note">For header, footer, dark overlays.</div>
+  </div>
+</div>
+
+<div class="tier-label">Sizes</div>
+<div class="showcase showcase-3">
+  <div class="swatch">
+    <div class="swatch-label">Small (32px)</div>
+    <div class="swatch-content" style="gap:8px">
+      <button class="btn btn-default btn-sm">Save</button>
+      <button class="btn btn-outline btn-sm">Cancel</button>
+      <button class="btn btn-ghost btn-sm">Reset</button>
+    </div>
+    <div class="swatch-note">For tight spaces: card footers, inline actions, table rows.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Medium (36px) — Default</div>
+    <div class="swatch-content" style="gap:8px">
+      <button class="btn btn-default btn-md">Save</button>
+      <button class="btn btn-outline btn-md">Cancel</button>
+      <button class="btn btn-ghost btn-md">Reset</button>
+    </div>
+    <div class="swatch-note">Standard size. Most buttons use this.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Large (40px)</div>
+    <div class="swatch-content" style="gap:8px">
+      <button class="btn btn-default btn-lg">Save</button>
+      <button class="btn btn-outline btn-lg">Cancel</button>
+      <button class="btn btn-ghost btn-lg">Reset</button>
+    </div>
+    <div class="swatch-note">For hero sections, modals, standalone forms.</div>
+  </div>
+</div>
+
+<div class="tier-label">With Icons</div>
+<div class="showcase showcase-3">
+  <div class="swatch">
+    <div class="swatch-label">Leading Icon</div>
+    <div class="swatch-content" style="gap:8px; flex-direction:column">
+      <button class="btn btn-default btn-md">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Quick insights
+      </button>
+      <button class="btn btn-outline btn-md">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+        Share game
+      </button>
+    </div>
+    <div class="swatch-note">Icon left of label. 16px icons at md/lg, 14px at sm.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Icon Only</div>
+    <div class="swatch-content" style="gap:8px">
+      <button class="btn btn-outline btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+      </button>
+      <button class="btn btn-ghost btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      </button>
+      <button class="btn btn-secondary btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <button class="btn btn-default btn-icon-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+    <div class="swatch-note">Square, same height as text buttons. For close, menu, more, search.</div>
+  </div>
+  <div class="swatch swatch-dark">
+    <div class="swatch-label">Icon Only — Dark</div>
+    <div class="swatch-content" style="gap:8px">
+      <button class="btn btn-ghost-dark btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+      </button>
+      <button class="btn btn-outline-dark btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ATOMS — BADGES
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Atoms — Badges</div>
+<p class="section-desc">One neutral style. No color-coding. Outfit font. Use for positions, metadata, and labels.</p>
+
+<div class="showcase showcase-3">
+  <div class="swatch">
+    <div class="swatch-label">Default (Subtle Fill)</div>
+    <div class="swatch-content" style="gap:8px">
+      <span class="badge">QB</span>
+      <span class="badge">RB</span>
+      <span class="badge">WR</span>
+      <span class="badge">TE</span>
+      <span class="badge">DEF</span>
+    </div>
+    <div class="swatch-note">Positions. Neutral fill + border. One treatment for all — no color noise.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Outline</div>
+    <div class="swatch-content" style="gap:8px">
+      <span class="badge badge-outline">Week 12</span>
+      <span class="badge badge-outline">Prime Time</span>
+      <span class="badge badge-outline">Divisional</span>
+    </div>
+    <div class="swatch-note">For contextual metadata. Lighter than filled. Border only.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Filled + Secondary</div>
+    <div class="swatch-content" style="gap:8px">
+      <span class="badge badge-filled">Live</span>
+      <span class="badge badge-secondary">Updated 2h ago</span>
+    </div>
+    <div class="swatch-note">Filled (dark) for high-emphasis status. Secondary for timestamp/metadata.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ATOMS — LABELS & DIVIDERS
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Atoms — Labels</div>
+<p class="section-desc">Section and overline labels. Display font for slate headers, Outfit for overlines.</p>
+
+<div class="showcase showcase-3">
+  <div class="swatch">
+    <div class="swatch-label">Overline Label</div>
+    <div class="swatch-content swatch-content-col" style="gap:8px; align-items:flex-start">
+      <span class="label-overline">The Edge</span>
+      <span class="label-overline">Predicted Score</span>
+      <span class="label-overline">Key Players</span>
+    </div>
+    <div class="swatch-note">Outfit 600, 11px, uppercase. Used above molecules in the modal to label each section.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Slate Header</div>
+    <div class="swatch-content swatch-content-col" style="gap:8px; align-items:flex-start">
+      <span class="label-slate">Sunday Early</span>
+      <span class="label-slate">Sunday Late</span>
+      <span class="label-slate">Monday Night</span>
+    </div>
+    <div class="swatch-note">Display 900, 21px. Groups games by timeslot. No divider needed — spacing does the work.</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Dividers</div>
+    <div class="swatch-content swatch-content-col" style="gap:16px">
       <div>
-        <div style="font-family:var(--font-display); font-size:28px; font-weight:900; text-transform:uppercase; letter-spacing:0.01em; color:#fff; line-height:1">BEFORE YOU BET</div>
-        <div style="font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--neutral-200); margin-top:4px">Don't bet blind</div>
+        <span style="font-size:11px; color:var(--neutral-400); margin-bottom:4px; display:block">Standard (neutral-200)</span>
+        <hr style="height:1px; background:var(--neutral-200); border:none">
       </div>
-      <div style="display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.2); border-radius:var(--r-sm); padding:8px 12px;">
-        <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--coral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400)">Search...</span>
+      <div>
+        <span style="font-size:11px; color:var(--neutral-400); margin-bottom:4px; display:block">Subtle (neutral-100)</span>
+        <hr style="height:1px; background:var(--neutral-100); border:none">
       </div>
     </div>
-    <div class="component-note">Wordmark + neutral-200 tagline left, search input right. Midnight gradient background, sticky. Search has coral icon, neutral placeholder, white border at 20% opacity.</div>
+    <div class="swatch-note">Standard for section breaks. Subtle for within-card section breaks (modal sections).</div>
   </div>
 </div>
 
-<!-- ═══ HEADER SEARCH INPUT ═══ -->
-<h2>Header Search Input</h2>
 
-<div class="pill-grid" style="grid-template-columns: repeat(1, 1fr); margin-bottom:24px">
-  <div class="pill-card" style="align-items:stretch">
-    <div class="component-label">Neutral Border + Coral Icon</div>
-    <div style="display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.2); border-radius:var(--r-sm); padding:8px 12px;">
-      <svg style="width:14px; height:14px; flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="var(--coral-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400)">Search games or players...</span>
+<!-- ═══════════════════════════════════════════════════════════
+     MOLECULES — EDGE METER
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Molecules — Edge Meter</div>
+<p class="section-desc">V1 + V4 blend. Bold team pick on the left, tug-of-war bar on the right, plain-English description underneath.</p>
+
+<div class="showcase showcase-2">
+  <div class="swatch">
+    <div class="swatch-label">Standard — Strong Edge</div>
+    <div class="swatch-content swatch-content-col">
+      <div class="edge">
+        <div class="edge-pick">
+          <span class="edge-pick-abbr" style="color:#00338D">BUF</span>
+          <span class="edge-pick-label">Our pick</span>
+        </div>
+        <div class="edge-detail">
+          <div class="edge-track-row">
+            <span class="edge-abbr">BUF</span>
+            <div class="edge-track">
+              <div class="edge-fill" style="width:68%; background:linear-gradient(90deg, #00338D, #00338Dbb)"></div>
+              <div class="edge-needle" style="left:68%"></div>
+              <div class="edge-fill" style="width:32%; background:linear-gradient(90deg, #97233Fbb, #97233F)"></div>
+            </div>
+            <span class="edge-abbr">ARI</span>
+          </div>
+          <span class="edge-desc">Buffalo has a clear <strong>68–32</strong> edge — their defense is a major mismatch here.</span>
+        </div>
+      </div>
     </div>
-    <div class="component-note">White border (20% opacity) for definition. Coral icon draws the eye. Neutral-400 placeholder stays secondary. r-sm. Collapses to icon-only on mobile.</div>
+    <div class="swatch-note">Pick stands tall on the left. Tug-of-war bar gives visual proportion. Sentence below explains why. Verdict-first, data-second, explanation-third.</div>
+  </div>
+
+  <div class="swatch">
+    <div class="swatch-label">Standard — Close Game</div>
+    <div class="swatch-content swatch-content-col">
+      <div class="edge">
+        <div class="edge-pick">
+          <span class="edge-pick-abbr" style="color:#0B162A">DAL</span>
+          <span class="edge-pick-label">Slight edge</span>
+        </div>
+        <div class="edge-detail">
+          <div class="edge-track-row">
+            <span class="edge-abbr">DAL</span>
+            <div class="edge-track">
+              <div class="edge-fill" style="width:53%; background:linear-gradient(90deg, #0B162A, #0B162Abb)"></div>
+              <div class="edge-needle" style="left:53%"></div>
+              <div class="edge-fill" style="width:47%; background:linear-gradient(90deg, #004C54bb, #004C54)"></div>
+            </div>
+            <span class="edge-abbr">JAX</span>
+          </div>
+          <span class="edge-desc">This one's close — Dallas holds a slim <strong>53–47</strong> advantage at home.</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatch-note">When the edge is under 55, the label says "Slight edge" instead of "Our pick". Language adjusts to conviction level.</div>
   </div>
 </div>
 
-<!-- ═══ TEXT LINK VARIANTS ═══ -->
-<h2>Text Links</h2>
-
-<div class="pill-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:24px">
-  <!-- Inline Link -->
-  <div class="pill-card">
-    <div class="component-label">Inline Link</div>
-    <div style="padding:16px 20px; background:white; border-radius:var(--r-sm)">
-      <span style="font-family:var(--font-body); font-size:14px; color:var(--neutral-700)">
-        Data sourced from <a style="color:var(--neutral-700); text-decoration:underline; text-underline-offset:2px" href="#">public APIs</a> and updated daily.
-      </span>
+<div class="showcase showcase-2">
+  <div class="swatch">
+    <div class="swatch-label">Compact (No Pick Block)</div>
+    <div class="swatch-content swatch-content-col">
+      <div class="edge-track-row">
+        <span class="edge-abbr">BUF</span>
+        <div class="edge-track">
+          <div class="edge-fill" style="width:68%; background:linear-gradient(90deg, #00338D, #00338Dbb)"></div>
+          <div class="edge-needle" style="left:68%"></div>
+          <div class="edge-fill" style="width:32%; background:linear-gradient(90deg, #97233Fbb, #97233F)"></div>
+        </div>
+        <span class="edge-abbr">ARI</span>
+      </div>
     </div>
-    <div class="component-note">Same color as surrounding text. Underline with 2px offset. For links within body copy. Hover: underline darkens.</div>
+    <div class="swatch-note">Just the bar. For tight spaces or when the pick context is already established (e.g. card already says "BUF is the play").</div>
   </div>
 
-  <!-- Text Button -->
-  <div class="pill-card">
-    <div class="component-label">Text Button</div>
-    <div style="padding:16px 20px; background:linear-gradient(100deg, var(--midnight-900), var(--midnight-800)); border-radius:var(--r-sm)">
-      <a style="font-family:var(--font-body); font-size:12px; font-weight:600; color:var(--midnight-300); text-decoration:none" href="#">About Before You Bet</a>
+  <div class="swatch">
+    <div class="swatch-label">Toss-Up</div>
+    <div class="swatch-content swatch-content-col">
+      <div class="edge">
+        <div class="edge-pick">
+          <span class="edge-pick-abbr" style="color:var(--neutral-400)">—</span>
+          <span class="edge-pick-label">Toss-up</span>
+        </div>
+        <div class="edge-detail">
+          <div class="edge-track-row">
+            <span class="edge-abbr">SF</span>
+            <div class="edge-track">
+              <div class="edge-fill" style="width:50%; background:linear-gradient(90deg, #AA0000, #AA0000bb)"></div>
+              <div class="edge-needle" style="left:50%"></div>
+              <div class="edge-fill" style="width:50%; background:linear-gradient(90deg, #003594bb, #003594)"></div>
+            </div>
+            <span class="edge-abbr">LAR</span>
+          </div>
+          <span class="edge-desc">Genuine coin flip. We don't have a confident pick on this one.</span>
+        </div>
+      </div>
     </div>
-    <div class="component-note">Standalone actionable text. Weight 600 differentiates from body. No underline. Hover brightens to midnight-100. Used in footer, nav, standalone CTAs.</div>
-  </div>
-
-  <!-- Subtle Link -->
-  <div class="pill-card">
-    <div class="component-label">Subtle Link</div>
-    <div style="padding:16px 20px; background:white; border-radius:var(--r-sm)">
-      <a style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--neutral-400); text-decoration:none" href="#">Week 11 results</a>
-    </div>
-    <div class="component-note">Secondary navigation. Normal weight, neutral-400. Hover shifts to neutral-600. For breadcrumbs, metadata links, tertiary actions.</div>
+    <div class="swatch-note">When edge is ~50/50, show dash and "Toss-up". Honest about uncertainty — builds trust.</div>
   </div>
 </div>
 
-<!-- ═══ FOOTER ═══ -->
-<h2>Footer</h2>
-<div class="component-card" style="padding:0; overflow:hidden">
-  <div style="padding:24px 24px 12px">
-    <div class="component-label">Page Footer — Disclaimer + About</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOLECULES — PREDICTED SCORE
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Molecules — Predicted Score</div>
+<p class="section-desc">V1 cell blocks. Winner gets grad-cool, loser stays neutral. Compact scoreboard feel.</p>
+
+<div class="showcase showcase-3">
+  <div class="swatch">
+    <div class="swatch-label">Away Wins</div>
+    <div class="swatch-content">
+      <div class="score" style="max-width:220px; width:100%">
+        <div class="score-cell score-win">
+          <span class="score-abbr">BUF</span>
+          <span class="score-num">28</span>
+        </div>
+        <div class="score-dash"></div>
+        <div class="score-cell">
+          <span class="score-abbr">ARI</span>
+          <span class="score-num">17</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatch-note">Away team wins — left cell gets grad-cool.</div>
   </div>
-  <div style="background:linear-gradient(100deg, var(--midnight-900), var(--midnight-800)); padding:40px 32px; display:flex; align-items:center; justify-content:center; gap:20px">
-    <span style="font-family:var(--font-body); font-size:12px; font-weight:400; color:var(--midnight-300)">Not a sportsbook. Informational only.</span>
-    <span style="width:1px; height:14px; background:rgba(255,255,255,0.15)"></span>
-    <a style="font-family:var(--font-body); font-size:12px; font-weight:600; color:var(--midnight-300); text-decoration:none" href="#">About Before You Bet</a>
+
+  <div class="swatch">
+    <div class="swatch-label">Home Wins</div>
+    <div class="swatch-content">
+      <div class="score" style="max-width:220px; width:100%">
+        <div class="score-cell">
+          <span class="score-abbr">DAL</span>
+          <span class="score-num">20</span>
+        </div>
+        <div class="score-dash"></div>
+        <div class="score-cell score-win">
+          <span class="score-abbr">JAX</span>
+          <span class="score-num">24</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatch-note">Home team wins — right cell gets grad-cool.</div>
   </div>
-  <div style="padding:12px 24px 24px">
-    <div class="component-note">Dark midnight gradient footer (bookends header). Both items at midnight-300 for WCAG AA (~5.5:1 on midnight-900). Disclaimer at weight 400 (recedes), about link uses Text Button variant at weight 600 (pulls forward, hovers to midnight-100). Vertical divider at 15% white opacity. Hierarchy through weight, not color.</div>
+
+  <div class="swatch">
+    <div class="swatch-label">Close Game</div>
+    <div class="swatch-content">
+      <div class="score" style="max-width:220px; width:100%">
+        <div class="score-cell score-win">
+          <span class="score-abbr">SF</span>
+          <span class="score-num">23</span>
+        </div>
+        <div class="score-dash"></div>
+        <div class="score-cell">
+          <span class="score-abbr">LAR</span>
+          <span class="score-num">21</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatch-note">Tight margin still gets gradient. The win is a win.</div>
   </div>
 </div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOLECULES — QUICK HITS
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Molecules — Quick Hits</div>
+<p class="section-desc">V2 numbered. Three crucial things to know. Coral numbers, plain English.</p>
+
+<div class="showcase showcase-2">
+  <div class="swatch">
+    <div class="swatch-label">Standard (3 Hits)</div>
+    <div class="swatch-content swatch-content-col" style="gap:10px">
+      <div class="qh"><span class="qh-num">1</span><span>Buffalo's defense has allowed just 15 points per game over the last month</span></div>
+      <div class="qh"><span class="qh-num">2</span><span>Arizona struggles to protect the quarterback — 4th-most sacks allowed</span></div>
+      <div class="qh"><span class="qh-num">3</span><span>Josh Allen has thrown at least 2 TDs in 8 straight games</span></div>
+    </div>
+    <div class="swatch-note">Numbered for priority. Coral numbers draw the eye. Each hit is one sentence, no jargon.</div>
+  </div>
+
+  <div class="swatch">
+    <div class="swatch-label">With Overline</div>
+    <div class="swatch-content swatch-content-col" style="gap:10px">
+      <span class="label-overline">Need to Know</span>
+      <div class="qh"><span class="qh-num">1</span><span>Dallas is 7-1 at home this season — strongest home record in the NFC</span></div>
+      <div class="qh"><span class="qh-num">2</span><span>Jacksonville's QB has thrown 3+ interceptions in two of the last four games</span></div>
+      <div class="qh"><span class="qh-num">3</span><span>The Cowboys run game is averaging 140+ yards in their last 5 home wins</span></div>
+    </div>
+    <div class="swatch-note">Paired with overline label for modal context. "Need to Know" header sets the tone.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOLECULES — PLAYER CARDS
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Molecules — Player Cards</div>
+<p class="section-desc">Avatar + name + position + verdict + projection. Clean horizontal layout with player image.</p>
+
+<div class="showcase showcase-2">
+  <div class="swatch">
+    <div class="swatch-label">Standard Player Card</div>
+    <div class="swatch-content swatch-content-col" style="gap:8px">
+      <div class="player-card">
+        <div class="player-avatar">
+          <span class="player-avatar-placeholder">JA</span>
+        </div>
+        <div class="player-info">
+          <div class="player-top">
+            <span class="player-name">Josh Allen</span>
+            <span class="badge" style="font-size:10px; padding:1px 6px">QB</span>
+          </div>
+          <div class="player-verdict">Elite this year. Averaging 280+ passing yards with a career-best TD rate.</div>
+          <div class="player-projection">~290 yds, 2–3 TD, low INT risk</div>
+        </div>
+      </div>
+      <div class="player-card">
+        <div class="player-avatar">
+          <span class="player-avatar-placeholder">JC</span>
+        </div>
+        <div class="player-info">
+          <div class="player-top">
+            <span class="player-name">James Conner</span>
+            <span class="badge" style="font-size:10px; padding:1px 6px">RB</span>
+          </div>
+          <div class="player-verdict">Workhorse back but Buffalo's run defense has been top-5 all season.</div>
+          <div class="player-projection">~55 yds rushing, TD dependent</div>
+        </div>
+      </div>
+    </div>
+    <div class="swatch-note">Circular avatar with initials (placeholder for headshot). Badge uses single neutral style. Three lines: name+pos, verdict, projection.</div>
+  </div>
+
+  <div class="swatch">
+    <div class="swatch-label">With Headshot (production)</div>
+    <div class="swatch-content swatch-content-col" style="gap:8px">
+      <div class="player-card">
+        <div class="player-avatar" style="background: linear-gradient(135deg, var(--neutral-200), var(--neutral-300))">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--neutral-400)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="player-info">
+          <div class="player-top">
+            <span class="player-name">Josh Allen</span>
+            <span class="badge" style="font-size:10px; padding:1px 6px">QB</span>
+          </div>
+          <div class="player-verdict">Elite this year. Averaging 280+ passing yards with a career-best TD rate.</div>
+          <div class="player-projection">~290 yds, 2–3 TD, low INT risk</div>
+        </div>
+      </div>
+      <div class="player-card">
+        <div class="player-avatar" style="background: linear-gradient(135deg, var(--neutral-200), var(--neutral-300))">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--neutral-400)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="player-info">
+          <div class="player-top">
+            <span class="player-name">Marvin Harrison Jr</span>
+            <span class="badge" style="font-size:10px; padding:1px 6px">WR</span>
+          </div>
+          <div class="player-verdict">Talented but inconsistent. Could pop in garbage time if game gets away from Arizona.</div>
+          <div class="player-projection">5–7 targets, 60–80 yds, boom-or-bust</div>
+        </div>
+      </div>
+    </div>
+    <div class="swatch-note">In production, the avatar div holds a real headshot via img tag. Gradient placeholder shown here for missing images.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ORGANISMS — GAME CARD
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">Organisms — Game Card</div>
+<p class="section-desc">No team color bars. Clean border treatment. Brand CTA at the bottom. The card is the entry point — modal is the payoff.</p>
+
+<div class="showcase showcase-3">
+  <div class="swatch" style="padding:16px; background:var(--neutral-100)">
+    <div class="swatch-label">Standard Card</div>
+    <div class="game-card" style="max-width:100%">
+      <div class="card-matchup">
+        <div class="card-team">
+          <div class="card-logo">BUF</div>
+          <div class="card-team-info">
+            <span class="card-abbr">BUF</span>
+            <span class="card-record">10-2</span>
+          </div>
+        </div>
+        <div class="card-vs">
+          <span class="card-at">@</span>
+          <span class="card-time">1:00 PM</span>
+        </div>
+        <div class="card-team">
+          <div class="card-logo">ARI</div>
+          <div class="card-team-info">
+            <span class="card-abbr">ARI</span>
+            <span class="card-record">6-6</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-takeaway">Buffalo's defense makes this a mismatch on paper</div>
+        <div class="card-story">The Bills should be able to impose their will on a Cardinals offense that's struggled to protect Kyler Murray all season long.</div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-brand btn-sm" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Quick insights
+        </button>
+      </div>
+    </div>
+    <div class="swatch-note">Clean. Border + subtle shadow on hover. No color bar. Content-first. Brand CTA in a footer zone separated by a rule.</div>
+  </div>
+
+  <div class="swatch" style="padding:16px; background:var(--neutral-100)">
+    <div class="swatch-label">With Edge Hint</div>
+    <div class="game-card" style="max-width:100%">
+      <div class="card-matchup">
+        <div class="card-team">
+          <div class="card-logo">DAL</div>
+          <div class="card-team-info">
+            <span class="card-abbr">DAL</span>
+            <span class="card-record">8-4</span>
+          </div>
+        </div>
+        <div class="card-vs">
+          <span class="card-at">@</span>
+          <span class="card-time">4:25 PM</span>
+        </div>
+        <div class="card-team">
+          <div class="card-logo">JAX</div>
+          <div class="card-team-info">
+            <span class="card-abbr">JAX</span>
+            <span class="card-record">5-7</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px">
+          <span style="font-family:var(--font-body); font-size:11px; font-weight:600; color:var(--neutral-400)">Edge: DAL 57–43</span>
+        </div>
+        <div class="card-takeaway">Dallas dominates at home but this isn't a slam dunk</div>
+        <div class="card-story">The Cowboys' home record is elite but Jacksonville has shown they can hang with anyone on their day. This could go either way.</div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-brand btn-sm" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Quick insights
+        </button>
+      </div>
+    </div>
+    <div class="swatch-note">Optional edge hint as a small text line above the takeaway. Gives a preview of the data inside without adding visual weight.</div>
+  </div>
+
+  <div class="swatch" style="padding:16px; background:var(--neutral-100)">
+    <div class="swatch-label">Toss-Up</div>
+    <div class="game-card" style="max-width:100%">
+      <div class="card-matchup">
+        <div class="card-team">
+          <div class="card-logo">SF</div>
+          <div class="card-team-info">
+            <span class="card-abbr">SF</span>
+            <span class="card-record">7-5</span>
+          </div>
+        </div>
+        <div class="card-vs">
+          <span class="card-at">@</span>
+          <span class="card-time">8:20 PM</span>
+        </div>
+        <div class="card-team">
+          <div class="card-logo">LAR</div>
+          <div class="card-team-info">
+            <span class="card-abbr">LAR</span>
+            <span class="card-record">7-5</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px">
+          <span style="font-family:var(--font-body); font-size:11px; font-weight:600; color:var(--neutral-400)">Toss-up</span>
+        </div>
+        <div class="card-takeaway">Rivalry game with no clear favorite — buckle up</div>
+        <div class="card-story">Two evenly matched NFC West rivals meeting in primetime. Recent history says expect a close, physical game with late drama.</div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-brand btn-sm" style="width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Quick insights
+        </button>
+      </div>
+    </div>
+    <div class="swatch-note">When there's no clear pick, the hint just says "Toss-up." Honest. Builds trust that we're not forcing a pick on every game.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     CTA COPY OPTIONS
+     ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-title">CTA Copy Options</div>
+<p class="section-desc">Testing tone. All use the brand button with ⚡ icon.</p>
+
+<div class="showcase showcase-5">
+  <div class="swatch">
+    <div class="swatch-label">Current</div>
+    <div class="swatch-content">
+      <button class="btn btn-brand btn-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Quick insights
+      </button>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Cheat Code</div>
+    <div class="swatch-content">
+      <button class="btn btn-brand btn-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Get the edge
+      </button>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Friendly</div>
+    <div class="swatch-content">
+      <button class="btn btn-brand btn-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        What's the deal?
+      </button>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Direct</div>
+    <div class="swatch-content">
+      <button class="btn btn-brand btn-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        See breakdown
+      </button>
+    </div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-label">Confident</div>
+    <div class="swatch-content">
+      <button class="btn btn-brand btn-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Get smart
+      </button>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>
