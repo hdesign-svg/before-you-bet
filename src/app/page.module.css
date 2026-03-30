@@ -90,16 +90,19 @@
   display: flex;
   align-items: center;
   gap: var(--sp-2);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--r-md);
   padding: var(--sp-2) var(--sp-3);
   cursor: pointer;
   min-width: 220px;
-  transition: border-color 0.15s ease;
+  background: rgba(255, 255, 255, 0.04);
+  transition: border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
 }
 
 .headerSearch:hover {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .headerSearchIcon {
@@ -150,8 +153,21 @@
   transition: color var(--duration-fast) var(--ease-out);
 }
 
+.contentTab::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--coral-500);
+  transform: scaleX(0);
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
 .tabIcon {
   flex-shrink: 0;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .contentTab:hover {
@@ -167,13 +183,7 @@
 }
 
 .contentTabActive::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--coral-500);
+  transform: scaleX(1);
 }
 
 
@@ -226,7 +236,7 @@
 @keyframes cardIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -360,13 +370,19 @@
   background: var(--midnight-800);
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out);
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform 100ms var(--ease-out);
   height: 36px;
 }
 
 .cardCta:hover {
   background: var(--midnight-700);
   box-shadow: 0 2px 8px rgba(15, 23, 41, 0.15);
+}
+
+.cardCta:active {
+  transform: scale(0.98);
+  background: var(--midnight-900);
 }
 
 .ctaIcon {
@@ -381,12 +397,18 @@
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 41, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   z-index: 100;
-  transition: background 0.35s var(--ease-out);
+  transition: background 0.35s var(--ease-out),
+    backdrop-filter 0.35s var(--ease-out),
+    -webkit-backdrop-filter 0.35s var(--ease-out);
 }
 
 .overlayOpen {
-  background: rgba(15, 23, 41, 0.6);
+  background: rgba(15, 23, 41, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .modal {
@@ -437,6 +459,10 @@
 .modalClose:hover {
   background: var(--neutral-100);
   color: var(--neutral-600);
+}
+
+.modalClose:active {
+  background: var(--neutral-200);
 }
 
 .modalScroll {
@@ -530,9 +556,28 @@
 
 /* ─── Modal Sections ─── */
 
+@keyframes sectionIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .modalSection {
   padding: var(--sp-5) var(--sp-6);
+  animation: sectionIn 0.35s var(--ease-out) backwards;
 }
+
+.modalSection:nth-child(1) { animation-delay: 0.1s; }
+.modalSection:nth-child(2) { animation-delay: 0.15s; }
+.modalSection:nth-child(3) { animation-delay: 0.2s; }
+.modalSection:nth-child(4) { animation-delay: 0.25s; }
+.modalSection:nth-child(5) { animation-delay: 0.3s; }
+.modalSection:nth-child(6) { animation-delay: 0.35s; }
 
 .modalSection + .modalSection {
   border-top: 1px solid var(--neutral-100);
@@ -582,12 +627,24 @@
   min-width: 44px;
 }
 
+@keyframes pickReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .edgePickAbbr {
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 900;
   text-transform: uppercase;
   line-height: 1;
+  animation: pickReveal 0.3s var(--ease-out) 0.15s backwards;
 }
 
 .edgePickDash {
@@ -642,9 +699,19 @@
   background: var(--neutral-100);
 }
 
+@keyframes fillGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 .edgeFill {
   height: 100%;
-  transition: width 0.6s var(--ease-out);
+  transform-origin: left center;
+  animation: fillGrow 0.6s var(--ease-out) 0.3s backwards;
+}
+
+.edgeFill:last-of-type {
+  transform-origin: right center;
 }
 
 .edgeNeedle {
