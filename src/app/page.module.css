@@ -782,21 +782,17 @@
 }
 
 .playerAvatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 40px;
+  height: 48px;
+  border-radius: var(--r-sm);
   background: var(--neutral-200);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
 }
 
 .playerHeadshot {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
