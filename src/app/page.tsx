@@ -7,6 +7,33 @@ import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
 
+/* ─── Focus trap for modal ─── */
+function useFocusTrap(active: boolean, containerRef: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    if (!active || !containerRef.current) return;
+    const container = containerRef.current;
+    const focusable = container.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length) focusable[0].focus();
+
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    container.addEventListener("keydown", trap);
+    return () => container.removeEventListener("keydown", trap);
+  }, [active, containerRef]);
+}
+
 /* ─── Helpers ─── */
 
 function groupBySlate(list: Game[]) {
@@ -47,7 +74,11 @@ export default function Page() {
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
+  const modalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const slates = useMemo(() => groupBySlate(games), []);
+
+  useFocusTrap(modalOpen, modalRef);
 
   useEffect(() => {
     const threshold = 10;
@@ -62,7 +93,8 @@ export default function Page() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const openModal = useCallback((game: Game, slug: string) => {
+  const openModal = useCallback((game: Game, slug: string, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
     const el = cardRefs.current[slug];
     if (el) {
       setModalRect(el.getBoundingClientRect());
@@ -80,6 +112,7 @@ export default function Page() {
       setActiveGame(null);
       setModalRect(null);
       document.body.style.overflow = "";
+      triggerRef.current?.focus();
     }, 350);
   }, []);
 
@@ -104,10 +137,10 @@ export default function Page() {
               Don{'\u2019'}t bet blind
             </p>
           </div>
-          <div className={s.headerSearch}>
-            <Search size={14} className={s.headerSearchIcon} />
+          <button className={s.headerSearch} aria-label="Search games or players">
+            <Search size={14} aria-hidden="true" className={s.headerSearchIcon} />
             <span className={s.headerSearchPlaceholder}>Search games or players...</span>
-          </div>
+          </button>
         </div>
       </header>
 
@@ -116,21 +149,25 @@ export default function Page() {
         <div className={s.contentBar}>
           <nav className={s.contentTabs} role="tablist">
             <button
+              id="tab-games"
               className={`${s.contentTab} ${tab === "games" ? s.contentTabActive : ""}`}
               role="tab"
               aria-selected={tab === "games"}
+              aria-controls="panel-games"
               onClick={() => setTab("games")}
             >
-              <Calendar size={14} className={s.tabIcon} />
+              <Calendar size={14} aria-hidden="true" className={s.tabIcon} />
               Games
             </button>
             <button
+              id="tab-players"
               className={`${s.contentTab} ${tab === "players" ? s.contentTabActive : ""}`}
               role="tab"
               aria-selected={tab === "players"}
+              aria-controls="panel-players"
               onClick={() => setTab("players")}
             >
-              <TrendingUp size={14} className={s.tabIcon} />
+              <TrendingUp size={14} aria-hidden="true" className={s.tabIcon} />
               Players
             </button>
           </nav>
@@ -139,7 +176,7 @@ export default function Page() {
         {slates.map((slate, slateIdx) => (
           <section key={slate.label} className={s.slateSection} id={slateIdx === 0 ? "games" : undefined}>
             <div className={s.slateHeader}>
-              <span className={s.slateLabel}>{slate.label}</span>
+              <h2 className={s.slateLabel}>{slate.label}</h2>
             </div>
 
             <div className={s.cardGrid}>
@@ -187,9 +224,9 @@ export default function Page() {
                     <div className={s.cardFooter}>
                       <button
                         className={s.cardCta}
-                        onClick={() => openModal(game, game.slug)}
+                        onClick={(e) => openModal(game, game.slug, e.currentTarget)}
                       >
-                        <Zap size={14} className={s.ctaIcon} />
+                        <Zap size={14} aria-hidden="true" className={s.ctaIcon} />
                         Quick insights
                       </button>
                     </div>
@@ -226,6 +263,10 @@ export default function Page() {
               onClick={closeModal}
             />
             <div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${a.city} ${a.name} at ${h.city} ${h.name} — Game insights`}
               className={`${s.modal} ${modalOpen ? s.modalOpen : ""}`}
               style={
                 !modalOpen && modalRect
@@ -240,7 +281,7 @@ export default function Page() {
             >
               {/* Close */}
               <button className={s.modalClose} onClick={closeModal} aria-label="Close">
-                <X size={20} />
+                <X size={20} aria-hidden="true" />
               </button>
 
               <div className={s.modalScroll}>
@@ -301,7 +342,7 @@ export default function Page() {
                     <div className={s.edgeDetail}>
                       <div className={s.edgeTrackRow}>
                         <span className={s.edgeAbbr}>{a.abbr}</span>
-                        <div className={s.edgeTrack}>
+                        <div className={s.edgeTrack} role="img" aria-label={`${a.abbr} ${awayEdge}%, ${h.abbr} ${homeEdge}%`}>
                           <div
                             className={s.edgeFill}
                             style={{
