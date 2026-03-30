@@ -134,10 +134,6 @@ export default function Page() {
               Players
             </button>
           </nav>
-          <span className={s.contentWeek}>
-            <span className={s.weekLabel}>Week {WEEK.number}</span>
-            <span className={s.weekRange}>&middot; {WEEK.dateRange}</span>
-          </span>
         </div>
 
         {slates.map((slate, slateIdx) => (
