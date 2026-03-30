@@ -790,6 +790,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .playerHeadshot {
@@ -830,6 +831,7 @@
   padding: 1px 6px;
   border-radius: 9999px;
   line-height: 1.4;
+  margin-left: auto;
 }
 
 .playerVerdict {
