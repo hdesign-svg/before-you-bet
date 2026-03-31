@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Table Layout Exploration — Two Column</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Outfit", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #F4F4F5;
+    color: #18181B;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid #E4E4E7;
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .wordmark { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+  .headerRight { display: flex; align-items: center; gap: 12px; }
+  .weekBadge {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; color: #71717A;
+    background: #F4F4F5; border-radius: 6px; padding: 4px 10px;
+  }
+  .updated { font-size: 12px; color: #A1A1AA; }
+
+  /* ─── Layout ─── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  .layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+
+  /* ─── Slate labels ─── */
+  .slateLabel {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #A1A1AA;
+    padding: 20px 0 8px;
+  }
+  .slateLabel:first-child { padding-top: 0; }
+
+  /* ─── Table ─── */
+  .table {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .tableHead {
+    display: grid;
+    grid-template-columns: 2.5fr 100px 1.5fr 70px;
+    gap: 0;
+    padding: 10px 20px;
+    background: #FAFAFA;
+    border-bottom: 1px solid #F4F4F5;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #A1A1AA;
+  }
+  .tableHead span:nth-child(2) { text-align: center; }
+  .tableHead span:nth-child(4) { text-align: center; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 2.5fr 100px 1.5fr 70px;
+    gap: 0;
+    padding: 14px 20px;
+    align-items: center;
+    border-bottom: 1px solid #F4F4F5;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: #FAFAFA; }
+
+  /* ─── Matchup cell ─── */
+  .matchup { display: flex; flex-direction: column; gap: 6px; }
+  .teamLine { display: flex; align-items: center; gap: 10px; }
+  .logo { width: 22px; height: 22px; object-fit: contain; }
+  .teamAbbr { font-size: 14px; font-weight: 700; color: #18181B; width: 34px; }
+  .teamName { font-size: 12px; color: #71717A; font-weight: 400; }
+  .teamRecord { font-size: 11px; color: #A1A1AA; margin-left: auto; }
+
+  /* ─── Scores cell ─── */
+  .scores {
+    display: flex; flex-direction: column; gap: 4px;
+    text-align: center;
+  }
+  .scoreRow {
+    font-size: 16px; font-weight: 700;
+    color: #A1A1AA;
+  }
+  .scoreWin { color: #18181B; }
+  .predTag {
+    font-size: 9px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #D4D4D8;
+    margin-top: 2px;
+  }
+
+  /* ─── Edge cell ─── */
+  .edgeCell { display: flex; align-items: center; gap: 10px; }
+  .edgeBar {
+    flex: 1; height: 5px; background: #F4F4F5;
+    border-radius: 3px; overflow: hidden;
+  }
+  .edgeFill { height: 100%; border-radius: 3px; }
+  .edgePct {
+    font-size: 13px; font-weight: 700;
+    color: #52525B; width: 38px; text-align: right;
+  }
+
+  /* ─── Pick cell ─── */
+  .pickCell { text-align: center; }
+  .pickBadge {
+    font-size: 12px; font-weight: 700; color: #fff;
+    padding: 4px 10px; border-radius: 6px;
+    display: inline-block;
+  }
+  .tossupBadge {
+    font-size: 12px; font-weight: 600; color: #A1A1AA;
+    padding: 4px 10px; border-radius: 6px;
+    background: #F4F4F5;
+    display: inline-block;
+  }
+
+  /* ─── Verdict row (under matchup) ─── */
+  .verdict {
+    font-size: 13px; font-weight: 500; color: #52525B;
+    padding: 0 20px 14px;
+    margin-top: -6px;
+    grid-column: 1 / -1;
+  }
+
+  /* ─── Compact row with verdict ─── */
+  .gameBlock { border-bottom: 1px solid #F4F4F5; }
+  .gameBlock:last-child { border-bottom: none; }
+  .gameBlock .row { border-bottom: none; padding-bottom: 4px; }
+  .gameBlock .verdictRow {
+    padding: 0 20px 14px;
+    font-size: 13px; font-weight: 500; color: #71717A;
+    line-height: 1.4;
+  }
+
+  /* ─── Build Your Bet ─── */
+  .betCol {
+    position: sticky; top: 80px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .betHeader {
+    background: #18181B;
+    padding: 20px;
+  }
+  .betTitle { font-size: 16px; font-weight: 700; color: #fff; }
+  .betSubtitle { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+  .betBody { padding: 16px 20px; }
+  .playerSearch {
+    width: 100%; padding: 10px 12px 10px 34px;
+    border: 1px solid #E4E4E7; border-radius: 8px;
+    font-family: inherit; font-size: 13px;
+    background: #FAFAFA;
+    outline: none;
+  }
+  .playerSearch:focus { border-color: #A1A1AA; background: #fff; }
+  .searchWrap { position: relative; }
+  .searchIcon {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: #A1A1AA; font-size: 14px;
+  }
+
+  .selectedLabel {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #A1A1AA;
+    margin: 16px 0 10px;
+  }
+
+  .playerChip {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F4F4F5;
+  }
+  .playerChip:last-of-type { border-bottom: none; }
+  .playerAvatar {
+    width: 40px; height: 40px;
+    border-radius: 50%; object-fit: contain;
+    background: #F4F4F5;
+  }
+  .playerMeta { flex: 1; }
+  .playerName { font-size: 14px; font-weight: 600; }
+  .playerPos { font-size: 12px; color: #71717A; display: flex; align-items: center; gap: 6px; }
+  .teamDot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .removeBtn {
+    width: 24px; height: 24px; border: none; background: none;
+    color: #A1A1AA; font-size: 18px; cursor: pointer;
+    border-radius: 6px;
+  }
+  .removeBtn:hover { background: #F4F4F5; color: #52525B; }
+
+  .betFooter { padding: 16px 20px; border-top: 1px solid #F4F4F5; }
+  .insightBtn {
+    width: 100%; padding: 12px;
+    background: #18181B; color: #fff;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .insightBtn:hover { background: #27272A; }
+  .playerCount {
+    background: rgba(255,255,255,0.2);
+    font-size: 11px; padding: 2px 7px; border-radius: 4px;
+  }
+  .insightHint {
+    font-size: 11px; color: #A1A1AA; text-align: center; margin-top: 8px;
+  }
+
+  /* ─── Footer ─── */
+  .pageFooter {
+    margin-top: 48px; padding: 24px;
+    text-align: center;
+    font-size: 12px; color: #A1A1AA;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="wordmark">Before You Bet</div>
+    <div class="headerRight">
+      <span class="weekBadge">Week 12</span>
+      <span class="updated">Updated Sat, Nov 23 · 6:15 PM ET</span>
+    </div>
+  </div>
+
+  <!-- Two-Column Layout -->
+  <div class="container">
+    <div class="layout">
+
+      <!-- Games Column — TABLE -->
+      <div class="gamesCol">
+
+        <div class="slateLabel">Thursday</div>
+        <div class="table">
+          <div class="tableHead">
+            <span>Matchup</span>
+            <span>Predicted</span>
+            <span>Edge</span>
+            <span>Pick</span>
+          </div>
+
+          <!-- PIT at CLE -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/pit.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">PIT</span>
+                  <span class="teamName">Steelers</span>
+                  <span class="teamRecord">8-2</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cle.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">CLE</span>
+                  <span class="teamName">Browns</span>
+                  <span class="teamRecord">2-8</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow scoreWin">20</span>
+                <span class="scoreRow">13</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 72%; background: #FFB612"></div></div>
+                <span class="edgePct">72%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #FFB612; color: #101820">PIT</span>
+              </div>
+            </div>
+            <div class="verdictRow">Pittsburgh likely wins a low-scoring grind</div>
+          </div>
+        </div>
+
+        <div class="slateLabel">Sunday Early</div>
+        <div class="table">
+          <div class="tableHead">
+            <span>Matchup</span>
+            <span>Predicted</span>
+            <span>Edge</span>
+            <span>Pick</span>
+          </div>
+
+          <!-- DAL at WAS -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/dal.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">DAL</span>
+                  <span class="teamName">Cowboys</span>
+                  <span class="teamRecord">3-7</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/wsh.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">WAS</span>
+                  <span class="teamName">Commanders</span>
+                  <span class="teamRecord">7-4</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow">14</span>
+                <span class="scoreRow scoreWin">28</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 88%; background: #5A1414"></div></div>
+                <span class="edgePct">88%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #5A1414">WAS</span>
+              </div>
+            </div>
+            <div class="verdictRow">Washington should cruise at home against the struggling Cowboys</div>
+          </div>
+
+          <!-- MIN at CHI -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/min.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">MIN</span>
+                  <span class="teamName">Vikings</span>
+                  <span class="teamRecord">8-2</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/chi.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">CHI</span>
+                  <span class="teamName">Bears</span>
+                  <span class="teamRecord">4-6</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow scoreWin">24</span>
+                <span class="scoreRow">14</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 75%; background: #4F2683"></div></div>
+                <span class="edgePct">75%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #4F2683">MIN</span>
+              </div>
+            </div>
+            <div class="verdictRow">Minnesota's offense is too much for Chicago to handle</div>
+          </div>
+
+          <!-- TEN at HOU -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/ten.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">TEN</span>
+                  <span class="teamName">Titans</span>
+                  <span class="teamRecord">2-8</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/hou.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">HOU</span>
+                  <span class="teamName">Texans</span>
+                  <span class="teamRecord">7-4</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow">14</span>
+                <span class="scoreRow scoreWin">27</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 85%; background: #03202F"></div></div>
+                <span class="edgePct">85%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #03202F">HOU</span>
+              </div>
+            </div>
+            <div class="verdictRow">Houston should handle Tennessee without much trouble at home</div>
+          </div>
+
+          <!-- MIA at NE (toss-up) -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/mia.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">MIA</span>
+                  <span class="teamName">Dolphins</span>
+                  <span class="teamRecord">5-5</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/ne.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">NE</span>
+                  <span class="teamName">Patriots</span>
+                  <span class="teamRecord">3-8</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow">20</span>
+                <span class="scoreRow">17</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 52%; background: #D4D4D8"></div></div>
+                <span class="edgePct" style="color: #A1A1AA">52%</span>
+              </div>
+              <div class="pickCell">
+                <span class="tossupBadge">—</span>
+              </div>
+            </div>
+            <div class="verdictRow">Genuine toss-up — we don't have a confident pick here</div>
+          </div>
+        </div>
+
+        <div class="slateLabel">Sunday Late</div>
+        <div class="table">
+          <div class="tableHead">
+            <span>Matchup</span>
+            <span>Predicted</span>
+            <span>Edge</span>
+            <span>Pick</span>
+          </div>
+
+          <!-- PHI at LAR -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/phi.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">PHI</span>
+                  <span class="teamName">Eagles</span>
+                  <span class="teamRecord">8-2</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/lar.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">LAR</span>
+                  <span class="teamName">Rams</span>
+                  <span class="teamRecord">5-5</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow scoreWin">27</span>
+                <span class="scoreRow">20</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 68%; background: #004C54"></div></div>
+                <span class="edgePct">68%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #004C54">PHI</span>
+              </div>
+            </div>
+            <div class="verdictRow">Philly's run game should control tempo on the road</div>
+          </div>
+
+          <!-- SF at GB -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/sf.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">SF</span>
+                  <span class="teamName">49ers</span>
+                  <span class="teamRecord">5-5</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/gb.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">GB</span>
+                  <span class="teamName">Packers</span>
+                  <span class="teamRecord">7-3</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow">17</span>
+                <span class="scoreRow scoreWin">24</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 63%; background: #203731"></div></div>
+                <span class="edgePct">63%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #203731">GB</span>
+              </div>
+            </div>
+            <div class="verdictRow">Green Bay's home advantage tips a close matchup their way</div>
+          </div>
+        </div>
+
+        <div class="slateLabel">Sunday Night</div>
+        <div class="table">
+          <div class="tableHead">
+            <span>Matchup</span>
+            <span>Predicted</span>
+            <span>Edge</span>
+            <span>Pick</span>
+          </div>
+
+          <!-- BAL at LAC -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/bal.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">BAL</span>
+                  <span class="teamName">Ravens</span>
+                  <span class="teamRecord">7-4</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/lac.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">LAC</span>
+                  <span class="teamName">Chargers</span>
+                  <span class="teamRecord">7-3</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow scoreWin">31</span>
+                <span class="scoreRow">24</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 62%; background: #241773"></div></div>
+                <span class="edgePct">62%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #241773">BAL</span>
+              </div>
+            </div>
+            <div class="verdictRow">Lamar Jackson gives Baltimore the edge in a high-scoring affair</div>
+          </div>
+        </div>
+
+        <div class="slateLabel">Monday Night</div>
+        <div class="table">
+          <div class="tableHead">
+            <span>Matchup</span>
+            <span>Predicted</span>
+            <span>Edge</span>
+            <span>Pick</span>
+          </div>
+
+          <!-- BUF at KC -->
+          <div class="gameBlock">
+            <div class="row">
+              <div class="matchup">
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/buf.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">BUF</span>
+                  <span class="teamName">Bills</span>
+                  <span class="teamRecord">9-2</span>
+                </div>
+                <div class="teamLine">
+                  <img class="logo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/kc.png&h=120&w=120" alt="" />
+                  <span class="teamAbbr">KC</span>
+                  <span class="teamName">Chiefs</span>
+                  <span class="teamRecord">9-1</span>
+                </div>
+              </div>
+              <div class="scores">
+                <span class="scoreRow">24</span>
+                <span class="scoreRow scoreWin">27</span>
+                <span class="predTag">Predicted</span>
+              </div>
+              <div class="edgeCell">
+                <div class="edgeBar"><div class="edgeFill" style="width: 58%; background: #E31837"></div></div>
+                <span class="edgePct">58%</span>
+              </div>
+              <div class="pickCell">
+                <span class="pickBadge" style="background: #E31837">KC</span>
+              </div>
+            </div>
+            <div class="verdictRow">Razor-thin edge — Kansas City's home-field barely tips the scale</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Build Your Bet Column -->
+      <aside class="betCol">
+        <div class="betHeader">
+          <div class="betTitle">Build Your Bet</div>
+          <div class="betSubtitle">Add players for prop & parlay insights</div>
+        </div>
+        <div class="betBody">
+          <div class="searchWrap">
+            <span class="searchIcon">⌕</span>
+            <input class="playerSearch" type="text" placeholder="Search players..." />
+          </div>
+          <div class="selectedLabel">Your Players (3)</div>
+
+          <div class="playerChip">
+            <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png&h=96&w=96" alt="Patrick Mahomes" />
+            <div class="playerMeta">
+              <div class="playerName">Patrick Mahomes</div>
+              <div class="playerPos"><span class="teamDot" style="background: #E31837"></span> QB · KC</div>
+            </div>
+            <button class="removeBtn">×</button>
+          </div>
+
+          <div class="playerChip">
+            <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4262921.png&h=96&w=96" alt="Justin Jefferson" />
+            <div class="playerMeta">
+              <div class="playerName">Justin Jefferson</div>
+              <div class="playerPos"><span class="teamDot" style="background: #4F2683"></span> WR · MIN</div>
+            </div>
+            <button class="removeBtn">×</button>
+          </div>
+
+          <div class="playerChip">
+            <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3929630.png&h=96&w=96" alt="Saquon Barkley" />
+            <div class="playerMeta">
+              <div class="playerName">Saquon Barkley</div>
+              <div class="playerPos"><span class="teamDot" style="background: #004C54"></span> RB · PHI</div>
+            </div>
+            <button class="removeBtn">×</button>
+          </div>
+        </div>
+        <div class="betFooter">
+          <button class="insightBtn">
+            Get Insights <span class="playerCount">3</span>
+          </button>
+          <div class="insightHint">AI-powered prop & parlay projections</div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <div class="pageFooter">Not a sportsbook. Informational only.</div>
+
+</body>
+</html>
