@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Synthesis — Palette A: Electric Blue + Navy</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Outfit", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #f0f2f7;
+    color: #1a1f2e;
+  }
+
+  /* ── Palette A: Electric Blue + Deep Navy ── */
+  :root {
+    --accent: #2563EB;
+    --accent-light: #DBEAFE;
+    --accent-dark: #1E40AF;
+    --navy: #0F172A;
+    --navy-light: #1E293B;
+    --surface: #FFFFFF;
+    --bg: #F0F2F7;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-tertiary: #94A3B8;
+    --border: #E2E8F0;
+    --success: #16A34A;
+  }
+
+  .paletteLabel {
+    text-align: center; padding: 32px 0 12px;
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-tertiary);
+  }
+  .paletteLabel strong { color: var(--accent); font-weight: 700; }
+
+  /* ── Shell ── */
+  .shell { max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; }
+
+  /* ── Header ── */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0; border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .wordmark {
+    font-size: 22px; font-weight: 800; color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .wordmark span { color: var(--accent); }
+  .headerRight {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .weekBadge {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--accent);
+    background: var(--accent-light); padding: 4px 12px;
+    border-radius: 6px;
+  }
+  .searchBtn {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-secondary);
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── Games Column ── */
+  .gamesCol { display: flex; flex-direction: column; gap: 12px; }
+  .colLabel {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-tertiary);
+    margin-bottom: 4px;
+  }
+  .slateLabel {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--text-tertiary);
+    padding-top: 8px;
+  }
+
+  /* ── Game Card ── */
+  .gameCard {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .matchupRow {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .teamBlock { flex: 1; display: flex; align-items: center; gap: 10px; }
+  .teamBlock.away { justify-content: flex-start; }
+  .teamBlock.home { justify-content: flex-end; flex-direction: row-reverse; }
+  .teamLogo { width: 32px; height: 32px; object-fit: contain; }
+  .teamInfo { display: flex; flex-direction: column; }
+  .teamBlock.home .teamInfo { text-align: right; }
+  .teamName { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+  .teamRecord { font-size: 12px; color: var(--text-tertiary); }
+  .atLabel {
+    font-size: 11px; font-weight: 600; color: var(--text-tertiary);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  /* ── Predicted Score ── */
+  .predScoreRow {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .predLabel {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-tertiary);
+  }
+  .predScores {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .predNum {
+    font-size: 20px; font-weight: 800; color: var(--text-tertiary);
+    min-width: 28px; text-align: center;
+  }
+  .predNum.favored { color: var(--text-primary); }
+  .predDash { font-size: 16px; color: var(--text-tertiary); }
+
+  /* ── Edge Scale ── */
+  .edgeScale {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .edgeTeam {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--text-tertiary);
+    min-width: 32px;
+  }
+  .edgeTeam.favored { color: var(--text-primary); }
+  .edgeTeam:last-child { text-align: right; }
+  .edgeTrack {
+    flex: 1; height: 6px; background: #E2E8F0;
+    border-radius: 3px; position: relative;
+  }
+  .edgeIndicator {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--surface);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .edgeTrackFill {
+    position: absolute; top: 0; height: 100%;
+    border-radius: 3px; opacity: 0.25;
+  }
+
+  /* ── Takeaway ── */
+  .takeaway {
+    font-size: 14px; font-weight: 500; color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ── Card Footer ── */
+  .cardFooter {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .gameDateTime {
+    font-size: 12px; color: var(--text-tertiary);
+  }
+  .viewBtn {
+    font-size: 12px; font-weight: 600; color: var(--accent);
+    cursor: pointer; background: none; border: none; padding: 0;
+  }
+
+  /* ── Build Your Bet Column ── */
+  .betCol {
+    position: sticky; top: 24px;
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .betHeader {
+    background: var(--navy);
+    padding: 16px 20px;
+    color: #fff;
+  }
+  .betTitle {
+    font-size: 16px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .betSubtitle {
+    font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px;
+  }
+  .betBody { padding: 16px 20px; }
+
+  .playerSearch {
+    width: 100%; padding: 10px 14px;
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-family: inherit;
+    color: var(--text-primary); outline: none;
+    background: var(--bg);
+  }
+  .playerSearch::placeholder { color: var(--text-tertiary); }
+  .playerSearch:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+  .selectedLabel {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-tertiary);
+    margin: 16px 0 8px;
+  }
+
+  .playerChip {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .playerChip:last-child { border-bottom: none; }
+  .playerAvatar {
+    width: 36px; height: 36px; border-radius: 8px;
+    object-fit: cover; background: #e2e8f0;
+  }
+  .playerMeta { flex: 1; }
+  .playerName { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .playerPos { font-size: 12px; color: var(--text-tertiary); }
+  .removeBtn {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: none; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 14px; color: var(--text-tertiary);
+  }
+
+  .betFooter {
+    padding: 16px 20px; border-top: 1px solid var(--border);
+  }
+  .insightBtn {
+    width: 100%; padding: 12px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 700; font-family: inherit;
+    cursor: pointer;
+  }
+  .insightBtn:hover { background: var(--accent-dark); }
+  .insightHint {
+    font-size: 11px; color: var(--text-tertiary);
+    text-align: center; margin-top: 8px;
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .betCol { position: static; }
+  }
+</style>
+</head>
+<body>
+  <div class="paletteLabel">Synthesis — Palette A: <strong>Electric Blue + Deep Navy</strong></div>
+  <div class="shell">
+    <header class="header">
+      <h1 class="wordmark">Before You <span>Bet</span></h1>
+      <div class="headerRight">
+        <span class="weekBadge">Week 12</span>
+        <button class="searchBtn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Games Column -->
+      <div class="gamesCol">
+        <div class="colLabel">Games</div>
+        <div class="slateLabel">Thursday Night</div>
+
+        <!-- PIT at CLE -->
+        <div class="gameCard">
+          <div class="matchupRow">
+            <div class="teamBlock away">
+              <img class="teamLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/pit.png&h=120&w=120" alt="" />
+              <div class="teamInfo">
+                <span class="teamName">Steelers</span>
+                <span class="teamRecord">8-2</span>
+              </div>
+            </div>
+            <span class="atLabel">at</span>
+            <div class="teamBlock home">
+              <img class="teamLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cle.png&h=120&w=120" alt="" />
+              <div class="teamInfo">
+                <span class="teamName">Browns</span>
+                <span class="teamRecord">2-8</span>
+              </div>
+            </div>
+          </div>
+          <div class="predScoreRow">
+            <span class="predLabel">Predicted</span>
+            <div class="predScores">
+              <span class="predNum favored">20</span>
+              <span class="predDash">–</span>
+              <span class="predNum">13</span>
+            </div>
+          </div>
+          <div class="edgeScale">
+            <span class="edgeTeam favored">PIT</span>
+            <div class="edgeTrack">
+              <div class="edgeTrackFill" style="left:0; width:72%; background: #FFB612; border-radius: 3px;"></div>
+              <div class="edgeIndicator" style="left: 72%"></div>
+            </div>
+            <span class="edgeTeam">CLE</span>
+          </div>
+          <p class="takeaway">Pittsburgh likely wins a low-scoring grind</p>
+          <div class="cardFooter">
+            <span class="gameDateTime">Thu, Nov 21 · 8:15 PM ET</span>
+            <button class="viewBtn">Full breakdown →</button>
+          </div>
+        </div>
+
+        <div class="slateLabel">Sunday Early</div>
+
+        <!-- DAL at WAS -->
+        <div class="gameCard">
+          <div class="matchupRow">
+            <div class="teamBlock away">
+              <img class="teamLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/dal.png&h=120&w=120" alt="" />
+              <div class="teamInfo">
+                <span class="teamName">Cowboys</span>
+                <span class="teamRecord">3-7</span>
+              </div>
+            </div>
+            <span class="atLabel">at</span>
+            <div class="teamBlock home">
+              <img class="teamLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/wsh.png&h=120&w=120" alt="" />
+              <div class="teamInfo">
+                <span class="teamName">Commanders</span>
+                <span class="teamRecord">7-4</span>
+              </div>
+            </div>
+          </div>
+          <div class="predScoreRow">
+            <span class="predLabel">Predicted</span>
+            <div class="predScores">
+              <span class="predNum">14</span>
+              <span class="predDash">–</span>
+              <span class="predNum favored">28</span>
+            </div>
+          </div>
+          <div class="edgeScale">
+            <span class="edgeTeam">DAL</span>
+            <div class="edgeTrack">
+              <div class="edgeTrackFill" style="right:0; width:88%; background: #5A1414; border-radius: 3px;"></div>
+              <div class="edgeIndicator" style="left: 88%"></div>
+            </div>
+            <span class="edgeTeam favored">WAS</span>
+          </div>
+          <p class="takeaway">Washington is the clear favorite here</p>
+          <div class="cardFooter">
+            <span class="gameDateTime">Sun, Nov 24 · 1:00 PM ET</span>
+            <button class="viewBtn">Full breakdown →</button>
+          </div>
+        </div>
+
+        <!-- MIN at CHI -->
+        <div class="gameCard">
+          <div class="matchupRow">
+            <div class="teamBlock away">
+              <img class="teamLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/min.png&h=120&w=120" alt="" />
+              <div class="teamInfo">
+                <span class="teamName">Vikings</span>
+                <span class="teamRecord">8-2</span>
+              </div>
+            </div>
+            <span class="atLabel">at</span>
+            <div class="teamBlock home">
+              <img class="teamLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/chi.png&h=120&w=120" alt="" />
+              <div class="teamInfo">
+                <span class="teamName">Bears</span>
+                <span class="teamRecord">4-6</span>
+              </div>
+            </div>
+          </div>
+          <div class="predScoreRow">
+            <span class="predLabel">Predicted</span>
+            <div class="predScores">
+              <span class="predNum favored">24</span>
+              <span class="predDash">–</span>
+              <span class="predNum">14</span>
+            </div>
+          </div>
+          <div class="edgeScale">
+            <span class="edgeTeam favored">MIN</span>
+            <div class="edgeTrack">
+              <div class="edgeTrackFill" style="left:0; width:75%; background: #4F2683; border-radius: 3px;"></div>
+              <div class="edgeIndicator" style="left: 75%"></div>
+            </div>
+            <span class="edgeTeam">CHI</span>
+          </div>
+          <p class="takeaway">Minnesota's defense likely smothers Chicago</p>
+          <div class="cardFooter">
+            <span class="gameDateTime">Sun, Nov 24 · 1:00 PM ET</span>
+            <button class="viewBtn">Full breakdown →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Build Your Bet Column -->
+      <div class="betCol">
+        <div class="betHeader">
+          <div class="betTitle">Build Your Bet</div>
+          <div class="betSubtitle">Add players to get prop & parlay insights</div>
+        </div>
+        <div class="betBody">
+          <input class="playerSearch" type="text" placeholder="Search players..." />
+          <div class="selectedLabel">Your Players (3)</div>
+          <div class="playerChip">
+            <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png&h=96&w=96" alt="" />
+            <div class="playerMeta">
+              <div class="playerName">Patrick Mahomes</div>
+              <div class="playerPos">QB · KC</div>
+            </div>
+            <button class="removeBtn">×</button>
+          </div>
+          <div class="playerChip">
+            <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4262921.png&h=96&w=96" alt="" />
+            <div class="playerMeta">
+              <div class="playerName">Justin Jefferson</div>
+              <div class="playerPos">WR · MIN</div>
+            </div>
+            <button class="removeBtn">×</button>
+          </div>
+          <div class="playerChip">
+            <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3929630.png&h=96&w=96" alt="" />
+            <div class="playerMeta">
+              <div class="playerName">Saquon Barkley</div>
+              <div class="playerPos">RB · PHI</div>
+            </div>
+            <button class="removeBtn">×</button>
+          </div>
+        </div>
+        <div class="betFooter">
+          <button class="insightBtn">Get Prop & Parlay Insights</button>
+          <div class="insightHint">AI-powered projections for your player picks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
