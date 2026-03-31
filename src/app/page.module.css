@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════
-   BEFORE YOU BET — Grid + FLIP Expand
+   BEFORE YOU BET — Grid + Card-to-Modal
    Neutral brand · Outfit only
-   Compact grid → Click to expand in-place
+   Compact grid → FLIP expand to modal
    ═══════════════════════════════════════ */
 
 /* ─── Utility ─── */
@@ -148,20 +148,13 @@
 }
 
 /* ═══════════════════════════════════════
-   GAME CARD — Compact State
+   COMPACT CARD
    ═══════════════════════════════════════ */
 
-.gameCard {
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  will-change: transform;
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-.gameCard.expanded {
-  grid-column: 1 / -1;
-}
-
-/* ─── Compact button ─── */
 
 .compact {
   display: flex;
@@ -175,6 +168,7 @@
   cursor: pointer;
   text-align: left;
   font-family: inherit;
+  animation: cardIn var(--duration-normal) var(--ease-out) backwards;
   transition: box-shadow var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out);
 }
@@ -252,20 +246,55 @@
 }
 
 /* ═══════════════════════════════════════
-   GAME CARD — Expanded State
+   MODAL — Card-to-modal FLIP transition
    ═══════════════════════════════════════ */
 
-.expandedInner {
-  background: var(--bg-elevated);
-  border: 1px solid var(--neutral-200);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  position: relative;
-  max-width: 760px;
-  margin: 0 auto;
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 41, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  z-index: 100;
+  transition: background 0.35s var(--ease-out),
+    backdrop-filter 0.35s var(--ease-out),
+    -webkit-backdrop-filter 0.35s var(--ease-out);
 }
 
-.closeBtn {
+.overlayOpen {
+  background: rgba(15, 23, 41, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.modal {
+  position: fixed;
+  z-index: 101;
+  background: var(--bg-elevated);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    top 0.4s var(--ease-out),
+    left 0.4s var(--ease-out),
+    width 0.4s var(--ease-out),
+    height 0.4s var(--ease-out),
+    opacity 0.35s var(--ease-out),
+    transform 0.4s var(--ease-out);
+}
+
+.modalOpen {
+  top: 50% !important;
+  left: 50% !important;
+  width: min(620px, calc(100vw - 32px)) !important;
+  height: min(85vh, 780px) !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+  opacity: 1;
+  box-shadow: var(--shadow-xl);
+}
+
+.modalClose {
   position: absolute;
   top: var(--sp-3);
   right: var(--sp-3);
@@ -285,8 +314,14 @@
   transition: background var(--duration-fast) var(--ease-out);
 }
 
-.closeBtn:hover {
+.modalClose:hover {
   background: rgba(0, 0, 0, 0.4);
+}
+
+.modalScroll {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* ─── Gradient matchup strip ─── */
@@ -386,29 +421,37 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* ─── Detail Body ─── */
+/* ─── Modal Body ─── */
 
-.detailBody {
+.modalBody {
   padding: var(--sp-4) var(--sp-5) var(--sp-5);
 }
 
-@keyframes detailIn {
-  from { opacity: 0; transform: translateY(10px); }
+@keyframes sectionIn {
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.detailSection {
+.modalSection {
   padding: var(--sp-4) 0;
-  border-top: 1px solid var(--neutral-100);
-  animation: detailIn 0.35s var(--ease-out) backwards;
+  animation: sectionIn 0.35s var(--ease-out) backwards;
 }
 
-.detailSection:first-child {
-  border-top: none;
+.modalSection:first-child {
   padding-top: 0;
 }
 
-.detailVerdict {
+.modalSection:nth-child(1) { animation-delay: 0.1s; }
+.modalSection:nth-child(2) { animation-delay: 0.15s; }
+.modalSection:nth-child(3) { animation-delay: 0.2s; }
+.modalSection:nth-child(4) { animation-delay: 0.25s; }
+.modalSection:nth-child(5) { animation-delay: 0.3s; }
+
+.modalSection + .modalSection {
+  border-top: 1px solid var(--neutral-100);
+}
+
+.modalVerdict {
   font-size: 18px;
   font-weight: 700;
   color: var(--ink);
@@ -418,7 +461,7 @@
   max-width: 65ch;
 }
 
-.detailStory {
+.modalStory {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.65;
@@ -426,73 +469,162 @@
   max-width: 65ch;
 }
 
-.detailLabel {
+.modalLabel {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--neutral-400);
-  margin-bottom: var(--sp-3);
+  margin-bottom: var(--sp-4);
 }
 
-/* ─── Edge Scale ─── */
+/* ─── Edge Meter ─── */
 
-.edgeRow {
+.edgeBlend {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.edgePickBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  flex-shrink: 0;
+  min-width: 44px;
+}
+
+.edgePickAbbr {
+  font-size: 26px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.edgePickDash {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--neutral-400);
+  line-height: 1;
+}
+
+.edgePickLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--neutral-400);
+}
+
+.edgeDetail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.edgeTrackRow {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
 }
 
-.edgeTeam {
-  font-size: 11px;
-  font-weight: 700;
+.edgeAbbrLabel {
+  font-size: var(--text-xs);
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--neutral-300);
-  min-width: 28px;
-}
-
-.edgeTeam:last-child {
-  text-align: right;
-}
-
-.edgeFavored {
-  color: var(--ink);
-}
-
-.edgeTrack {
-  flex: 1;
-  height: 3px;
-  background: var(--neutral-200);
-  border-radius: 2px;
-  position: relative;
-}
-
-.edgeFill {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  border-radius: 2px;
-  opacity: 0.3;
-}
-
-.edgeDot {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2.5px solid var(--bg-elevated);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.edgePct {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--neutral-400);
-  min-width: 30px;
+  color: var(--neutral-500);
+  flex-shrink: 0;
+  width: 28px;
   text-align: center;
+}
+
+.modalEdgeTrack {
+  flex: 1;
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  background: var(--neutral-100);
+}
+
+.modalEdgeFill {
+  height: 100%;
+}
+
+.edgeNeedle {
+  position: absolute;
+  top: -2px;
+  width: 3px;
+  height: 14px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.edgeDesc {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  line-height: 1.5;
+}
+
+/* ─── Scoreboard ─── */
+
+.modalScoreboard {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  max-width: 260px;
+}
+
+.modalScoreCell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--neutral-100);
+}
+
+.modalScoreWin {
+  background: var(--ink);
+}
+
+.modalScoreAbbr {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--neutral-400);
+}
+
+.modalScoreWin .modalScoreAbbr {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.modalScoreNum {
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.modalScoreWin .modalScoreNum {
+  color: #fff;
+}
+
+.modalScoreDash {
+  width: 2px;
+  align-self: stretch;
+  background: var(--bg-elevated);
 }
 
 /* ─── Quick Hits ─── */
@@ -528,8 +660,8 @@
 /* ─── Player Cards ─── */
 
 .playerCards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--sp-3);
 }
 
@@ -596,18 +728,12 @@
   font-style: italic;
 }
 
-/* ─── Detail Footer ─── */
-
-.detailFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: var(--sp-4);
-  border-top: 1px solid var(--neutral-100);
-  font-size: 11px;
-  color: var(--neutral-400);
-  animation: detailIn 0.35s var(--ease-out) backwards;
-  animation-delay: 0.25s;
+.modalFooterText {
+  padding: var(--sp-4) 0 var(--sp-2);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--neutral-300);
+  text-align: center;
 }
 
 /* ═══════════════════════════════════════
@@ -689,10 +815,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .playerCards {
-    grid-template-columns: 1fr;
-  }
-
   .lastUpdated {
     display: none;
   }
@@ -724,12 +846,24 @@
     font-size: 20px;
   }
 
-  .detailBody {
+  .modalBody {
     padding: var(--sp-3) var(--sp-4) var(--sp-4);
   }
 
-  .detailVerdict {
-    font-size: 16px;
+  .modalOpen {
+    width: 100vw !important;
+    height: 100dvh !important;
+    border-radius: 0;
+  }
+
+  .edgeBlend {
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .edgePickBlock {
+    flex-direction: row;
+    gap: var(--sp-2);
   }
 
   .footerInner {
