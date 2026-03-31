@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Idea B — Line Grid (No Cards)</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Outfit", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #FAFAF9;
+    color: #18181B;
+  }
+
+  /* Header */
+  .header {
+    padding: 16px 0;
+    border-bottom: 1px solid #D4D4D8;
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-left: 32px; padding-right: 32px;
+  }
+  .wordmark { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+  .headerRight { display: flex; align-items: center; gap: 12px; }
+  .weekBadge {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; color: #71717A;
+  }
+  .updated { font-size: 11px; color: #A1A1AA; }
+
+  /* Tabs */
+  .tabs {
+    display: flex; gap: 0;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 32px;
+    border-bottom: 1px solid #D4D4D8;
+  }
+  .tab {
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    color: #A1A1AA; background: none; border: none;
+    padding: 14px 20px; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s ease;
+  }
+  .tab:hover { color: #52525B; }
+  .tabActive { color: #18181B; border-bottom-color: #18181B; }
+
+  /* Content */
+  .content {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 32px 64px;
+  }
+
+  /* Slate label */
+  .slateLabel {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #A1A1AA;
+    padding: 28px 0 0;
+  }
+
+  /* ═══ LINE GRID ═══ */
+  /* No cards. Grid lines define the structure. */
+  .lineGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #D4D4D8;
+  }
+
+  /* Each cell gets right + bottom border → grid lines */
+  .cell {
+    padding: 24px;
+    border-right: 1px solid #D4D4D8;
+    border-bottom: 1px solid #D4D4D8;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    position: relative;
+  }
+  /* Remove right border on last column */
+  .cell:nth-child(3n) { border-right: none; }
+
+  .cell:hover {
+    background: #F5F5F4;
+  }
+
+  .cellActive {
+    background: #F5F5F4;
+  }
+  /* Active indicator — subtle top accent */
+  .cellActive::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .cellMatchup {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 14px;
+  }
+  .cellLogo { width: 24px; height: 24px; object-fit: contain; }
+  .cellAt { font-size: 10px; font-weight: 700; color: #D4D4D8; text-transform: uppercase; }
+  .cellTeams {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cellAbbr { font-size: 13px; font-weight: 700; color: #18181B; }
+  .cellRecord { font-size: 11px; color: #A1A1AA; }
+
+  .cellVerdict {
+    font-size: 14px; font-weight: 600; color: #18181B;
+    line-height: 1.45; margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .cellMeta {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cellDate { font-size: 11px; color: #A1A1AA; }
+  .cellPick {
+    font-size: 11px; font-weight: 700; color: #fff;
+    padding: 3px 10px; border-radius: 6px;
+  }
+  .cellTossup {
+    font-size: 11px; font-weight: 600; color: #A1A1AA;
+  }
+
+  /* ═══ EXPANDED STATE ═══ */
+  /* Expanded cell takes full width of grid, pushing others down */
+  .cellExpanded {
+    grid-column: 1 / -1;
+    border-right: none;
+    cursor: default;
+    background: #FAFAF9;
+    padding: 0;
+  }
+  .cellExpanded:hover { background: #FAFAF9; }
+
+  .expandedHeader {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 24px;
+  }
+  .collapseBtn {
+    font-family: inherit; font-size: 12px; font-weight: 600;
+    color: #A1A1AA; background: none; border: none;
+    cursor: pointer; display: flex; align-items: center; gap: 4px;
+    padding: 6px 0;
+  }
+  .collapseBtn:hover { color: #52525B; }
+
+  /* Matchup strip inside expanded */
+  .expandedStrip {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 32px;
+    margin: 0 24px;
+    border-radius: 10px;
+  }
+
+  .teamSide { display: flex; align-items: center; gap: 12px; }
+  .teamSideR { flex-direction: row-reverse; text-align: right; }
+  .expandedLogo { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2)); }
+  .teamName { font-size: 16px; font-weight: 700; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .teamRecord2 { font-size: 11px; color: rgba(255,255,255,0.55); }
+  .predCenter { text-align: center; }
+  .predLabel { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 2px; }
+  .predScores { display: flex; gap: 4px; align-items: center; }
+  .predNum { font-size: 26px; font-weight: 900; color: rgba(255,255,255,0.4); min-width: 28px; text-align: center; }
+  .predWin { color: #fff !important; text-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .predDash { font-size: 16px; color: rgba(255,255,255,0.3); }
+
+  /* Detail body — two columns: text left, data right */
+  .expandedBody {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+    padding: 24px 24px 28px;
+  }
+
+  .expandedProse {}
+  .expandedVerdict {
+    font-size: 20px; font-weight: 700; color: #18181B;
+    line-height: 1.3; letter-spacing: -0.015em;
+    margin-bottom: 10px; max-width: 55ch;
+  }
+  .expandedStory {
+    font-size: 14px; color: #71717A; line-height: 1.65; max-width: 55ch;
+  }
+
+  .expandedData {}
+  .dataLabel {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #A1A1AA; margin-bottom: 12px;
+  }
+  .dataLabel + .dataLabel { margin-top: 20px; }
+
+  .quickHits { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .quickHit { display: flex; gap: 10px; font-size: 13px; color: #52525B; line-height: 1.5; }
+  .quickHitNum { font-weight: 900; color: #D4D4D8; width: 16px; text-align: center; flex-shrink: 0; }
+
+  /* Player rows in expanded */
+  .playerRow {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #EBEBEB;
+  }
+  .playerRow:last-child { border-bottom: none; }
+  .playerAvatar {
+    width: 36px; height: 36px; border-radius: 6px;
+    object-fit: contain; background: #F4F4F5;
+  }
+  .playerName2 { font-size: 13px; font-weight: 600; color: #18181B; }
+  .playerPos { font-size: 11px; color: #A1A1AA; }
+  .playerProjection { font-size: 11px; color: #71717A; font-style: italic; margin-left: auto; }
+
+  /* Footer */
+  .footer {
+    max-width: 1100px; margin: 0 auto;
+    padding: 20px 32px;
+    border-top: 1px solid #D4D4D8;
+    font-size: 12px; color: #A1A1AA;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="wordmark">Before You Bet</div>
+    <div class="headerRight">
+      <span class="weekBadge">Week 12</span>
+      <span class="updated">Sat, Nov 23 · 6:15 PM ET</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab tabActive">Games</button>
+    <button class="tab">Player Bets</button>
+  </div>
+
+  <div class="content">
+    <div class="slateLabel">Thursday</div>
+    <div class="lineGrid">
+
+      <!-- PIT @ CLE — EXPANDED -->
+      <div class="cellExpanded">
+        <div class="expandedHeader">
+          <span style="font-size: 11px; font-weight: 600; color: #A1A1AA; text-transform: uppercase; letter-spacing: 0.06em;">Thu, Nov 21 · 8:15 PM ET</span>
+          <button class="collapseBtn">↑ Collapse</button>
+        </div>
+        <div class="expandedStrip" style="background: linear-gradient(135deg, #FFB612, #311D00)">
+          <div class="teamSide">
+            <img class="expandedLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/pit.png&h=120&w=120" />
+            <div><div class="teamName">Steelers</div><div class="teamRecord2">8-2</div></div>
+          </div>
+          <div class="predCenter">
+            <div class="predLabel">Predicted</div>
+            <div class="predScores">
+              <span class="predNum predWin">20</span>
+              <span class="predDash">–</span>
+              <span class="predNum">13</span>
+            </div>
+          </div>
+          <div class="teamSide teamSideR">
+            <img class="expandedLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cle.png&h=120&w=120" />
+            <div><div class="teamName">Browns</div><div class="teamRecord2">2-8</div></div>
+          </div>
+        </div>
+        <div class="expandedBody">
+          <div class="expandedProse">
+            <p class="expandedVerdict">Pittsburgh likely wins a low-scoring grind</p>
+            <p class="expandedStory">Pittsburgh's elite defense at 8-2 should control a Cleveland team that's 2-8 and can't move the ball. Thursday games are always sloppy, which favors the better team.</p>
+          </div>
+          <div class="expandedData">
+            <div class="dataLabel">Need to Know</div>
+            <ol class="quickHits">
+              <li class="quickHit"><span class="quickHitNum">1</span><span>Thursday games tend to be sloppy — favors the better team</span></li>
+              <li class="quickHit"><span class="quickHitNum">2</span><span>Pittsburgh's defense is top 3 in the league</span></li>
+              <li class="quickHit"><span class="quickHitNum">3</span><span>Cleveland can't score consistently this year</span></li>
+            </ol>
+
+            <div class="dataLabel">Key Players</div>
+            <div class="playerRow">
+              <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/14881.png&h=96&w=96" />
+              <div><div class="playerName2">Russell Wilson</div><div class="playerPos">QB · PIT</div></div>
+              <span class="playerProjection">180–220 yds, 1 TD</span>
+            </div>
+            <div class="playerRow">
+              <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241457.png&h=96&w=96" />
+              <div><div class="playerName2">Najee Harris</div><div class="playerPos">RB · PIT</div></div>
+              <span class="playerProjection">85–100 yds, 1 TD</span>
+            </div>
+            <div class="playerRow">
+              <img class="playerAvatar" src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2969939.png&h=96&w=96" />
+              <div><div class="playerName2">Jameis Winston</div><div class="playerPos">QB · CLE</div></div>
+              <span class="playerProjection">210–250 yds, 2 TO</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slateLabel">Sunday Early</div>
+    <div class="lineGrid">
+      <!-- DAL @ WAS -->
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/dal.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/wsh.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Washington should cruise at home against the struggling Cowboys</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #5A1414">WAS 88%</span>
+        </div>
+      </div>
+
+      <!-- MIN @ CHI -->
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/min.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/chi.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Minnesota's offense is too much for Chicago to handle</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #4F2683">MIN 75%</span>
+        </div>
+      </div>
+
+      <!-- TEN @ HOU -->
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/ten.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/hou.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Houston should handle Tennessee without much trouble</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #03202F">HOU 85%</span>
+        </div>
+      </div>
+
+      <!-- MIA @ NE -->
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/mia.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/ne.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Genuine toss-up — we don't have a confident pick</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellTossup">Toss-up</span>
+        </div>
+      </div>
+
+      <!-- PHI @ LAR -->
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/phi.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/lar.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Philly's run game should control tempo on the road</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #004C54">PHI 68%</span>
+        </div>
+      </div>
+
+      <!-- SF @ GB -->
+      <div class="cell" style="border-right: none;">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/sf.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/gb.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Green Bay's home advantage tips a close matchup</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #203731">GB 63%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slateLabel">Sunday Night</div>
+    <div class="lineGrid">
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/bal.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/lac.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Lamar Jackson gives Baltimore the edge</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #241773">BAL 62%</span>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/ind.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/det.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Detroit rolls at home — Colts can't keep up</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #0076B6">DET 82%</span>
+        </div>
+      </div>
+
+      <div class="cell" style="border-right: none;">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/lv.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cin.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Bengals need a win and should get one here</p>
+        <div class="cellMeta">
+          <span class="cellDate">Sun, Nov 24</span>
+          <span class="cellPick" style="background: #FB4F14">CIN 71%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slateLabel">Monday Night</div>
+    <div class="lineGrid">
+      <div class="cell">
+        <div class="cellMatchup">
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/buf.png&h=120&w=120" />
+          <span class="cellAt">@</span>
+          <img class="cellLogo" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/kc.png&h=120&w=120" />
+        </div>
+        <p class="cellVerdict">Razor-thin edge — KC's home-field barely tips it</p>
+        <div class="cellMeta">
+          <span class="cellDate">Mon, Nov 25</span>
+          <span class="cellPick" style="background: #E31837">KC 58%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Not a sportsbook. Informational only.</div>
+
+</body>
+</html>
