@@ -2,31 +2,10 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, ChevronUp } from "lucide-react";
 import { games, WEEK, type Game } from "@/data/games";
 import { teams } from "@/data/teams";
 import s from "./page.module.css";
-
-/* ─── Focus trap ─── */
-function useFocusTrap(active: boolean, containerRef: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    if (!active || !containerRef.current) return;
-    const container = containerRef.current;
-    const focusable = container.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    if (focusable.length) focusable[0].focus();
-    const trap = (e: KeyboardEvent) => {
-      if (e.key !== "Tab" || !focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    };
-    container.addEventListener("keydown", trap);
-    return () => container.removeEventListener("keydown", trap);
-  }, [active, containerRef]);
-}
 
 /* ─── Helpers ─── */
 
@@ -55,17 +34,12 @@ function parseTime(raw: string) {
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<"games" | "bets">("games");
-  const [activeGame, setActiveGame] = useState<Game | null>(null);
-  const [modalRect, setModalRect] = useState<DOMRect | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const detailRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
-  const modalRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const slates = useMemo(() => groupBySlate(games), []);
-
-  useFocusTrap(modalOpen, modalRef);
 
   /* Header hide on scroll */
   useEffect(() => {
@@ -81,36 +55,29 @@ export default function Page() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Open modal with FLIP from card position */
-  const openModal = useCallback((game: Game, trigger: HTMLButtonElement) => {
-    triggerRef.current = trigger;
-    const el = cardRefs.current[game.slug];
-    if (el) setModalRect(el.getBoundingClientRect());
-    setActiveGame(game);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setModalOpen(true));
+  const toggleCard = useCallback((slug: string) => {
+    setExpandedSlug((prev) => {
+      const next = prev === slug ? null : slug;
+      if (next) {
+        // Scroll the card into view after the panel opens
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            cardRefs.current[next]?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 50);
+        });
+      }
+      return next;
     });
-    document.body.style.overflow = "hidden";
-  }, []);
-
-  const closeModal = useCallback(() => {
-    setModalOpen(false);
-    setTimeout(() => {
-      setActiveGame(null);
-      setModalRect(null);
-      document.body.style.overflow = "";
-      triggerRef.current?.focus();
-    }, 350);
   }, []);
 
   /* ESC to close */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && activeGame) closeModal();
+      if (e.key === "Escape" && expandedSlug) setExpandedSlug(null);
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [activeGame, closeModal]);
+  }, [expandedSlug]);
 
   return (
     <main className={s.page}>
@@ -161,15 +128,21 @@ export default function Page() {
                     const isTossup = game.pick === "toss-up";
                     const edgePct = Math.max(game.edge, 100 - game.edge);
                     const favoredColor = isTossup ? "#A1A1AA" : (game.pick === "away" ? a.color : h.color);
+                    const isExpanded = expandedSlug === game.slug;
+                    const { time, period } = parseTime(game.time);
+                    const awayEdge = game.pick === "away" ? game.edge : 100 - game.edge;
+                    const homeEdge = 100 - awayEdge;
 
-                    return (
+                    return [
+                      /* ── Compact Card ── */
                       <button
                         key={game.slug}
-                        className={s.compact}
+                        className={`${s.compact} ${isExpanded ? s.compactActive : ""}`}
                         ref={(el) => { cardRefs.current[game.slug] = el; }}
                         style={{ animationDelay: `${(slateIdx * 3 + idx) * 40}ms` }}
-                        onClick={(e) => openModal(game, e.currentTarget)}
-                        aria-label={`${a.name} at ${h.name} — ${game.takeaway}`}
+                        onClick={() => toggleCard(game.slug)}
+                        aria-expanded={isExpanded}
+                        aria-controls={`detail-${game.slug}`}
                       >
                         <div className={s.compactMatchup}>
                           <Image src={a.logo} alt="" width={28} height={28} className={s.compactLogo} unoptimized />
@@ -189,8 +162,159 @@ export default function Page() {
                             )}
                           </div>
                         </div>
-                      </button>
-                    );
+                      </button>,
+
+                      /* ── Inline Detail Panel (accordion) ── */
+                      <div
+                        key={`detail-${game.slug}`}
+                        id={`detail-${game.slug}`}
+                        className={`${s.detailWrapper} ${isExpanded ? s.detailOpen : ""}`}
+                        ref={(el) => { detailRefs.current[game.slug] = el; }}
+                      >
+                        <div className={s.detailInner}>
+                          <div className={s.detailContent}>
+                            {/* Close / collapse */}
+                            <button
+                              className={s.collapseBtn}
+                              onClick={() => toggleCard(game.slug)}
+                              aria-label="Collapse"
+                            >
+                              <ChevronUp size={16} />
+                              <span>Collapse</span>
+                            </button>
+
+                            {/* Gradient matchup header */}
+                            <div
+                              className={`${s.matchupStrip} ${isTossup ? s.tossup : ""}`}
+                              style={!isTossup ? { background: `linear-gradient(135deg, ${a.color} 0%, ${h.color} 100%)` } : undefined}
+                            >
+                              <div className={`${s.teamSide} ${s.away}`}>
+                                <Image src={a.logo} alt="" width={40} height={40} className={s.teamLogo} unoptimized />
+                                <div className={s.teamDetails}>
+                                  <div className={s.teamName}>{a.name}</div>
+                                  <div className={s.teamRecord}>{a.record}</div>
+                                </div>
+                              </div>
+                              <div className={s.predCenter}>
+                                <div className={s.predLabel}>Predicted</div>
+                                <div className={s.predScores}>
+                                  <span className={`${s.predNum} ${game.predictedScore.away >= game.predictedScore.home ? s.predFavored : ""}`}>
+                                    {game.predictedScore.away}
+                                  </span>
+                                  <span className={s.predDash}>–</span>
+                                  <span className={`${s.predNum} ${game.predictedScore.home >= game.predictedScore.away ? s.predFavored : ""}`}>
+                                    {game.predictedScore.home}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className={`${s.teamSide} ${s.home}`}>
+                                <Image src={h.logo} alt="" width={40} height={40} className={s.teamLogo} unoptimized />
+                                <div className={s.teamDetails}>
+                                  <div className={s.teamName}>{h.name}</div>
+                                  <div className={s.teamRecord}>{h.record}</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Detail body */}
+                            <div className={s.detailBody}>
+                              {/* Verdict + Story */}
+                              <div className={s.detailSection}>
+                                <p className={s.detailVerdict}>{game.takeaway}</p>
+                                <p className={s.detailStory}>{game.story}</p>
+                              </div>
+
+                              {/* Edge */}
+                              <div className={s.detailSection}>
+                                <h3 className={s.detailLabel}>The Edge</h3>
+                                <div className={s.edgeBlend}>
+                                  {game.pick !== "toss-up" ? (
+                                    <div className={s.edgePickBlock}>
+                                      <span className={s.edgePickAbbr} style={{ color: favoredColor }}>
+                                        {game.pick === "away" ? a.abbr : h.abbr}
+                                      </span>
+                                      <span className={s.edgePickLabel}>
+                                        {game.edge >= 60 ? "Our pick" : "Slight edge"}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className={s.edgePickBlock}>
+                                      <span className={s.edgePickDash}>—</span>
+                                      <span className={s.edgePickLabel}>Toss-up</span>
+                                    </div>
+                                  )}
+                                  <div className={s.edgeDetail}>
+                                    <div className={s.edgeTrackRow}>
+                                      <span className={s.edgeAbbrLabel}>{a.abbr}</span>
+                                      <div className={s.edgeTrack}>
+                                        <div
+                                          className={s.edgeFillLeft}
+                                          style={{
+                                            width: `${awayEdge}%`,
+                                            background: `linear-gradient(90deg, ${a.color}, ${a.color}cc)`,
+                                          }}
+                                        />
+                                        <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
+                                        <div
+                                          className={s.edgeFillRight}
+                                          style={{
+                                            width: `${homeEdge}%`,
+                                            background: `linear-gradient(90deg, ${h.color}cc, ${h.color})`,
+                                          }}
+                                        />
+                                      </div>
+                                      <span className={s.edgeAbbrLabel}>{h.abbr}</span>
+                                    </div>
+                                    <p className={s.edgeDesc}>
+                                      {game.pick === "toss-up"
+                                        ? "Genuine coin flip. We don\u2019t have a confident pick on this one."
+                                        : `${game.pick === "away" ? a.city : h.city} holds a ${Math.max(awayEdge, homeEdge)}\u2013${Math.min(awayEdge, homeEdge)} edge in this matchup.`}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Quick hits */}
+                              <div className={s.detailSection}>
+                                <h3 className={s.detailLabel}>Need to Know</h3>
+                                <ol className={s.quickHits}>
+                                  {game.quickHits.map((hit, i) => (
+                                    <li key={i} className={s.quickHit}>
+                                      <span className={s.quickHitNum}>{i + 1}</span>
+                                      <span>{hit}</span>
+                                    </li>
+                                  ))}
+                                </ol>
+                              </div>
+
+                              {/* Players */}
+                              <div className={s.detailSection}>
+                                <h3 className={s.detailLabel}>Key Players</h3>
+                                <div className={s.playerCards}>
+                                  {[...game.awayPlayers, ...game.homePlayers].map((p, i) => (
+                                    <div key={i} className={s.playerCard}>
+                                      <img src={p.headshotUrl} alt={p.name} className={s.playerHeadshot} />
+                                      <div className={s.playerInfo}>
+                                        <div className={s.playerHeader}>
+                                          <span className={s.playerName}>{p.name}</span>
+                                          <span className={s.playerBadge}>{p.position}</span>
+                                        </div>
+                                        <p className={s.playerVerdict}>{p.verdict}</p>
+                                        <p className={s.playerProjection}>{p.projection}</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <p className={s.detailFooterText}>
+                                {game.date} · {time} {period} · Updated: {game.lastUpdated}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>,
+                    ];
                   })}
                 </div>
               </section>
@@ -217,194 +341,6 @@ export default function Page() {
           <a className={s.footerLink} href="/about">About Before You Bet</a>
         </div>
       </footer>
-
-      {/* ═══ MODAL ═══ */}
-      {activeGame && (() => {
-        const game = activeGame;
-        const a = teams[game.awayAbbr];
-        const h = teams[game.homeAbbr];
-        const { time, period } = parseTime(game.time);
-        const isTossup = game.pick === "toss-up";
-        const edgePct = Math.max(game.edge, 100 - game.edge);
-        const favoredColor = isTossup ? "#A1A1AA" : (game.pick === "away" ? a.color : h.color);
-        const awayEdge = game.pick === "away" ? game.edge : 100 - game.edge;
-        const homeEdge = 100 - awayEdge;
-
-        return (
-          <>
-            <div
-              className={`${s.overlay} ${modalOpen ? s.overlayOpen : ""}`}
-              onClick={closeModal}
-            />
-            <div
-              ref={modalRef}
-              role="dialog"
-              aria-modal="true"
-              aria-label={`${a.city} ${a.name} at ${h.city} ${h.name}`}
-              className={`${s.modal} ${modalOpen ? s.modalOpen : ""}`}
-              style={
-                !modalOpen && modalRect
-                  ? {
-                      top: modalRect.top,
-                      left: modalRect.left,
-                      width: modalRect.width,
-                      height: modalRect.height,
-                    }
-                  : undefined
-              }
-            >
-              <button className={s.modalClose} onClick={closeModal} aria-label="Close">
-                <X size={20} />
-              </button>
-
-              <div className={s.modalScroll}>
-                {/* Gradient matchup header */}
-                <div
-                  className={`${s.matchupStrip} ${isTossup ? s.tossup : ""}`}
-                  style={!isTossup ? { background: `linear-gradient(135deg, ${a.color} 0%, ${h.color} 100%)` } : undefined}
-                >
-                  <div className={`${s.teamSide} ${s.away}`}>
-                    <Image src={a.logo} alt="" width={40} height={40} className={s.teamLogo} unoptimized />
-                    <div className={s.teamDetails}>
-                      <div className={s.teamName}>{a.name}</div>
-                      <div className={s.teamRecord}>{a.record}</div>
-                    </div>
-                  </div>
-                  <div className={s.predCenter}>
-                    <div className={s.predLabel}>Predicted</div>
-                    <div className={s.predScores}>
-                      <span className={`${s.predNum} ${game.predictedScore.away >= game.predictedScore.home ? s.predFavored : ""}`}>
-                        {game.predictedScore.away}
-                      </span>
-                      <span className={s.predDash}>–</span>
-                      <span className={`${s.predNum} ${game.predictedScore.home >= game.predictedScore.away ? s.predFavored : ""}`}>
-                        {game.predictedScore.home}
-                      </span>
-                    </div>
-                  </div>
-                  <div className={`${s.teamSide} ${s.home}`}>
-                    <Image src={h.logo} alt="" width={40} height={40} className={s.teamLogo} unoptimized />
-                    <div className={s.teamDetails}>
-                      <div className={s.teamName}>{h.name}</div>
-                      <div className={s.teamRecord}>{h.record}</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Detail content */}
-                <div className={s.modalBody}>
-                  {/* Verdict + Story */}
-                  <div className={s.modalSection}>
-                    <p className={s.modalVerdict}>{game.takeaway}</p>
-                    <p className={s.modalStory}>{game.story}</p>
-                  </div>
-
-                  {/* Edge */}
-                  <div className={s.modalSection}>
-                    <h3 className={s.modalLabel}>The Edge</h3>
-                    <div className={s.edgeBlend}>
-                      {game.pick !== "toss-up" ? (
-                        <div className={s.edgePickBlock}>
-                          <span className={s.edgePickAbbr} style={{ color: favoredColor }}>
-                            {game.pick === "away" ? a.abbr : h.abbr}
-                          </span>
-                          <span className={s.edgePickLabel}>
-                            {game.edge >= 60 ? "Our pick" : "Slight edge"}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className={s.edgePickBlock}>
-                          <span className={s.edgePickDash}>—</span>
-                          <span className={s.edgePickLabel}>Toss-up</span>
-                        </div>
-                      )}
-                      <div className={s.edgeDetail}>
-                        <div className={s.edgeTrackRow}>
-                          <span className={s.edgeAbbrLabel}>{a.abbr}</span>
-                          <div className={s.modalEdgeTrack}>
-                            <div
-                              className={s.modalEdgeFill}
-                              style={{
-                                width: `${awayEdge}%`,
-                                background: `linear-gradient(90deg, ${a.color}, ${a.color}cc)`,
-                              }}
-                            />
-                            <div className={s.edgeNeedle} style={{ left: `${awayEdge}%` }} />
-                            <div
-                              className={s.modalEdgeFill}
-                              style={{
-                                width: `${homeEdge}%`,
-                                background: `linear-gradient(90deg, ${h.color}cc, ${h.color})`,
-                              }}
-                            />
-                          </div>
-                          <span className={s.edgeAbbrLabel}>{h.abbr}</span>
-                        </div>
-                        <p className={s.edgeDesc}>
-                          {game.pick === "toss-up"
-                            ? "Genuine coin flip. We don\u2019t have a confident pick on this one."
-                            : `${game.pick === "away" ? a.city : h.city} holds a ${Math.max(awayEdge, homeEdge)}\u2013${Math.min(awayEdge, homeEdge)} edge in this matchup.`}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Predicted score */}
-                  <div className={s.modalSection}>
-                    <h3 className={s.modalLabel}>Predicted Score</h3>
-                    <div className={s.modalScoreboard}>
-                      <div className={`${s.modalScoreCell} ${game.predictedScore.away > game.predictedScore.home ? s.modalScoreWin : ""}`}>
-                        <span className={s.modalScoreAbbr}>{a.abbr}</span>
-                        <span className={s.modalScoreNum}>{game.predictedScore.away}</span>
-                      </div>
-                      <span className={s.modalScoreDash} />
-                      <div className={`${s.modalScoreCell} ${game.predictedScore.home > game.predictedScore.away ? s.modalScoreWin : ""}`}>
-                        <span className={s.modalScoreAbbr}>{h.abbr}</span>
-                        <span className={s.modalScoreNum}>{game.predictedScore.home}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Quick hits */}
-                  <div className={s.modalSection}>
-                    <h3 className={s.modalLabel}>Need to Know</h3>
-                    <ol className={s.quickHits}>
-                      {game.quickHits.map((hit, i) => (
-                        <li key={i} className={s.quickHit}>
-                          <span className={s.quickHitNum}>{i + 1}</span>
-                          <span>{hit}</span>
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-
-                  {/* Players */}
-                  <div className={s.modalSection}>
-                    <h3 className={s.modalLabel}>Key Players</h3>
-                    <div className={s.playerCards}>
-                      {[...game.awayPlayers, ...game.homePlayers].map((p, i) => (
-                        <div key={i} className={s.playerCard}>
-                          <img src={p.headshotUrl} alt={p.name} className={s.playerHeadshot} />
-                          <div className={s.playerInfo}>
-                            <div className={s.playerHeader}>
-                              <span className={s.playerName}>{p.name}</span>
-                              <span className={s.playerBadge}>{p.position}</span>
-                            </div>
-                            <p className={s.playerVerdict}>{p.verdict}</p>
-                            <p className={s.playerProjection}>{p.projection}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <p className={s.modalFooterText}>Last updated: {game.lastUpdated}</p>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      })()}
     </main>
   );
 }
